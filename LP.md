@@ -228,21 +228,82 @@ class ListViewScreen extends StatelessWidget {
 ## 4. Stack
 #### Source Code
 ```dart
-import 'dart:io';
+import 'package:flutter/material.dart';
+
+class StackScreen extends StatelessWidget {
+  const StackScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Latihan Stack !!!"),
+        backgroundColor: const Color.fromARGB(255, 252, 2, 190),
+      ),
+      body: Column(
+        children: [
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              Container(
+                margin: EdgeInsets.all(5),
+                height: 100,
+                width: 100,
+                color: Colors.blue,
+              ),
+
+              Container(
+                margin: EdgeInsets.all(10),
+                height: 100,
+                width: 100,
+                color: Colors.red,
+              ),
+
+              Container(
+                margin: EdgeInsets.all(20),
+                height: 100,
+                width: 100,
+                color: Colors.yellow,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 35,
+          ),
+          Container(
+            height: 270,
+            width: 270,
+            child: Stack(),
+          )
+        ],
+      ),
+    );
+  }
+}
 ```
 
 #### Output
-
+![image](https://github.com/user-attachments/assets/6ed31b3f-9b75-419c-b6f2-8a7100863a4a)
 
 
 #### Deskripsi
-
+- Program Flutter di atas membuat sebuah widget StackScreen yang ditampilkan dalam tampilan layar penuh menggunakan Scaffold.
+- Pada bagian atas layar, terdapat AppBar dengan judul "Latihan Stack !!!" dan latar belakang berwarna pink. Di dalam body, terdapat dua widget utama, yaitu Stack dan Container.
+- Pada Stack pertama, ada tiga Container yang ditumpuk dengan warna biru, merah, dan kuning.
+- Container biru berada di paling bawah, merah di tengah, dan kuning di atas, dengan masing-masing memiliki margin yang berbeda sehingga menciptakan efek tumpukan yang terlihat dari setiap sisi. Selain itu, Stack ini disejajarkan di bagian kanan atas karena menggunakan properti alignment: Alignment.topRight.
+- Di bawahnya, terdapat SizedBox untuk memberi jarak 35 piksel sebelum menampilkan Container kedua yang kosong dengan ukuran 270x270 piksel, yang siap diisi dengan elemen tambahan jika diperlukan.
+- Program ini menampilkan penggunaan Stack yang fleksibel untuk menumpuk widget dalam satu area dengan pengaturan margin dan alignment.
 
 ---
 
 # UNGUIDED
 
-## 1. Soal
+## Tugas Mandiri
+Modifikasi project TP 04 (Tugas Pendahuluan) untuk Antarmuka Pengguna,
+yang mana di dalamnya terdapat ListView, untuk merekomendasikan
+beberapa tempat wisata yang ada di Banyumas disertai foto, nama wisata, dan
+deskripsi singkat! (buatlah se kreatif mungkin).
+
 #### Source Code
 ```dart
 import 'dart:io';
