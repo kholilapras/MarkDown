@@ -211,19 +211,7 @@ class ListViewScreen extends StatelessWidget {
 ```
 
 #### Output
-
-#### Deskripsi
-
-
-## 4. Stack
-#### Source Code
-```dart
-import 'dart:io';
-```
-
-#### Output
 ![Screenshot 2024-10-11 123655](https://github.com/user-attachments/assets/20ab6c90-6991-4ab6-8208-bf3a19672c66)
-
 
 #### Deskripsi
 - Aplikasi Flutter menggunakan widget ListView untuk menampilkan daftar kontainer.
@@ -235,6 +223,20 @@ import 'dart:io';
   c. Kontainer ketiga berwarna hijau dengan teks "Type CC".
   d. Kontainer keempat berwarna biru dengan teks "Type DD".
 - Semua kontainer ditampilkan secara vertikal dalam ListView.
+
+
+## 4. Stack
+#### Source Code
+```dart
+import 'dart:io';
+```
+
+#### Output
+
+
+
+#### Deskripsi
+
 
 ---
 
