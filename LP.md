@@ -217,12 +217,12 @@ class ListViewScreen extends StatelessWidget {
 - Aplikasi Flutter menggunakan widget ListView untuk menampilkan daftar kontainer.
 - Setiap kontainer memiliki ukuran tinggi dan lebar 200 piksel.
 - Kontainer diisi dengan teks yang berada di tengah menggunakan widget Center.
-- Terdapat empat kontainer dengan warna dan teks yang berbeda:
-  a. Kontainer pertama berwarna cokelat tua dengan teks "Type AA".
-  b. Kontainer kedua berwarna biru tua dengan teks "Type BB".
-  c. Kontainer ketiga berwarna hijau dengan teks "Type CC".
-  d. Kontainer keempat berwarna biru dengan teks "Type DD".
-- Semua kontainer ditampilkan secara vertikal dalam ListView.
+- Terdapat empat kontainer dengan warna dan teks yang berbeda:  
+  a. Kontainer pertama berwarna cokelat tua dengan teks "Type AA".  
+  b. Kontainer kedua berwarna biru tua dengan teks "Type BB".  
+  c. Kontainer ketiga berwarna hijau dengan teks "Type CC".  
+  d. Kontainer keempat berwarna biru dengan teks "Type DD".  
+- Semua kontainer ditampilkan secara vertikal dalam ListView.  
 
 
 ## 4. Stack
