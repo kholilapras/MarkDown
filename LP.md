@@ -73,12 +73,86 @@ menambahkan kolom.
 ## 2. GridView
 #### Source Code
 ```dart
-import 'dart:io';
+import 'package:flutter/material.dart';
+
+class GridViewApp extends StatefulWidget {
+  const GridViewApp({super.key});
+
+  @override
+  State<GridViewApp> createState() => _GridViewAppState();
+}
+
+class _GridViewAppState extends State<GridViewApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Praktikum 4'),
+        backgroundColor: Colors.blueAccent[700],
+      ),
+      body: GridView.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 5,
+        crossAxisSpacing: 5,
+        padding: EdgeInsets.all(12),
+        children: [
+          Container(
+            padding: EdgeInsets.all(12),
+            child: Column(
+              children: [
+                Icon(Icons.add),
+                Text('gridView ke1'),
+              ],
+            ),
+            color: Colors.amberAccent,
+          ),
+          Container(
+            padding: EdgeInsets.all(12),
+            child: Row(
+              children: [
+                Icon(Icons.add),
+                Text('gridView ke2'),
+              ],
+            ),
+            color: const Color.fromARGB(255, 201, 238, 15),
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Text('gridView ke3'),
+            color: const Color.fromARGB(255, 228, 9, 188),
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Text('gridView ke4'),
+            color: const Color.fromARGB(255, 201, 64, 255),
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Text('gridView ke5'),
+            color: const Color.fromARGB(255, 255, 64, 64),
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Text('gridView ke6'),
+            color: const Color.fromARGB(255, 46, 66, 164),
+          ),
+        ],
+      ),
+    );
+  }
+}
 ```
 
 #### Output
+![Screenshot 2024-10-11 123048](https://github.com/user-attachments/assets/fa2a54f2-60b1-455f-8ca1-af063d60c8da)
+
 
 #### Deskripsi
+- Aplikasi Flutter di atas menggunakan StatefulWidget untuk membuat sebuah tampilan berbasis grid dengan enam Container sebagai item grid.
+- GridView.count dipilih karena memungkinkan pengaturan jumlah kolom dengan parameter crossAxisCount yang diset ke 2.
+- Jarak antar item diatur menggunakan mainAxisSpacing dan crossAxisSpacing dengan masing-masing bernilai 5.
+- Setiap Container memiliki properti padding dan color yang diatur berbeda-beda, serta berisi widget seperti Icon, Text, atau kombinasi keduanya.
+- Elemen-elemen tersebut diorganisasikan dalam Row atau Column untuk mengatur tata letak konten dalam setiap item grid.
 
 
 ## 1. Pengenalan Widget
