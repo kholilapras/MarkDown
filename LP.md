@@ -155,10 +155,59 @@ class _GridViewAppState extends State<GridViewApp> {
 - Elemen-elemen tersebut diorganisasikan dalam Row atau Column untuk mengatur tata letak konten dalam setiap item grid.
 
 
-## 1. Pengenalan Widget
+## 3. ListView
 #### Source Code
 ```dart
-import 'dart:io';
+import 'package:flutter/material.dart';
+
+class ListViewScreen extends StatelessWidget {
+  const ListViewScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Latihan List View !!'),
+          backgroundColor: Colors.amber,
+        ),
+        body: ListView(
+          children: [
+            Container(
+              height: 200,
+              width: 200,
+              color: const Color.fromARGB(255, 93, 34, 29),
+              child: Center(
+                child: Text("Type AA"),
+              ),
+            ),
+            Container(
+              height: 200,
+              width: 200,
+              color: const Color.fromARGB(255, 28, 15, 207),
+              child: Center(
+                child: Text("Type BB"),
+              ),
+            ),
+            Container(
+              height: 200,
+              width: 200,
+              color: Colors.green,
+              child: Center(
+                child: Text("Type CC"),
+              ),
+            ),
+            Container(
+              height: 200,
+              width: 200,
+              color: Colors.blue,
+              child: Center(
+                child: Text("Type DD"),
+              ),
+            ),
+          ],
+        ));
+  }
+}
 ```
 
 #### Output
@@ -166,15 +215,26 @@ import 'dart:io';
 #### Deskripsi
 
 
-## 1. Pengenalan Widget
+## 4. Stack
 #### Source Code
 ```dart
 import 'dart:io';
 ```
 
 #### Output
+![Screenshot 2024-10-11 123655](https://github.com/user-attachments/assets/20ab6c90-6991-4ab6-8208-bf3a19672c66)
+
 
 #### Deskripsi
+- Aplikasi Flutter menggunakan widget ListView untuk menampilkan daftar kontainer.
+- Setiap kontainer memiliki ukuran tinggi dan lebar 200 piksel.
+- Kontainer diisi dengan teks yang berada di tengah menggunakan widget Center.
+- Terdapat empat kontainer dengan warna dan teks yang berbeda:
+  a. Kontainer pertama berwarna cokelat tua dengan teks "Type AA".
+  b. Kontainer kedua berwarna biru tua dengan teks "Type BB".
+  c. Kontainer ketiga berwarna hijau dengan teks "Type CC".
+  d. Kontainer keempat berwarna biru dengan teks "Type DD".
+- Semua kontainer ditampilkan secara vertikal dalam ListView.
 
 ---
 
