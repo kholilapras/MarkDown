@@ -472,3 +472,8 @@ class BerandaJudul extends StatelessWidget {
 
 
 #### Deskripsi
+- Widget BerandaJudul menampilkan halaman dengan AppBar berjudul "Rekomendasi Wisata Banyumas" dan sebuah ListView.  
+- Daftar tempat wisata ditampilkan menggunakan ListView dengan padding dan spasi antar elemen.  
+- Setiap wisata ditampilkan dalam Card dengan gambar, judul, deskripsi, dan tombol aksi.  
+- Gambar dengan Error Handling: Gambar tempat wisata ditampilkan dengan penanganan error menggunakan errorBuilder.  
+- Setiap card memiliki tombol ElevatedButton dengan gaya khusus yang belum memiliki aksi.  
