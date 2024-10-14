@@ -52,16 +52,15 @@ d) Pastikan file APK sudah benar-benar siap untuk diunggah dan berfungsi dengan 
 #### Screenshoot
 - Build APK
   ![image](https://github.com/user-attachments/assets/962f1cff-38e1-414c-9771-bcabce97dda1)
-
+- File APK yang telah selesai dilakukan build apk release
   ![image](https://github.com/user-attachments/assets/c23ef240-ade8-43f0-9cb8-2f8d5a9168a4)
 
-- Upload File APK ke Github
-
 #### Output
+![Screenshot_2024-10-14-19-37-09-13_9be140f9878c664a160e5e59b4097c37 1](https://github.com/user-attachments/assets/f6c64a21-54fa-4a77-bd2f-b9be732b9edc)
 
 
 #### Deskripsi
-- Buka proyek Flutter yang telah kamu buat.
+- Buka proyek Flutter yang telah dibuat.
 - Buka terminal pada folder proyek tersebut.
 - Jalankan perintah berikut untuk melakukan build file APK dalam mode rilis
   ```
