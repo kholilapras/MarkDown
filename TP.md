@@ -3,8 +3,8 @@
 **TUGAS PENDAHULUAN**  
 **PEMROGRAMAN PERANGKAT BERGERAK**
 
-**MODUL 4**  
-**ANTARMUKA PENGGUNA**
+**MODUL 5**  
+**ANTARMUKA PENGGUNA LANJUTAN**
 
 <img src="https://github.com/user-attachments/assets/8ffbc3d9-1f18-4a72-8723-692ba5757f0c" alt="Logo_Telkom_University" width="25%">
 
@@ -49,17 +49,26 @@ d) Pastikan file APK sudah benar-benar siap untuk diunggah dan berfungsi dengan 
 
 ![image](https://github.com/user-attachments/assets/aa99e8c6-b1f0-49d4-903b-3ad59e6aafc1)
 
-#### Source Code
-- main.dart
-```dart
-import 'package:flutter/material.dart';
+#### Screenshoot
+- Build APK
+  ![image](https://github.com/user-attachments/assets/962f1cff-38e1-414c-9771-bcabce97dda1)
 
-void main() {
-  runApp(const MyApp());
-}
-```
+  ![image](https://github.com/user-attachments/assets/c23ef240-ade8-43f0-9cb8-2f8d5a9168a4)
+
+- Upload File APK ke Github
+
 #### Output
 
 
 #### Deskripsi
-
+- Buka proyek Flutter yang telah kamu buat.
+- Buka terminal pada folder proyek tersebut.
+- Jalankan perintah berikut untuk melakukan build file APK dalam mode rilis
+  ```
+  flutter build apk --release
+  ```
+- Tunggu sampai proses build selesai. Setelah proses selesai, file APK yang dihasilkan akan berada di direktori berikut:
+  ```
+  build/app/outputs/flutter-apk/app-release.apk
+  ```
+- Lalu buka file APK tersebut dengan emulator atau perangkat Android fisik untuk memastikan aplikasi dapat digunakan dengan baik.
