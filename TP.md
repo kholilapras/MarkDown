@@ -34,19 +34,20 @@ Yudha Islami Sulistya, S.Kom., M.Cs
 
 
 ## A. SOAL NOMOR 1
-Buatlah tampilan aplikasi sederhana dalam flutter yang menampilkan deskripsi
-rekomendasi tempat wisata dengan mengimplementasikan widget dasar
-Detail Tugas:
-- AppBar: Buatlah sebuah AppBar dengan judul "Rekomendasi Wisata".
-- Text: Di tengah layar, tambahkan widget Text dengan pesan "Nama Tempat
-Wisata".
-- Image: Tambahkan gambar dari internet di bawah teks tersebut menggunakan
-widget Image.network.
-- Text: Dibawah gambar, tambahkan deskripsi dari tempat wisata
-- Button: Tambahkan tombol di bawah gambar dengan label "Kunjungi Tempat".
+a) Pada tugas pendahuluan ini, dari aplikasi Rekomendasi Wisata yang telah kalian buat pada Unguided Modul 4 (Antarmuka Pengguna), ubahlah menjadi file APK dengan cara build APK. Kemudian, upload file APK tersebut ke dalam folder 5_Antarmuka_Pengguna_Lanjutan pada Submodul TP.  
+b) Panduan Build APK:  
+- Buka terminal pada proyek Flutter yang telah kalian buat.  
+- Jalankan perintah berikut untuk membangun file APK:  
+```flutter build apk –release```
+- File APK yang dihasilkan akan berada di direktori: build/app/outputs/flutter-apk/app-release.apk  
+- Referensi tutorial https://www.barajacoding.or.id/cara-merelease-aplikasiflutter-pada-vscode/  
 
-**Contoh Output :**  
-![image](https://github.com/user-attachments/assets/5b8fe0d0-ad02-429f-84d1-bb4a4a7b3a34)
+c) Upload hanya file APK tersebut ke dalam folder yang telah ditentukan pada platform pengumpulan tugas.  
+d) Pastikan file APK sudah benar-benar siap untuk diunggah dan berfungsi dengan baik di perangkat Android  
+
+**Contoh Output :** 
+
+![image](https://github.com/user-attachments/assets/aa99e8c6-b1f0-49d4-903b-3ad59e6aafc1)
 
 #### Source Code
 - main.dart
@@ -56,96 +57,9 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(const MyApp());
 }
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Rekomendasi Wisata',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Rekomendasi Wisata'),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(
-          title,
-          style: const TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Baturaden',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Image.network(
-              'https://akcdn.detik.net.id/community/media/visual/2023/09/05/lokawisata-baturraden-1_43.jpeg?w=700&q=90',
-              height: 200,
-              width: 300,
-              fit: BoxFit.cover,
-            ),
-            const SizedBox(height: 16),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                'Baturaden adalah sebuah objek wisata alam yang terletak di lereng Gunung Slamet, '
-                'sekitar 15 kilometer dari pusat kota Purwokerto, Kabupaten Banyumas, Jawa Tengah. '
-                'Terkenal dengan pemandangan alamnya yang indah dan udara yang sejuk, Baturaden menjadi '
-                'destinasi favorit wisatawan lokal maupun mancanegara.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () {
-              },
-              child: const Text('Kunjungi Sekarang'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 ```
 #### Output
-![image](https://github.com/user-attachments/assets/d3300b54-ba27-4afa-86e5-b21f143231c9)
+
 
 #### Deskripsi
-- Fungsi main() berfungsi untuk menjalankan aplikasi Flutter dengan memanggil runApp(), yang memuat widget utama MyApp.
 
-- MyApp class adalah StatelessWidget yang berfungsi sebagai root dari aplikasi ini.
-
-- MyHomePage class merupakan StatelessWidget yang berfungsi sebagai halaman utama aplikasi. Atribut title dengan judul "Rekomendasi Wisata". Widget Scaffold digunakan untuk menstrukturkan halaman, di mana terdapat AppBar (header) dan body yang memuat konten utama.
-
-- AppBar menampilkan judul halaman di tengah, dengan latar belakang warna sesuai tema aplikasi.
-
-- Konten Halaman Utama (body):  
-a. Nama Wisata: Teks "Baturaden" dengan ukuran font besar dan tebal.  
-b. Gambar: Gambar dari URL online, ditampilkan menggunakan Image.network.  
-c. Deskripsi: Penjelasan tentang lokasi wisata Baturaden.  
-d. Tombol: Tombol "Kunjungi Sekarang" yang belum memiliki aksi apa pun karena onPressed tidak diimplementasikan.  
