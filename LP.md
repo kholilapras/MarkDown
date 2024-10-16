@@ -41,25 +41,135 @@ ingin ditampilkan.
 ## 2. ListView.Separated
 #### Source Code
 ```dart
+import 'package:flutter/material.dart';
+
+class JenisListView extends StatelessWidget {
+  const JenisListView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> entries = <String>['A', 'B', 'C', 'D', 'E'];
+    final List<int> colorCodes = <int>[600, 500, 400, 300, 200, 100];
+
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Jenis List View'),
+          backgroundColor: const Color.fromARGB(255, 9, 236, 236),
+        ),
+        body: ListView.separated(
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              height: 50,
+              color: Colors.blue[colorCodes[index]],
+              child: Center(
+                child: Text("Entry ${entries[index]}"),
+              ),
+            );
+          },
+          itemCount: entries.length,
+          separatorBuilder: (BuildContext context, int index) {
+            return Container(
+              height: 10,
+              color: const Color.fromARGB(255, 2, 14, 246),
+            );
+          },
+        ));
+  }
 }
 ```
 
 #### Output
+![image](https://github.com/user-attachments/assets/378f2f40-bf30-4fc0-9b05-6ec2cbc9ce8d)
 
 
 #### Deskripsi
+Program di atas adalah sebuah aplikasi Flutter sederhana yang menggunakan widget ListView.separated untuk menampilkan daftar item dalam sebuah tampilan daftar (list view). Daftar ini berisi beberapa entriyang diwakili dalam daftar bernama entries. Warna latar belakang tiap item daftar diambil dari daftar colorCodes yang menentukan tingkat kecerahan warna biru untuk setiap item. Selain itu, setiap item daftar dipisahkan oleh sebuah pemisah berupa kontainer dengan tinggi 10 piksel dan warna biru tua. Aplikasi ini juga memiliki app bar dengan judul "Jenis List View" dan latar belakang berwarna biru cerah.
 
 
 ## 3. Flexible dan Expanded
 #### Source Code
 ```dart
+import 'package:flutter/material.dart';
+
+class FlexibleExpandedScreen extends StatelessWidget {
+  const FlexibleExpandedScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flexible vs Expanded'),
+        backgroundColor: const Color.fromARGB(188, 7, 48, 255),
+      ),
+      body: Column(
+        children: [
+          
+          Text("Flexible"),
+          SizedBox(
+            height: 5,
+          ),
+          Row(
+            children: <Widget>[
+              Container(
+                width: 50,
+                height: 100,
+                color: Colors.blue,
+              ),
+              Flexible(
+                child: Container(
+                  height: 100,
+                  color: const Color.fromARGB(189, 8, 216, 244),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Flexible takes up the remaining space but can shrink if needed.",
+                    ),
+                  ),
+                ),
+              ),
+              const Icon(Icons.sentiment_very_satisfied),
+            ],
+          ),
+          const SizedBox(height: 20),
+          
+          Text("Expanded"),
+          SizedBox(
+            height: 5,
+          ),
+          Row(
+            children: <Widget>[
+              Container(
+                width: 50,
+                height: 100,
+                color: const Color.fromARGB(255, 4, 193, 240),
+              ),
+              Expanded(
+                child: Container(
+                  height: 100,
+                  color: const Color.fromARGB(199, 5, 127, 220),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Expanded forces the widget to take up all the remaining space.",
+                    ),
+                  ),
+                ),
+              ),
+              const Icon(Icons.sentiment_very_satisfied),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }
 ```
 
 #### Output
+![image](https://github.com/user-attachments/assets/39324781-abc3-449b-99f1-1c81e516ee41)
 
 #### Deskripsi
-
+Program di atas menampilkan perbandingan antara widget Flexible dan Expanded di dalam sebuah layout berbentuk kolom (Column). Pada bagian pertama, ditampilkan judul "Flexible" dengan sebuah baris (Row) yang terdiri dari tiga elemen: sebuah kotak berwarna biru, widget Flexible yang berisi teks yang menjelaskan fungsi widget tersebut, dan sebuah ikon wajah tersenyum. Widget Flexible memungkinkan elemen di dalamnya untuk mengambil sisa ruang yang tersedia di baris, namun masih dapat menyusut jika diperlukan. Pada bagian kedua, ditampilkan judul "Expanded" dengan elemen serupa, namun widget yang digunakan adalah Expanded. Berbeda dengan Flexible, Expanded memaksa elemen di dalamnya untuk mengisi seluruh sisa ruang yang ada pada baris tersebut. Program ini memvisualisasikan perbedaan penggunaan kedua widget tersebut dalam mengatur tata letak ruang.
 
 ## 4. CustomScrollView
 #### Source Code
