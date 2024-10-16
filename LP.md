@@ -175,12 +175,71 @@ Program di atas menampilkan perbandingan antara widget Flexible dan Expanded di 
 #### Source Code
 ```dart
 import 'package:flutter/material.dart';
+
+class Custom extends StatelessWidget {
+  const Custom({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Custom'),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 6, 151, 241),
+      ),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          const SliverAppBar(
+            pinned: true,
+            expandedHeight: 250.0,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text('fufufafa'),
+              centerTitle: true,
+            ),
+          ),
+          SliverGrid(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200.0,
+              mainAxisSpacing: 10.0,
+              crossAxisSpacing: 10.0,
+              childAspectRatio: 4.0,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Container(
+                  alignment: Alignment.center,
+                  color: Colors.blue[100 * (index % 9)],
+                  child: Text('Grid Item $index'),
+                );
+              },
+              childCount: 10,
+            ),
+          ),
+          SliverFixedExtentList(
+            itemExtent: 50.0,
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Container(
+                  alignment: Alignment.center,
+                  color: Colors.blueGrey[100 * (index % 9)],
+                  child: Text('List Item $index'),
+                );
+              },
+              childCount: 8,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 ```
 
 #### Output
-
+![image](https://github.com/user-attachments/assets/a2815c6c-ed4d-4333-9440-b7f12b5f2e47)
 
 #### Deskripsi
+Program Flutter ini membuat sebuah tampilan antarmuka pengguna dengan menggunakan widget Scaffold yang memiliki AppBar dan CustomScrollView yang berisi beberapa jenis layout scrollable. Pada bagian atas, terdapat sebuah SliverAppBar yang bersifat pinned (tetap terlihat saat di-scroll) dengan judul "fufufafa" yang tampil saat bagian AppBar diperluas hingga 250 piksel. Di bawahnya, terdapat sebuah grid yang ditampilkan dalam layout SliverGrid dengan maksimal lebar setiap item grid adalah 200 piksel, berisi 10 item grid dengan latar belakang warna biru yang bervariasi. Selanjutnya, terdapat SliverFixedExtentList, yang menampilkan daftar item dengan tinggi tetap 50 piksel per item, berjumlah 8 item, di mana setiap item memiliki warna abu-abu kebiruan dengan nilai intensitas yang berbeda. Aplikasi ini menciptakan kombinasi antara grid dan daftar yang scrollable, serta mendukung tampilan dinamis dengan perubahan warna dan tata letak.
 
 # UNGUIDED
 
@@ -192,8 +251,7 @@ Comming Soon
 ```
 
 #### Output
-Comming Soon
-
+-
 
 #### Deskripsi
-Comming Soon
+-
