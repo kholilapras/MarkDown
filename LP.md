@@ -244,6 +244,7 @@ Program Flutter ini membuat sebuah tampilan antarmuka pengguna dengan menggunaka
 # UNGUIDED
 
 ## Tugas Mandiri
+Modifikasi project Rekomendasi Wisata pada Tugas Unguided 04 modul Antarmuka Pengguna dengan mengimplementasikan widget CustomScrollView, SliverAppBar, dan SliverList untuk merekomendasikan beberapa tempat wisata yang ada di Banyumas disertai foto, nama wisata, dan deskripsi singkat! (buatlah se kreatif mungkin).
 
 #### Source Code
 ```dart
