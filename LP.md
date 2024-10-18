@@ -483,4 +483,8 @@ class _BerandaJudulState extends State<BerandaJudul> {
 
 
 #### Deskripsi
--
+Program di atas yang menampilkan rekomendasi tempat wisata di Banyumas menggunakan beberapa widget penting, seperti CustomScrollView, SliverAppBar, dan SliverList. Aplikasi ini dimulai dengan widget MaterialApp, yang mengatur tema dan tata letak keseluruhan, kemudian dilanjutkan oleh widget BerandaJudul, yang berfungsi sebagai halaman utama.  
+
+Di dalam halaman utama, CustomScrollView digunakan untuk membuat tampilan yang dapat digulir (scrollable) secara vertikal dengan berbagai elemen dinamis. Komponen utama di dalamnya adalah SliverAppBar, yang berfungsi sebagai bagian atas halaman (header) yang memiliki perilaku khusus saat digulir. SliverAppBar pada program ini memiliki tinggi yang dapat diperluas (expandedHeight), di mana gambar latar belakang serta judul "Rekomendasi Wisata Banyumas" ditampilkan. Saat pengguna menggulir ke bawah, SliverAppBar akan menyusut dan "pinned", yang berarti akan tetap berada di bagian atas halaman meskipun halaman terus digulir. Efek blur juga diterapkan pada gambar latar belakang ketika tingginya lebih dari 100 untuk memberikan efek transisi yang halus.  
+
+Di bawah SliverAppBar, ada SliverList yang diisi oleh beberapa widget tempat wisata yang ditampilkan menggunakan metode daftarTempatWisata. SliverList ini memungkinkan elemen-elemen dalam daftar tempat wisata ditampilkan secara efisien dalam tampilan yang dapat digulir.
