@@ -43,7 +43,10 @@ dan "Profil".
 ditampilkan berubah sesuai menu yang dipilih.
 - Home: Menampilkan teks "Ini adalah halaman Home".
 - Wisata: Menampilkan teks "Ini adalah halaman Wisata".
-- Profile: Menampilkan teks "Ini adalah halaman Profil".
+- Profile: Menampilkan teks "Ini adalah halaman Profil".  
+c.) Referensi
+- Website : https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html  
+- Youtube : https://www.youtube.com/watch?v=xKeyCJgK_MM  
 
 a) Pada tugas pendahuluan ini, dari aplikasi Rekomendasi Wisata yang telah kalian buat pada Unguided Modul 4 (Antarmuka Pengguna), ubahlah menjadi file APK dengan cara build APK. Kemudian, upload file APK tersebut ke dalam folder 5_Antarmuka_Pengguna_Lanjutan pada Submodul TP.  
 b) Panduan Build APK:  
