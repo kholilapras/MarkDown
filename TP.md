@@ -60,11 +60,11 @@ c.) Referensi
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const AplikasiSaya());
+  runApp(const MyApp());
 }
 
-class AplikasiSaya extends StatelessWidget {
-  const AplikasiSaya({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -93,14 +93,9 @@ class _HalamanUtamaState extends State<HalamanUtama> {
   int _indeksDipilih = 0;
 
   static const List<Widget> _halaman = <Widget>[
-    Center(
-        child: Text('Ini halaman Beranda', style: TextStyle(fontSize: 24))),
-    Center(
-        child:
-            Text('Ini halaman Wisata', style: TextStyle(fontSize: 24))),
-    Center(
-        child:
-            Text('Ini halaman Profil', style: TextStyle(fontSize: 24))),
+    Center(child: Text('Ini halaman Beranda', style: TextStyle(fontSize: 24))),
+    Center(child: Text('Ini halaman Wisata', style: TextStyle(fontSize: 24))),
+    Center(child: Text('Ini halaman Profil', style: TextStyle(fontSize: 24))),
   ];
 
   void _pilihItem(int indeks) {
@@ -146,17 +141,9 @@ class _HalamanUtamaState extends State<HalamanUtama> {
 #### Output  
 ![image](https://github.com/user-attachments/assets/c8e507ec-7467-42fd-a215-7a3c06457f30)
 
-
-
 #### Deskripsi
-- Buka proyek Flutter yang telah dibuat.
-- Buka terminal pada folder proyek tersebut.
-- Jalankan perintah berikut untuk melakukan build file APK dalam mode rilis
-  ```
-  flutter build apk --release
-  ```
-- Tunggu sampai proses build selesai. Setelah proses selesai, file APK yang dihasilkan akan berada di direktori berikut:
-  ```
-  build/app/outputs/flutter-apk/app-release.apk
-  ```
-- Lalu buka file APK tersebut dengan emulator atau perangkat Android fisik untuk memastikan aplikasi dapat digunakan dengan baik.
+- Fungsi main() : Untuk menjalankan aplikasi Flutter dengan widget MyApp.  
+- class HalamanUtama: Merupakan widget tipe StatefulWidget, memungkinkan untuk menyimpan dan mengubah kondisi (state) dari widget saat berjalan. Mengimplementasikan halaman utama dengan tiga tampilan halaman berbeda.  
+- class _HalamanUtamaState: Menyimpan dan mengubah kondisi aplikasi melalui variabel _indeksDipilih, yang merepresentasikan halaman mana yang sedang dipilih.  
+- Fungsi _pilihItem() mengubah nilai dari _indeksDipilih untuk menentukan halaman yang akan ditampilkan.  
+- onTap menggunakan metode _pilihItem() untuk memperbarui halaman yang ditampilkan berdasarkan indeks item yang dipilih.  
