@@ -3,8 +3,8 @@
 **TUGAS PENDAHULUAN**  
 **PEMROGRAMAN PERANGKAT BERGERAK**
 
-**MODUL 5**  
-**ANTARMUKA PENGGUNA LANJUTAN**
+**MODUL 6**  
+**INTERAKSI PENGGUNA**
 
 <img src="https://github.com/user-attachments/assets/8ffbc3d9-1f18-4a72-8723-692ba5757f0c" alt="Logo_Telkom_University" width="25%">
 
@@ -13,7 +13,7 @@ Kholil Abdi Prasetiyo / 2211104071
 SISE-06-02
 
 **Asisten Praktikum**:  
-Muhammad Faza Zulian  
+Muhammad Faza Zulian Gesit Al Barru  
 Aisyah Hasna Aulia
 
 **Dosen Pengampu**:  
@@ -34,6 +34,17 @@ Yudha Islami Sulistya, S.Kom., M.Cs
 
 
 ## A. SOAL NOMOR 1
+a) Pada tugas pendahuluan ini, buat project Flutter baru  
+b) Implementasi Bottom Navigation Bar:  
+- Tambahkan BottomNavigationBar pada halaman aplikasi.
+- BottomNavigationBar memiliki 3 item menu dengan label: "Home", "Wisata",
+dan "Profil".
+- Setiap kali memilih salah satu menu di BottomNavigationBar, halaman yang
+ditampilkan berubah sesuai menu yang dipilih.
+- Home: Menampilkan teks "Ini adalah halaman Home".
+- Wisata: Menampilkan teks "Ini adalah halaman Wisata".
+- Profile: Menampilkan teks "Ini adalah halaman Profil".
+
 a) Pada tugas pendahuluan ini, dari aplikasi Rekomendasi Wisata yang telah kalian buat pada Unguided Modul 4 (Antarmuka Pengguna), ubahlah menjadi file APK dengan cara build APK. Kemudian, upload file APK tersebut ke dalam folder 5_Antarmuka_Pengguna_Lanjutan pada Submodul TP.  
 b) Panduan Build APK:  
 - Buka terminal pada proyek Flutter yang telah kalian buat.  
