@@ -43,8 +43,8 @@ dan "Profil".
 ditampilkan berubah sesuai menu yang dipilih.
 - Home: Menampilkan teks "Ini adalah halaman Home".
 - Wisata: Menampilkan teks "Ini adalah halaman Wisata".
-- Profile: Menampilkan teks "Ini adalah halaman Profil".  
-c.) Referensi
+- Profile: Menampilkan teks "Ini adalah halaman Profil".
+c.) Referensi  
 - Website : https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html  
 - Youtube : https://www.youtube.com/watch?v=xKeyCJgK_MM  
 
