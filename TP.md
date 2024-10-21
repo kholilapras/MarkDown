@@ -28,7 +28,7 @@ Yudha Islami Sulistya, S.Kom., M.Cs
 ---
 <div align="center">
   
-  **TUGAS PENDAHULUAN**  
+**TUGAS PENDAHULUAN**  
   
 </div>
 
@@ -51,17 +51,101 @@ c.) Referensi
 
 
 **Contoh Output :** 
+![image](https://github.com/user-attachments/assets/f94db7d4-7dc6-47ee-808c-df365194819c)
 
-![image](https://github.com/user-attachments/assets/aa99e8c6-b1f0-49d4-903b-3ad59e6aafc1)
 
-#### Screenshoot
-- Build APK
-  ![image](https://github.com/user-attachments/assets/962f1cff-38e1-414c-9771-bcabce97dda1)
-- File APK yang telah selesai dilakukan build apk release
-  ![image](https://github.com/user-attachments/assets/c23ef240-ade8-43f0-9cb8-2f8d5a9168a4)
 
-#### Output
-![Screenshot_2024-10-14-19-37-09-13_9be140f9878c664a160e5e59b4097c37 1](https://github.com/user-attachments/assets/f6c64a21-54fa-4a77-bd2f-b9be732b9edc)
+#### Source Code
+```dart
+  import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const AplikasiSaya());
+}
+
+class AplikasiSaya extends StatelessWidget {
+  const AplikasiSaya({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'tp6_interaksipengguna',
+      theme: ThemeData(
+        primaryColor: Colors.black,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.black,
+          secondary: Colors.amber,
+        ),
+      ),
+      home: const HalamanUtama(),
+    );
+  }
+}
+
+class HalamanUtama extends StatefulWidget {
+  const HalamanUtama({super.key});
+
+  @override
+  _HalamanUtamaState createState() => _HalamanUtamaState();
+}
+
+class _HalamanUtamaState extends State<HalamanUtama> {
+  int _indeksDipilih = 0;
+
+  static const List<Widget> _halaman = <Widget>[
+    Center(
+        child: Text('Ini halaman Beranda', style: TextStyle(fontSize: 24))),
+    Center(
+        child:
+            Text('Ini halaman Wisata', style: TextStyle(fontSize: 24))),
+    Center(
+        child:
+            Text('Ini halaman Profil', style: TextStyle(fontSize: 24))),
+  ];
+
+  void _pilihItem(int indeks) {
+    setState(() {
+      _indeksDipilih = indeks;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Latihan BottomNavigationBar'),
+        backgroundColor: Colors.amber,
+      ),
+      body: _halaman[_indeksDipilih],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Beranda',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Wisata',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profil',
+          ),
+        ],
+        currentIndex: _indeksDipilih,
+        selectedItemColor: Colors.amber,
+        unselectedItemColor: Colors.grey,
+        onTap: _pilihItem,
+      ),
+    );
+  }
+}
+```
+
+
+#### Output  
+![image](https://github.com/user-attachments/assets/c8e507ec-7467-42fd-a215-7a3c06457f30)
+
 
 
 #### Deskripsi
