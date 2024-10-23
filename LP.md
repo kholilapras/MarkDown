@@ -33,6 +33,18 @@ Yudha Islami Sulistya, S.Kom., M.Cs
 ## 1. Packages
 Dart package terdapat pada direktori yang didalamnya terdapat file pubspec.yaml. Contoh penggunaan packages adalah membuat request ke server menggunakan protokol http. Custom navigation/route handling menggunakan fluro, dsb.
 
+i.) Buka web pub.dev, lalu cari packages yang di butuhkan misal google fonts, lalu klik icon copy disebelah teks nama packages  
+![image](https://github.com/user-attachments/assets/ef880a21-8d27-4ccf-aeaa-a0ad9bbf34fd)  
+
+ii.) Setelah berhasil disalin, cari dan buka file pubspec.yaml pada project flutter  
+![image](https://github.com/user-attachments/assets/0bba704e-3fde-432d-94e9-934e5f885d12)  
+
+ii. Paste teks yang telah disalin pada posisi seperti dibawah ini  
+![image](https://github.com/user-attachments/assets/6fd9139a-19b7-4172-a7bf-ce8bf1bfd8f3)  
+
+
+
+
 
 ## 2. User Interaction
 ## 2.1 Stateful & Stateless
