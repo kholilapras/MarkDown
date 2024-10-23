@@ -3,8 +3,8 @@
 **LAPORAN PRAKTIKUM**  
 **PEMROGRAMAN PERANGKAT BERGERAK**
 
-**PERTEMUAN 5**  
-**ANTARMUKA PENGGUNA LANJUTAN**
+**PERTEMUAN 6**  
+**INTERAKSI PENGGUNA**
 
 
 <img src="https://github.com/user-attachments/assets/8ffbc3d9-1f18-4a72-8723-692ba5757f0c" alt="Logo_Telkom_University" width="25%">
@@ -30,15 +30,26 @@ Yudha Islami Sulistya, S.Kom., M.Cs
 ---
 # GUIDED
 
-## 1. ListView.builder
-Widget ListView jenis ini cocok digunakan ketika memiliki data list yang
-lebih besar. ListView.builder membutuhkan itemBuilder dan itemCount.
-Parameter itemBuilder merupakan fungsi yang mengembalikan widget untuk
-ditampilkan. Sedangkan itemCount kita isi dengan jumlah seluruh item yang
-ingin ditampilkan.
+## 1. Packages
+Dart package terdapat pada direktori yang didalamnya terdapat file pubspec.yaml. Contoh penggunaan packages adalah membuat request ke server menggunakan protokol http. Custom navigation/route handling menggunakan fluro, dsb.
 
 
-## 2. ListView.Separated
+## 2. User Interaction
+## 2.1 Stateful & Stateless
+Widget stateless tidak pernah berubah. Ikon, IconButton, dan Teks adalah contoh widget stateless. Sub kelas widget stateless StatelessWidget. Widget stateful bersifat dinamis misalnya, ia dapat mengubah tampilannya sebagai respons terhadap peristiwa yang dipicu oleh interaksi pengguna atau saat menerima data.
+
+## 2.2 Form
+Form adalah kumpulan widget yang digunakan untuk mengumpulkan input dari pengguna. Biasanya, form ini terdiri dari beberapa field seperti TextFormField, Checkbox, Radio, dan lain-lain
+
+## 2.3 Menu
+Menu berfungsi untuk separasi antar fitur atau page. Secara umum terdapat 2 jenis widget menu yang sering digunakan, yaitu "bottom navigation bar" dan "tab bar".
+
+## 2.4 Buttons  
+- ElevatedButton : tombol yang biasa kita gunakan saat kita mendaftar, submit, login, dst. Widget ini digunakan untuk membuat tombol dengan tampilan yang lebih menonjol, biasanya dengan efek bayangan yang memberikan kesan kedalaman.  
+- TextButton : widget yang digunakan untuk membuat tombol yang
+menampilkan teks.
+- DropdownButton : widget yang memungkinkan untuk memilih satu nilai dari serangkaian pilihan yang disediakan dalam bentuk menu dropdown. Ini sangat berguna untuk situasi di mana Anda ingin membatasi pilihan pengguna ke beberapa opsi yang sudah ditentukan
+
 #### Source Code
 ```dart
 import 'package:flutter/material.dart';
