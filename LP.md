@@ -475,6 +475,9 @@ class Beranda extends StatelessWidget {
 #### Output
 ![image](https://github.com/user-attachments/assets/33c05b5b-62ee-407e-a077-4fbc333adea7)
 
+![image](https://github.com/user-attachments/assets/8feb51a4-283a-4eaa-87d7-20ee975b8a36)
+
+
 
 #### Deskripsi
 - BottomNavigationBar digunakan untuk beralih di antara tiga halaman: "Beranda", "Wisata", dan "Profil". Setiap ikon memiliki label dan ikon yang sesuai.  
