@@ -544,4 +544,25 @@ class MyApp extends StatelessWidget {
 
 
 #### Deskripsi
-- BottomNavigationBar digunakan untuk beralih di antara tiga halaman: "Beranda", "Wisata", dan "Profil". Setiap ikon memiliki label dan ikon yang sesuai.  
+i.) product_model.dart
+- Kelas yang mendefinisikan produk dengan atribut name, image, dan price.
+
+ii.) home_page.dart
+- Menampilkan daftar produk menggunakan ListView.builder.
+- Setiap produk ditampilkan sebagai ProductCard, dan bisa diklik untuk membuka halaman detail (DetailPage).
+
+iii.) detail_page.dart
+- Menampilkan detail produk yang dipilih, seperti gambar, nama, dan harga.
+- Pengguna dapat memilih ukuran (menggunakan ChoiceChip) dan jumlah (menggunakan DropdownButton).
+- Tombol "Beli" akan mengarahkan pengguna ke halaman checkout (CheckoutPage) jika ukuran sudah dipilih.
+
+iv.) checkout_page.dart
+- Menampilkan ringkasan pembelian, termasuk produk, ukuran, jumlah, dan total harga (product.price * quantity).
+- Tombol "Confirm Purchase" menampilkan SnackBar untuk notifikasi berhasil dan mengembalikan pengguna ke halaman sebelumnya.
+
+v.) product_card.dart
+- Widget khusus untuk menampilkan informasi dasar produk (gambar, nama, dan harga) di HomePage.
+- Ikon navigasi (panah) yang menunjukkan bahwa item ini dapat ditekan.
+
+vi.) main.dart
+- Menjalankan aplikasi dengan halaman awal class HomePage
