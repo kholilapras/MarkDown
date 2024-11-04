@@ -39,53 +39,31 @@ Dalam Flutter, navigation merujuk pada cara berpindah antar halaman (atau tampil
 ## 3. Notification
 Untuk mengirimkan notifikasi dalam aplikasi Flutter, dapat digunakan package bernama flutter_local_notifications.
 
-
-
-## main.dart
-#### Source Code
+## Latihan 1
+#### lib/main.dart
 ```dart
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-    );
-  }
-}
 ```
 
-## my_package.dart
-#### Source Code
+#### lib/models/product.dart
 ```dart
 import 'package:flutter/material.dart';
-
-class myPackage extends StatefulWidget {
- 
-  }
-}
 ```
-#### Output
-![image](https://github.com/user-attachments/assets/4117c50f-fe18-4d8f-a9b2-96063f35fbbd)
 
-
-## my_tabbar.dart
-#### Source Code
+#### lib/pages/detailpage.dart
 ```dart
 import 'package:flutter/material.dart';
-
-  }
-}
 ```
+
+#### lib/pages/mypage.dart
+```dart
+import 'package:flutter/material.dart';
+```
+
+
 #### Output
 
 
-## my_navbar.dart
-#### Source Code
-```dart
-
-    );
-  }
-}
-```
-#### Output
 
 
 
