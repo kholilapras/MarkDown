@@ -39,6 +39,126 @@ Dalam Flutter, navigation merujuk pada cara berpindah antar halaman (atau tampil
 ## 3. Notification
 Untuk mengirimkan notifikasi dalam aplikasi Flutter, dapat digunakan package bernama flutter_local_notifications.
 
+Langkah 1: Tambahkan Dependency flutter_local_notifications
+- Buka file pubspec.yaml di proyek Flutter Anda.
+- Tambahkan flutter_local_notifications ke dalam dependencies aplikasi seperti berikut:
+  ```
+  dependencies:
+  flutter:
+    sdk: flutter
+  flutter_local_notifications: ^12.0.4  # Gunakan versi terbaru yang tersedia
+  ```
+- Jalankan perintah berikut untuk mengunduh dan menginstal package:
+  ```
+  flutter pub get
+  ```
+
+Langkah 2: Konfigurasi Project untuk Android dan iOS
+- Buka file android/app/build.gradle dan pastikan minSdkVersion diatur ke 21 atau lebih tinggi
+  ```
+  defaultConfig {
+    minSdkVersion 21
+  }
+  ```
+- Jika ingin notifikasi bergetar, tambahkan izin berikut di file AndroidManifest.xml:
+  ```
+  <uses-permission android:name="android.permission.VIBRATE" />
+  ```
+- Untuk notifikasi yang aktif setelah perangkat di-reboot, tambahkan izin berikut:
+  ```
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+  ```
+
+Langkah 3: Inisialisasi flutter_local_notifications
+- Buat instance FlutterLocalNotificationsPlugin dan atur inisialisasinya di lib/main.dart:
+```
+  import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  const DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings();
+
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+  );
+
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Local Notifications',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: NotificationScreen(),
+    );
+  }
+}
+``` 
+
+Langkah 4: Buat Fungsi untuk Menampilkan Notifikasi
+- Buat fungsi showNotification untuk menampilkan notifikasi lokal:
+ ```
+Future<void> showNotification() async {
+  const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    'your_channel_id', // ID unik untuk channel
+    'your_channel_name', // Nama channel
+    channelDescription: 'your_channel_description', // Deskripsi channel
+    importance: Importance.max,
+    priority: Priority.high,
+    showWhen: true,
+  );
+
+  const NotificationDetails platformChannelSpecifics = NotificationDetails(
+    android: androidPlatformChannelSpecifics,
+  );
+
+  await flutterLocalNotificationsPlugin.show(
+    0, // ID notifikasi
+    'Hello!', // Judul notifikasi
+    'This is a local notification.', // Isi notifikasi
+    platformChannelSpecifics,
+  );
+}
+``` 
+
+Langkah 5: Buat UI dengan Tombol untuk Menampilkan Notifikasi
+```
+class NotificationScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Local Notifications")),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: showNotification, // Panggil fungsi notifikasi saat tombol ditekan
+          child: Text("Show Notification"),
+        ),
+      ),
+    );
+  }
+}
+```
+
+Langkah 6: Jalankan Aplikasi dan Tes Notifikasi
+- Build dan jalankan aplikasi di emulator atau perangkat fisik.
+- Setelah aplikasi terbuka, tekan tombol "Show Notification".
+- Jika konfigurasi sudah benar, notifikasi akan muncul di perangkat.
+
+
 ## Latihan 1
 #### lib/main.dart
 ```dart
