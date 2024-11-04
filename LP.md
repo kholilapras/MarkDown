@@ -220,12 +220,327 @@ class MyPage extends StatelessWidget {
 ## Tugas Mandiri
 1. Buatlah satu project untuk menampilkan beberapa produk dan halaman e-commerce dengan menerapkan class model serta navigasi halaman.
 
-#### Source Code
+![image](https://github.com/user-attachments/assets/c83f7214-ae50-4d43-9af3-39d1b9221201)
+
+#### lib/models/product_model.dart
 ```dart
-d
+class Product {
+  final String name;
+  final String image;
+  final int price;
+
+  Product({required this.name, required this.image, required this.price});
+}
+
+List<Product> products = [
+  Product(
+      name: "Manchester City Home Jersey 2024/25",
+      image: "assets/images/home_jersey.png",
+      price: 1500000),
+  Product(
+      name: "Manchester City Away Jersey 2024/25",
+      image: "assets/images/away_jersey.png",
+      price: 1450000),
+  Product(
+      name: "Manchester City Third Jersey 2024/25",
+      image: "assets/images/third_jersey.png",
+      price: 1400000),
+  Product(
+      name: "Manchester City Goalkeeper Jersey 2024/25",
+      image: "assets/images/goalkeeper_jersey.png",
+      price: 1250000),
+];
+```
+
+#### lib/pages/checkout_page.dart
+```dart
+import 'package:flutter/material.dart';
+import '../models/product_model.dart';
+
+class CheckoutPage extends StatelessWidget {
+  final Product product;
+  final String selectedSize;
+  final int quantity;
+
+  CheckoutPage({
+    required this.product,
+    required this.selectedSize,
+    required this.quantity,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Checkout'),
+        backgroundColor: Colors.blue[400],
+        foregroundColor: Colors.white,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Detail Pembelian",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            SizedBox(height: 20),
+            Text("Nama Produk: ${product.name}",
+                style: TextStyle(fontSize: 18)),
+            Text("Harga: Rp ${product.price}", style: TextStyle(fontSize: 18)),
+            Text("Ukuran: $selectedSize", style: TextStyle(fontSize: 18)),
+            Text("Jumlah: $quantity", style: TextStyle(fontSize: 18)),
+            SizedBox(height: 20),
+            Divider(),
+            Text(
+              "Total Harga: Rp ${product.price * quantity}",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Spacer(),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Pembelian Berhasil!")),
+                  );
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                ),
+                child: Text('Confirm Purchase'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+#### lib/pages/detail_page.dart
+```dart
+import 'package:flutter/material.dart';
+import '../models/product_model.dart';
+import 'checkout_page.dart';
+
+class DetailPage extends StatefulWidget {
+  final Product product;
+
+  DetailPage({required this.product});
+
+  @override
+  _DetailPageState createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  int quantity = 1;
+  String? selectedSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Detail'),
+        backgroundColor: Colors.blue[400],
+        foregroundColor: Colors.white,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(widget.product.image, height: 200),
+            SizedBox(height: 16),
+            Text(widget.product.name,
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text('Rp ${widget.product.price}',
+                style: TextStyle(fontSize: 20, color: Colors.grey[700])),
+            SizedBox(height: 20),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (var size in ["S", "M", "L", "XL", "XXL", "3XL"])
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: ChoiceChip(
+                      label: Text(size),
+                      selected: selectedSize == size,
+                      onSelected: (isSelected) {
+                        setState(() {
+                          selectedSize = isSelected ? size : null;
+                        });
+                      },
+                    ),
+                  ),
+              ],
+            ),
+            SizedBox(height: 20),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Jumlah: ', style: TextStyle(fontSize: 18)),
+                DropdownButton<int>(
+                  value: quantity,
+                  items: List.generate(10, (index) => index + 1)
+                      .map((e) => DropdownMenuItem<int>(
+                            value: e,
+                            child: Text('$e'),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      quantity = value!;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: () {
+                if (selectedSize != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CheckoutPage(
+                        product: widget.product,
+                        selectedSize: selectedSize!,
+                        quantity: quantity,
+                      ),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Pilih ukuran terlebih dahulu")),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.black,
+                backgroundColor: Colors.yellow[700],
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              ),
+              child: Text('Beli'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+#### lib/pages/home_page.dart
+```dart
+import 'package:flutter/material.dart';
+import '../models/product_model.dart';
+import '../widgets/product_card.dart';
+import 'detail_page.dart';
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Manchester City Shop'),
+        backgroundColor: Colors.blue[400],
+        foregroundColor: Colors.white,
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailPage(product: products[index]),
+                ),
+              );
+            },
+            child: ProductCard(product: products[index]),
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
+#### lib/widgets/product_card.dart
+```dart
+import 'package:flutter/material.dart';
+import '../models/product_model.dart';
+
+class ProductCard extends StatelessWidget {
+  final Product product;
+
+  ProductCard({required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          children: [
+            Image.asset(product.image, height: 80, width: 80, fit: BoxFit.cover),
+            SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(product.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 4),
+                  Text('Rp ${product.price}', style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+                ],
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios, color: Colors.grey),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+#### lib/main.dart
+```dart
+import 'package:flutter/material.dart';
+import 'pages/home_page.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Manchester City Shop',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: HomePage(),
+    );
+  }
+}
 ```
 
 #### Output
+![image](https://github.com/user-attachments/assets/b1f1113d-f644-42c1-9fdd-64b47b327c7a)
+
+![image](https://github.com/user-attachments/assets/2f8219aa-c14f-44f8-814a-72545b669acc)
+
+![image](https://github.com/user-attachments/assets/e0f13020-2cec-4cbd-91cd-0178a690451e)
 
 
 #### Deskripsi
