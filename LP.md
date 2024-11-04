@@ -210,19 +210,19 @@ class MyPage extends StatelessWidget {
 ```
 
 #### Output
+![image](https://github.com/user-attachments/assets/653cf7e5-4582-4531-a988-7cdd315b7f33)
 
-
-
+![image](https://github.com/user-attachments/assets/8f2bfbf0-4826-4213-ba28-758bbbdd4694)
 
 
 # UNGUIDED
 
 ## Tugas Mandiri
-Modifikasi project TP 06 (Tugas Pendahuluan) Interaksi Pengguna, dengan mengimplementasikan penggunaan form dan button.  
+1. Buatlah satu project untuk menampilkan beberapa produk dan halaman e-commerce dengan menerapkan class model serta navigasi halaman.
 
 #### Source Code
 ```dart
-
+d
 ```
 
 #### Output
