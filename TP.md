@@ -140,3 +140,8 @@ class ImageSelectionScreen extends StatelessWidget {
 
 
 #### Deskripsi
+- Fungsi main(): Menjalankan aplikasi dengan MyApp sebagai root widget.
+- Class MyApp: Mendefinisikan MaterialApp dengan tema Colors.amber dan halaman utama ImageSelectionScreen.
+- Class ImageSelectionScreen: Menampilkan halaman dengan AppBar berjudul "Latihan Memilih Gambar". Container 400x400 berwarna abu-abu dengan ikon gambar sebagai placeholder.
+- Tombol "Camera" dan "Gallery" untuk memilih gambar.
+- Tombol "Hapus Gambar" untuk menghapus gambar (fungsi belum aktif).
