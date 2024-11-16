@@ -30,14 +30,13 @@ Yudha Islami Sulistya, S.Kom., M.Cs
 ---
 # GUIDED
 
-## 1. Model
-Data dalam 
+## 1. Camera API
+Camera API berfungsi untuk memungkinkan developer (pengembang) untuk mengakses dan mengontrol kamera perangkat. Flutter menyediakan paket camera yang memudahkan implementasi fitur kamera untuk mengambil foto, merekam video, dan mengakses umpan kamera secara langsung. Paket ini sangat berguna untuk membuat aplikasi yang membutuhkan pengambilan gambar atau video, seperti aplikasi media sosial atau e-commerce.
 
-## 2. Navigation
-Dalam Flutter, naviga
+## 2. Media API
+Media API adalah sekumpulan alat dan pustaka yang mendukung pengelolaan dan interaksi dengan berbagai jenis media, seperti gambar, video, dan audio. Flutter tidak memiliki API media bawaan untuk semua kebutuhan media, tetapi dapat menggunakan paket-paket tambahan untuk mengakses fitur media yang umum di aplikasi. 
 
-## 3. Notification
-Untuk mengirimk
+## Praktikum
 
 
 ## Latihan 1
