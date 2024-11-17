@@ -3,8 +3,8 @@
 **TUGAS PENDAHULUAN**  
 **PEMROGRAMAN PERANGKAT BERGERAK**
 
-**MODUL 9**  
-**API PERANGKAT KERAS**
+**MODUL 10**  
+**DATA STORAGE BAGIAN 1**
 
 <img src="https://github.com/user-attachments/assets/8ffbc3d9-1f18-4a72-8723-692ba5757f0c" alt="Logo_Telkom_University" width="25%">
 
@@ -32,116 +32,56 @@ Yudha Islami Sulistya, S.Kom., M.Cs
   
 </div>
 
+## 1. Jelaskan secara singkat fungsi SQLite dalam pengembangan aplikasi mobile!
+SQLite adalah database relasional ringan yang sering digunakan dalam pengembangan aplikasi mobile karena sifatnya yang cepat, efisien, dan mudah diintegrasikan. Berbeda dengan server database lainnya, SQLite bersifat serverless, artinya semua data disimpan dalam satu file di perangkat, sehingga meminimalkan kebutuhan konfigurasi tambahan. Fungsinya meliputi penyimpanan dan pengelolaan data aplikasi secara lokal, seperti data pengguna, pengaturan aplikasi, atau cache, tanpa memerlukan koneksi internet. SQLite mendukung operasi SQL standar, membuatnya ideal untuk aplikasi yang membutuhkan manajemen data terstruktur dengan performa tinggi, sekaligus menjaga ukuran aplikasi tetap kecil.
 
-## A. SOAL NOMOR 1
-a) Buatlah satu project baru, yang mana di dalamnya memuat container berisi Icons.image_outlined, button camera, button gallery dan button hapus gambar. Button tidak harus berfungsi.
+## 2. Apa saja yang dimaksud dengan operasi CRUD? Berikan penjelasan singkat untuk masing-masing operasi!
+Operasi CRUD adalah empat fungsi utama yang digunakan dalam pengelolaan data pada basis data atau aplikasi. Berikut penjelasan singkat masing-masing operasi:
+- Create (C)  
+  Operasi untuk menambahkan data baru ke dalam basis data. Contohnya, menyimpan informasi pengguna baru seperti nama dan email.
+- Read (R)  
+  Operasi untuk membaca atau mengambil data dari basis data tanpa mengubahnya. Contohnya, menampilkan daftar produk dalam aplikasi e-commerce.
+- Update (U)  
+  Operasi untuk mengubah data yang sudah ada di basis data. Contohnya, memperbarui alamat pengguna yang sudah terdaftar.
+- Delete (D)  
+  Operasi untuk menghapus data dari basis data. Contohnya, menghapus akun pengguna yang tidak lagi aktif.
 
-#### Source Code
-main.dart
-  ```dart
-import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'TP 9_2211104071',
-      theme: ThemeData(
-        primarySwatch: Colors.amber,
-      ),
-      home: ImageSelectionScreen(),
-    );
-  }
-}
-
-class ImageSelectionScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Latihan Memilih Gambar'),
-        backgroundColor: Colors.amber,
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 400,
-                height: 400,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Colors.grey,
-                    style: BorderStyle.solid,
-                    width: 2,
-                  ),
-                ),
-                child: Icon(
-                  Icons.image_outlined,
-                  size: 250,
-                  color: Colors.grey,
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.camera_alt_outlined),
-                    label: Text("Camera"),
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.blue,
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: Icon(Icons.image_outlined),
-                    label: Text("Gallery"),
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.green,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text("Hapus Gambar"),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: Colors.amber,
-                  minimumSize: Size(200, 50),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+## 3. Tuliskan kode SQL untuk membuat tabel bernama users dengan kolom berikut :
+- id (integer, primary key, auto increment)
+- name (text)
+- email (text)
+- createdAt (timestamp, default value adalah waktu sekarang)
+  ```sql
+  CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
   ```
 
-#### Output  
-![image](https://github.com/user-attachments/assets/a16c45b9-305b-4e7b-b4fa-646eb4df1b60)
+## 4. Sebutkan langkah-langkah utama untuk menggunakan plugin sqflite di dalam Flutter!
+- Tambahkan Dependensi  
+    Tambahkan sqflite dan path di pubspec.yaml, lalu jalankan flutter pub get.  
+    dependencies:  
+    sqflite: ^2.0.0+4  
+    path: ^1.8.0  
+- Import library  
+    import 'package:sqflite/sqflite.dart';  
+    import 'package:path/path.dart';  
+- Buat Database  
+Buat atau buka database menggunakan fungsi openDatabase. Biasanya, database disimpan di direktori aplikasi:
+- Gunakan Operasi CRUD  
+- Integrasikan dengan UI Flutte  
+Panggil fungsi database pada bagian yang sesuai dalam aplikasi (misalnya, di ViewModel atau state management). Gunakan widget seperti FutureBuilder untuk menampilkan data secara dinamis.
 
+## 5. Lengkapi kode berikut untuk membaca semua data dari tabel users menggunakan sqflite.
+![image](https://github.com/user-attachments/assets/4535c945-dd1b-4efb-bae3-35b8ce78be33)
 
-#### Deskripsi
-- Fungsi main(): Menjalankan aplikasi dengan MyApp sebagai root widget.
-- Class MyApp: Mendefinisikan MaterialApp dengan tema Colors.amber dan halaman utama ImageSelectionScreen.
-- Class ImageSelectionScreen: Menampilkan halaman dengan AppBar berjudul "Latihan Memilih Gambar". Container 400x400 berwarna abu-abu dengan ikon gambar sebagai placeholder.
-- Tombol "Camera" dan "Gallery" untuk memilih gambar.
-- Tombol "Hapus Gambar" untuk menghapus gambar (fungsi belum aktif).
+```dart
+static Future<List<Map<String, dynamic>>> getUsers() async {
+  final db = await SQLHelper.db();
+
+  return db.query('users');
+}
+```
