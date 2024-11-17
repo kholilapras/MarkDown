@@ -367,7 +367,7 @@ Izinkan akses kamera pada AndroidManifest.xml
 Ubah minimum versi Android sdk ke 21  
 ![image](https://github.com/user-attachments/assets/f97765a5-a10e-4f03-932b-c33aaeb67d6c)
 
-Tambahkan Package Camera dan Image Picker
+Tambahkan Package Camera dan Image Picker  
 ![image](https://github.com/user-attachments/assets/6d0f65ea-6a21-4cbe-9d40-4a473197dd22)
 
 #### Source Code
@@ -526,3 +526,15 @@ class _ImageSelectionScreenState extends State<ImageSelectionScreen> {
   ![Screenshot_2024-11-17-10-56-53-22_fa1458e74bdcc1bba02e487794c37064](https://github.com/user-attachments/assets/df00309a-5e10-47f3-9a61-a12601100ae4)
 
 #### Deskripsi
+- Class ImageSelectionScreen: StatefulWidget yang memungkinkan aplikasi merender ulang UI berdasarkan perubahan gambar.
+- State _ImageSelectionScreenState
+  Variabel _imageFile: Menyimpan file gambar yang dipilih.
+  ImagePicker _picker: Instance untuk mengakses galeri/kamera.
+- Fungsi _pickImageFromGallery:
+  Membuka galeri untuk memilih gambar.
+  Gambar yang dipilih disimpan dalam variabel _imageFile dan ditampilkan di container.
+- Fungsi _pickImageFromCamera:
+  Membuka kamera untuk mengambil gambar.
+  Gambar yang diambil disimpan dalam _imageFile dan ditampilkan.
+- Fungsi _clearImage:
+  Mengatur _imageFile ke null untuk menghapus gambar dari UI.
