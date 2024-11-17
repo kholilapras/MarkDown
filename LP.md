@@ -355,8 +355,10 @@ File ini memungkinkan pengguna memilih gambar dari galeri atau mengambil gambar 
 # UNGUIDED
 
 ## Tugas Mandiri
-1. 
-
+1. Modifikasi project pemilihan gambar yang telah dikerjakan pada TugasPendahuluan Modul 09 agar fungsionalitas tombol dapat berfungsi untuk mengunggah gambar.
+- Ketika tombol Gallery ditekan, aplikasi akan mengambil gambar dari galeri, dan setelah gambar dipilih, gambar tersebut akan ditampilkan di dalam container.
+- Ketika tombol Camera ditekan, aplikasi akan mengambil gambar menggunakan kamera, dan setelah pengambilan gambar selesai, gambar tersebut akan ditampilkan di dalam container.
+- Ketika tombol Hapus Gambar ditekan, gambar yang ada pada container akan dihapus.
 
 #### Output
 
