@@ -48,9 +48,6 @@ Ubah minimum versi Android sdk ke 21
 Tambahkan Package Camera  
 ![image](https://github.com/user-attachments/assets/402f0a03-45bb-463f-94c1-01a35fb0542c)
 
-
-
-
 #### lib/main.dart
 ```dart
 import 'package:flutter/material.dart';
@@ -330,7 +327,30 @@ class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
 ```
 
 #### Output
+Camera Screen  
+![Screenshot_2024-11-17-08-00-30-86_1d6bd734ceadca23b8a5f1c4ee3ea24d](https://github.com/user-attachments/assets/b8c5dbf6-ffc1-4f6d-a959-18e4e8d0c2ae)
 
+![Screenshot_2024-11-17-08-00-46-46_1d6bd734ceadca23b8a5f1c4ee3ea24d](https://github.com/user-attachments/assets/b3426c23-a6df-40f0-bb42-60e9a8ac9875)
+
+Image From Gallery  
+![Screenshot_2024-11-17-08-01-28-96_1d6bd734ceadca23b8a5f1c4ee3ea24d](https://github.com/user-attachments/assets/63391f41-1aea-4fef-b44d-9388962b66c8)
+
+![Screenshot_2024-11-17-08-02-08-21_da8e1b33c587c7c6dfcf439d19f6f0d3](https://github.com/user-attachments/assets/51fb51c9-0663-4c92-8075-4d2717b5b025)
+
+![Screenshot_2024-11-17-08-02-14-66_1d6bd734ceadca23b8a5f1c4ee3ea24d](https://github.com/user-attachments/assets/85412b72-7264-4683-b72e-bf32b5a7c00d)
+
+#### Deskripsi
+- main.dart  
+File ini berfungsi sebagai pintu masuk aplikasi Flutter.
+
+- camera_screen.dart  
+File ini mengatur tampilan kamera menggunakan package camera. class camera_screen adalah sebuah StatefulWidget yang memungkinkan pengguna mengambil foto menggunakan kamera perangkat. Dalam metode initState, kamera diinisialisasi dengan fungsi _initializeCamera, yang menggunakan kamera pertama yang tersedia di perangkat. Komponen UI utama adalah FutureBuilder yang menampilkan pratinjau kamera jika kamera berhasil diinisialisasi. Terdapat tombol melayang (FAB) untuk mengambil gambar, di mana gambar yang diambil akan disimpan dan ditampilkan di layar baru (DisplayScreen). Jika terjadi kesalahan selama proses pengambilan gambar, akan ditangkap melalui blok try-catch.
+
+- display_screen.dart  
+File ini berfungsi untuk menampilkan gambar yang diambil dari kamera. Kelas DisplayScreen adalah sebuah StatelessWidget yang menerima jalur gambar melalui parameter imagePath. Gambar yang diambil ditampilkan di tengah layar menggunakan widget Image.file. Menampilkan AppBar dengan teks "Display Screen".
+
+- image_picker_screen.dart  
+File ini memungkinkan pengguna memilih gambar dari galeri atau mengambil gambar dengan kamera, menggunakan image_picker. class ImageFromGalleryEx adalah sebuah StatefulWidget yang menerima parameter ImageSourceType untuk menentukan apakah pengguna memilih gambar dari galeri atau menggunakan kamera. Di dalam metode _pickImage, image_picker digunakan untuk membuka kamera atau galeri tergantung pada tipe sumber gambar. Jika pengguna memilih atau mengambil gambar, jalur file disimpan di dalam variabel _image, yang kemudian ditampilkan di layar dalam bentuk widget Image.file. Jika tidak ada gambar, ikon kamera ditampilkan sebagai pengganti.
 
 # UNGUIDED
 
