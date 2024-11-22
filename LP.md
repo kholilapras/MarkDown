@@ -348,11 +348,379 @@ d) Contoh output:
 
 
 #### Konfigurasi
+Tambahkan package sqflite & path pada file pubspec.yaml  
+![image](https://github.com/user-attachments/assets/3c3d3a95-368d-4e90-8cfb-d5d77f9de570)
+
 
 #### Source Code
+lib/database_helper.dart
+```dart
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class DatabaseHelper {
+  static final DatabaseHelper instance = DatabaseHelper._init();
+  static Database? _database;
+
+  DatabaseHelper._init();
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    _database = await _initDB('students.db');
+    return _database!;
+  }
+
+  Future<Database> _initDB(String filePath) async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, filePath);
+
+    return await openDatabase(path, version: 1, onCreate: _createDB);
+  }
+
+  Future _createDB(Database db, int version) async {
+    await db.execute('''
+      CREATE TABLE students (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        nim TEXT,
+        address TEXT,
+        hobby TEXT
+      )
+    ''');
+  }
+
+  Future<int> addStudent(Map<String, dynamic> student) async {
+    final db = await instance.database;
+    return db.insert('students', student);
+  }
+
+  Future<List<Map<String, dynamic>>> getStudents() async {
+    final db = await instance.database;
+    return db.query('students');
+  }
+
+  Future<int> updateStudent(int id, Map<String, dynamic> student) async {
+    final db = await instance.database;
+    return db.update(
+      'students',
+      student,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<int> deleteStudent(int id) async {
+    final db = await instance.database;
+    return db.delete(
+      'students',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+}
+```
+
+lib/add_data.dart
+```dart
+import 'package:flutter/material.dart';
+import 'database_helper.dart';
+
+class AddStudentPage extends StatefulWidget {
+  @override
+  _AddStudentPageState createState() => _AddStudentPageState();
+}
+
+class _AddStudentPageState extends State<AddStudentPage> {
+  final _formKey = GlobalKey<FormState>();
+  String name = '';
+  String nim = '';
+  String address = '';
+  String hobby = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Tambah Biodata Mahasiswa'),
+        backgroundColor: Colors.green,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Nama'),
+                onSaved: (value) => name = value!,
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'NIM'),
+                onSaved: (value) => nim = value!,
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Alamat'),
+                onSaved: (value) => address = value!,
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Hobi'),
+                onSaved: (value) => hobby = value!,
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    await DatabaseHelper.instance.addStudent({
+                      'name': name,
+                      'nim': nim,
+                      'address': address,
+                      'hobby': hobby,
+                    });
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text('Simpan'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+lib/edit_data.dart
+```dart
+import 'package:flutter/material.dart';
+import 'database_helper.dart';
+
+class EditStudentPage extends StatefulWidget {
+  final int id;
+  final String name;
+  final String nim;
+  final String address;
+  final String hobby;
+
+  EditStudentPage({
+    required this.id,
+    required this.name,
+    required this.nim,
+    required this.address,
+    required this.hobby,
+  });
+
+  @override
+  _EditStudentPageState createState() => _EditStudentPageState();
+}
+
+class _EditStudentPageState extends State<EditStudentPage> {
+  final _formKey = GlobalKey<FormState>();
+  late String name;
+  late String nim;
+  late String address;
+  late String hobby;
+
+  @override
+  void initState() {
+    super.initState();
+    name = widget.name;
+    nim = widget.nim;
+    address = widget.address;
+    hobby = widget.hobby;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Edit Biodata Mahasiswa'),
+        backgroundColor: Colors.green,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                initialValue: name,
+                decoration: InputDecoration(labelText: 'Nama'),
+                onSaved: (value) => name = value!,
+              ),
+              TextFormField(
+                initialValue: nim,
+                decoration: InputDecoration(labelText: 'NIM'),
+                onSaved: (value) => nim = value!,
+              ),
+              TextFormField(
+                initialValue: address,
+                decoration: InputDecoration(labelText: 'Alamat'),
+                onSaved: (value) => address = value!,
+              ),
+              TextFormField(
+                initialValue: hobby,
+                decoration: InputDecoration(labelText: 'Hobi'),
+                onSaved: (value) => hobby = value!,
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    await DatabaseHelper.instance.updateStudent(widget.id, {
+                      'name': name,
+                      'nim': nim,
+                      'address': address,
+                      'hobby': hobby,
+                    });
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text('Simpan Perubahan'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
 lib/main.dart
 ```dart
 import 'package:flutter/material.dart';
+import 'database_helper.dart';
+import 'add_data.dart';
+import 'edit_data.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'SQLite Biodata Mahasiswa',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      home: StudentListPage(),
+    );
+  }
+}
+
+class StudentListPage extends StatefulWidget {
+  @override
+  _StudentListPageState createState() => _StudentListPageState();
+}
+
+class _StudentListPageState extends State<StudentListPage> {
+  late Future<List<Map<String, dynamic>>> students;
+
+  @override
+  void initState() {
+    super.initState();
+    refreshStudents();
+  }
+
+  void refreshStudents() {
+    setState(() {
+      students = DatabaseHelper.instance.getStudents();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('SQLite Biodata Mahasiswa'),
+      ),
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: students,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Terjadi kesalahan saat memuat data.'));
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('Belum ada data mahasiswa.'));
+          }
+
+          final data = snapshot.data!;
+          return ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              return Card(
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: ListTile(
+                  title: Text(data[index]['name'],
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('NIM: ${data[index]['nim']}'),
+                      Text('Alamat: ${data[index]['address']}'),
+                      Text('Hobi: ${data[index]['hobby']}'),
+                    ],
+                  ),
+                  trailing: PopupMenuButton<String>(
+                    onSelected: (value) async {
+                      if (value == 'edit') {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditStudentPage(
+                              id: data[index]['id'],
+                              name: data[index]['name'],
+                              nim: data[index]['nim'],
+                              address: data[index]['address'],
+                              hobby: data[index]['hobby'],
+                            ),
+                          ),
+                        );
+                        refreshStudents();
+                      } else if (value == 'delete') {
+                        await DatabaseHelper.instance
+                            .deleteStudent(data[index]['id']);
+                        refreshStudents();
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 'edit',
+                        child: Text('Edit'),
+                      ),
+                      PopupMenuItem(
+                        value: 'delete',
+                        child: Text('Hapus'),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddStudentPage()),
+          );
+          refreshStudents();
+        },
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
 ```
 
 #### Output
