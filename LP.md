@@ -315,6 +315,17 @@ class MyApp extends StatelessWidget {
 #### Output
 
 #### Deskripsi
+- db_helper.dart  
+  berisi implementasi kelas DatabaseHelper, sebuah singleton untuk mempermudah pengelolaan database. Kelas ini menyediakan metode seperti insert, queryAllRows, update, dan delete untuk operasi CRUD pada tabel.
+  Beberapa metode disediakan untuk mengelola data di tabel:
+  - insert(Map<String, dynamic> row): Menyisipkan baris baru ke tabel.
+  - queryAllRows(): Mengambil semua data dari tabel.
+  - update(Map<String, dynamic> row): Memperbarui data berdasarkan id.
+  - delete(int id): Menghapus data berdasarkan id.
+- my_db_view.dart
+  terdapat implementasi antarmuka pengguna yang memanfaatkan DatabaseHelper. Data ditampilkan dalam bentuk daftar (ListView), di mana setiap item memiliki tombol untuk mengedit atau menghapusnya. Selain itu, terdapat input teks dan tombol untuk menambah data baru ke dalam database.
+- main.dart
+  adalah titik awal aplikasi, yang memuat widget utama MyApp. Widget ini menggunakan widget MyDatabaseView sebagai tampilan utama aplikasi.
 
 # UNGUIDED
 
