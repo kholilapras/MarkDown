@@ -42,7 +42,7 @@ Dalam Flutter, SQL Helper biasanya merujuk pada penggunaan paket seperti sqflite
 
 #### Konfigurasi
 
-Tambahkan package sqflite & path pada file pubspec.yaml
+Tambahkan package sqflite & path pada file pubspec.yaml  
 ![image](https://github.com/user-attachments/assets/3c3d3a95-368d-4e90-8cfb-d5d77f9de570)
 
 #### lib/main.dart
