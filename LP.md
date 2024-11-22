@@ -45,19 +45,271 @@ Dalam Flutter, SQL Helper biasanya merujuk pada penggunaan paket seperti sqflite
 Tambahkan package sqflite & path pada file pubspec.yaml  
 ![image](https://github.com/user-attachments/assets/3c3d3a95-368d-4e90-8cfb-d5d77f9de570)
 
+#### lib/helper/db_helper.dart
+```dart
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+class DatabaseHelper {
+  static final DatabaseHelper _instance = DatabaseHelper._internal();
+  static Database? _database;
+
+  factory DatabaseHelper() {
+    return _instance;
+  }
+
+  DatabaseHelper._internal();
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    {
+      _database = await _initDatabase();
+      return _database!;
+    }
+  }
+
+  Future<Database> _initDatabase() async {
+    String path = join(await getDatabasesPath(), 'my_prakdatabase.db');
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: _onCreate,
+    );
+  }
+
+  Future<void> _onCreate(Database db, int version) async {
+    await db.execute('''
+    CREATE TABLE my_table(
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    title TEXT,
+    description TEXT,
+    createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)
+    ''');
+  }
+
+  Future<int> insert(Map<String, dynamic> row) async {
+    Database db = await database;
+    return await db.insert('my_table', row);
+  }
+
+  Future<List<Map<String, dynamic>>> queryAllRows() async {
+    Database db = await database;
+    return await db.query('my_table');
+  }
+
+  Future<int> update(Map<String, dynamic> row) async {
+    Database db = await database;
+    int id = row['id'];
+    return await db.update('my_table', row, where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int> delete(int id) async {
+    Database db = await database;
+    return await db.delete('my_table', where: 'id = ?', whereArgs: [id]);
+  }
+}
+```
+
+#### lib/view/my_db_view.dart
+```dart
+import 'package:flutter/material.dart';
+import 'package:prak10_ppb/helper/db_helper.dart';
+
+class MyDatabaseView extends StatefulWidget {
+  const MyDatabaseView({super.key});
+
+  @override
+  State<MyDatabaseView> createState() => _MyDatabaseViewState();
+}
+
+class _MyDatabaseViewState extends State<MyDatabaseView> {
+  final DatabaseHelper dbHelper = DatabaseHelper();
+  List<Map<String, dynamic>> _dbData = [];
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshData();
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  void _refreshData() async {
+    final data = await dbHelper.queryAllRows();
+    setState(() {
+      _dbData = data;
+    });
+  }
+
+  void _addData() async {
+    await dbHelper.insert({
+      'title': _titleController.text,
+      'description': _descriptionController.text,
+    });
+    _titleController.clear();
+    _descriptionController.clear();
+    _refreshData();
+  }
+
+  void _updateData(int id) async {
+    await dbHelper.update({
+      'id': id,
+      'title': _titleController.text,
+      'description': _descriptionController.text,
+    });
+    _titleController.clear();
+    _descriptionController.clear();
+    _refreshData();
+  }
+
+  void _deleteData(int id) async {
+    await dbHelper.delete(id);
+    _refreshData();
+  }
+
+  void _showEditDialog(Map<String, dynamic> item) {
+    _titleController.text = item['title'];
+    _descriptionController.text = item['description'];
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Edit Data'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                ),
+              ),
+              TextField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                _updateData(item['id']);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Update'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Praktikum Database - sqflite'),
+        backgroundColor: Colors.blueAccent,
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(
+                labelText: 'Title',
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _descriptionController,
+              decoration: const InputDecoration(
+                labelText: 'Description',
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: _addData,
+            child: const Text('Add Data'),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _dbData.length,
+              itemBuilder: (context, index) {
+                final item = _dbData[index];
+                return ListTile(
+                  title: Text(item['title']),
+                  subtitle: Text(item['description']),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          _showEditDialog(item);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () => _deleteData(item['id']),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
 #### lib/main.dart
 ```dart
 import 'package:flutter/material.dart';
-```
+import 'package:prak10_ppb/view/my_db_view.dart';
 
-#### lib/camera_screen.dart
-```dart
-import 'package:camera/camera.dart';
-```
+void main() {
+  runApp(const MyApp());
+}
 
-#### lib/display_screen.dart
-```dart
-import 'dart:io';
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: MyDatabaseView(),
+    );
+  }
+}
 ```
 
 #### Output
