@@ -3,8 +3,8 @@
 **LAPORAN PRAKTIKUM**  
 **PEMROGRAMAN PERANGKAT BERGERAK**
 
-**PERTEMUAN 9**  
-**API PERANGKAT KERAS**
+**PERTEMUAN 10**  
+**DATA STORAGE (BAGIAN 1)**
 
 
 <img src="https://github.com/user-attachments/assets/8ffbc3d9-1f18-4a72-8723-692ba5757f0c" alt="Logo_Telkom_University" width="25%">
