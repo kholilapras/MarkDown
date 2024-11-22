@@ -727,7 +727,7 @@ class _StudentListPageState extends State<StudentListPage> {
 
 
 #### Deskripsi
-- main.dart
+- main.dart  
   Fungsi utama:  
   Menyediakan halaman utama untuk menampilkan daftar mahasiswa.  
   Memanfaatkan widget FutureBuilder untuk memuat data mahasiswa dari database.  
@@ -738,7 +738,7 @@ class _StudentListPageState extends State<StudentListPage> {
   Membuka halaman edit mahasiswa (EditStudentPage) untuk mengedit data.  
   Database:  
   Memanggil metode refreshStudents untuk memperbarui daftar mahasiswa setelah operasi tambah, edit, atau hapus.  
-- database_helper.dart
+- database_helper.dart  
   Fungsi utama:
   Mengatur koneksi dan operasi pada database SQLite.
   Membuat tabel students dengan kolom: id, name, nim, address, dan hobby.
@@ -747,4 +747,19 @@ class _StudentListPageState extends State<StudentListPage> {
   getStudents: Mengambil semua data mahasiswa dari database.
   updateStudent: Memperbarui data mahasiswa berdasarkan id.
   deleteStudent: Menghapus data mahasiswa berdasarkan id.
-
+- add_data.dart  
+  Fungsi utama:  
+  Menyediakan halaman untuk menambahkan data mahasiswa baru.  
+  Komponen:  
+  Form input dengan 4 field: Nama, NIM, Alamat, dan Hobi.  
+  Tombol Simpan untuk menyimpan data mahasiswa ke database.  
+  Aksi:  
+  Data yang dimasukkan dalam form akan dikirim ke database melalui metode addStudent pada DatabaseHelper.edit_student.dart  
+- edit_data.dart  
+  Fungsi utama :  
+  Menyediakan halaman untuk mengedit data mahasiswa yang sudah ada.  
+  Komponen:  
+  Form input yang sudah diisi dengan data mahasiswa saat ini (menggunakan parameter yang dikirim dari main.dart).  
+  Tombol Simpan Perubahan untuk memperbarui data mahasiswa di database.  
+  Aksi:  
+  Memanggil metode updateStudent pada DatabaseHelper untuk memperbarui data di database.  
