@@ -338,6 +338,7 @@ a) Form Input: Buat form input untuk menambahkan biodata mahasiswa, dengan kolom
    - Hobi  
 b) Tampilkan Daftar Mahasiswa: Setelah data berhasil ditambahkan, tampilkan daftar semua data mahasiswa yang sudah disimpan di halaman utama.  
 c) Implementasikan fitur Create (untuk menyimpan data mahasiswa) dan Read (untuk menampilkan daftar mahasiswa yang sudah disimpan). 
+  
 d) Contoh output:  
 ![image](https://github.com/user-attachments/assets/b8096fda-fdb7-418b-83b4-69b2e955f090)
 
