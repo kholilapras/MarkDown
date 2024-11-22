@@ -41,14 +41,9 @@ Dalam Flutter, SQL Helper biasanya merujuk pada penggunaan paket seperti sqflite
 ## Praktikum
 
 #### Konfigurasi
-Izinkan akses kamera pada AndroidManifest.xml
-![image](https://github.com/user-attachments/assets/03eddcf2-2e6e-4f4f-95e2-1fe0be3e588f)  
 
-Ubah minimum versi Android sdk ke 21  
-![image](https://github.com/user-attachments/assets/f97765a5-a10e-4f03-932b-c33aaeb67d6c)
-
-Tambahkan Package Camera  
-![image](https://github.com/user-attachments/assets/402f0a03-45bb-463f-94c1-01a35fb0542c)
+Tambahkan package sqflite & path pada file pubspec.yaml
+![image](https://github.com/user-attachments/assets/3c3d3a95-368d-4e90-8cfb-d5d77f9de570)
 
 #### lib/main.dart
 ```dart
