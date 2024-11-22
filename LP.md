@@ -330,15 +330,15 @@ class MyApp extends StatelessWidget {
 # UNGUIDED
 
 ## Tugas Mandiri
-1. Buatlah sebuah project aplikasi Flutter dengan SQLite untuk menyimpan data biodata mahasiswa yang terdiri dari nama, NIM, domisili, dan hobi. Data yang dimasukkan melalui form akan ditampilkan dalam daftar di halaman utama. Alur Aplikasi:
-   a) Form Input: Buat form input untuk menambahkan biodata mahasiswa, dengan kolom:
-   - Nama
-   - Nim
-   - Alamat
-   - Hobi
-   b) Tampilkan Daftar Mahasiswa: Setelah data berhasil ditambahkan, tampilkan daftar semua data mahasiswa yang sudah disimpan di halaman utama.
-  c) Implementasikan fitur Create (untuk menyimpan data mahasiswa) dan Read (untuk menampilkan daftar mahasiswa yang sudah disimpan).
-d) Contoh output:
+1. Buatlah sebuah project aplikasi Flutter dengan SQLite untuk menyimpan data biodata mahasiswa yang terdiri dari nama, NIM, domisili, dan hobi. Data yang dimasukkan melalui form akan ditampilkan dalam daftar di halaman utama. Alur Aplikasi:  
+   a) Form Input: Buat form input untuk menambahkan biodata mahasiswa, dengan kolom:  
+   - Nama  
+   - Nim  
+   - Alamat  
+   - Hobi  
+   b) Tampilkan Daftar Mahasiswa: Setelah data berhasil ditambahkan, tampilkan daftar semua data mahasiswa yang sudah disimpan di halaman utama.  
+  c) Implementasikan fitur Create (untuk menyimpan data mahasiswa) dan Read (untuk menampilkan daftar mahasiswa yang sudah disimpan).  
+d) Contoh output:  
 ![image](https://github.com/user-attachments/assets/b8096fda-fdb7-418b-83b4-69b2e955f090)
 
 
