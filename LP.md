@@ -724,7 +724,13 @@ class _StudentListPageState extends State<StudentListPage> {
 ```
 
 #### Output
+![Screenshot_2024-11-22-17-26-56-33_3133f7d517c5ece376a47d7b347f711a](https://github.com/user-attachments/assets/158d205b-9f6c-4fdf-ac71-8cce7dfca758)
 
+![Screenshot_2024-11-22-17-28-00-56_3133f7d517c5ece376a47d7b347f711a](https://github.com/user-attachments/assets/8f8a6c00-ab94-40da-b8e5-5f29aa82f8f3)
+
+![Screenshot_2024-11-22-17-28-09-74_3133f7d517c5ece376a47d7b347f711a](https://github.com/user-attachments/assets/f61b52d8-6922-4239-9f58-3fcbc9401971)
+
+![Screenshot_2024-11-22-17-28-14-34_3133f7d517c5ece376a47d7b347f711a](https://github.com/user-attachments/assets/4dbd3846-14ba-466f-8402-358b8c0fe64e)
 
 #### Deskripsi
 - main.dart  
