@@ -313,6 +313,9 @@ class MyApp extends StatelessWidget {
 ```
 
 #### Output
+![Screenshot_2024-11-22-12-38-52-42_9803d94677cbadff63d2ad58f77ae0e0](https://github.com/user-attachments/assets/c6a3b9d0-9c43-456d-a6f8-94e7e2cca1df)
+
+![Screenshot_2024-11-22-12-38-58-49_9803d94677cbadff63d2ad58f77ae0e0](https://github.com/user-attachments/assets/15266b05-b865-4d35-aca7-ad6149ccef99)
 
 #### Deskripsi
 - db_helper.dart  
