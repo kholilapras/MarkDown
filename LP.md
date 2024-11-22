@@ -727,3 +727,24 @@ class _StudentListPageState extends State<StudentListPage> {
 
 
 #### Deskripsi
+- main.dart
+  Fungsi utama:
+  Menyediakan halaman utama untuk menampilkan daftar mahasiswa.
+  Memanfaatkan widget FutureBuilder untuk memuat data mahasiswa dari database.
+  Menyediakan tombol Tambah (+) menggunakan FloatingActionButton untuk membuka halaman tambah mahasiswa.
+  Menyediakan menu popup Edit dan Hapus pada setiap mahasiswa menggunakan PopupMenuButton.
+  Navigasi:
+  Membuka halaman tambah mahasiswa (AddStudentPage) untuk menambahkan data.
+  Membuka halaman edit mahasiswa (EditStudentPage) untuk mengedit data.
+  Database:
+  Memanggil metode refreshStudents untuk memperbarui daftar mahasiswa setelah operasi tambah, edit, atau hapus.
+- database_helper.dart
+  Fungsi utama:
+  Mengatur koneksi dan operasi pada database SQLite.
+  Membuat tabel students dengan kolom: id, name, nim, address, dan hobby.
+  Metode CRUD:
+  addStudent: Menambahkan data mahasiswa ke database.
+  getStudents: Mengambil semua data mahasiswa dari database.
+  updateStudent: Memperbarui data mahasiswa berdasarkan id.
+  deleteStudent: Menghapus data mahasiswa berdasarkan id.
+
