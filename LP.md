@@ -739,14 +739,14 @@ class _StudentListPageState extends State<StudentListPage> {
   Database:  
   Memanggil metode refreshStudents untuk memperbarui daftar mahasiswa setelah operasi tambah, edit, atau hapus.  
 - database_helper.dart  
-  Fungsi utama:
-  Mengatur koneksi dan operasi pada database SQLite.
-  Membuat tabel students dengan kolom: id, name, nim, address, dan hobby.
-  Metode CRUD:
-  addStudent: Menambahkan data mahasiswa ke database.
-  getStudents: Mengambil semua data mahasiswa dari database.
-  updateStudent: Memperbarui data mahasiswa berdasarkan id.
-  deleteStudent: Menghapus data mahasiswa berdasarkan id.
+  Fungsi utama:  
+  Mengatur koneksi dan operasi pada database SQLite.  
+  Membuat tabel students dengan kolom: id, name, nim, address, dan hobby.  
+  Metode CRUD:  
+  addStudent: Menambahkan data mahasiswa ke database.  
+  getStudents: Mengambil semua data mahasiswa dari database.  
+  updateStudent: Memperbarui data mahasiswa berdasarkan id.  
+  deleteStudent: Menghapus data mahasiswa berdasarkan id.  
 - add_data.dart  
   Fungsi utama:  
   Menyediakan halaman untuk menambahkan data mahasiswa baru.  
