@@ -30,11 +30,13 @@ Yudha Islami Sulistya, S.Kom., M.Cs
 ---
 # GUIDED
 
-## 1. Camera API
-Camera API berfungsi untuk memungkinkan developer (pengembang) untuk mengakses dan mengontrol kamera perangkat. Flutter menyediakan paket camera yang memudahkan implementasi fitur kamera untuk mengambil foto, merekam video, dan mengakses umpan kamera secara langsung. Paket ini sangat berguna untuk membuat aplikasi yang membutuhkan pengambilan gambar atau video, seperti aplikasi media sosial atau e-commerce.
+## 1. Pengenalan SQLite
+SQLite adalah database relasional yang merupakan penyimpanan data secara offline untuk sebuah mobile app (pada local storage, lebih tepatnya pada cache memory aplikasi). SQLite memiliki CRUD (create, read, update dan delete).
 
-## 2. Media API
-Media API adalah sekumpulan alat dan pustaka yang mendukung pengelolaan dan interaksi dengan berbagai jenis media, seperti gambar, video, dan audio. Flutter tidak memiliki API media bawaan untuk semua kebutuhan media, tetapi dapat menggunakan paket-paket tambahan untuk mengakses fitur media yang umum di aplikasi. 
+
+## 2. SQL Helper Dasar
+Dalam Flutter, SQL Helper biasanya merujuk pada penggunaan paket seperti sqflite untuk mengelola database SQLite. SQL Helper merupakan class untuk membuat beberapa method yang berkaitan dengan perubahan data. sqflite adalah plugin Flutter yang memungkinkan untuk melakukan operasi CRUD (Create, Read, Update, Delete) pada database SQLite.
+
 
 ## Praktikum
 
@@ -51,306 +53,21 @@ Tambahkan Package Camera
 #### lib/main.dart
 ```dart
 import 'package:flutter/material.dart';
-import 'package:guided9_ppb/camera_screen.dart';
-import 'package:guided9_ppb/image_picker_screen.dart';
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: ImageFromGalleryEx(ImageSourceType.gallery)
-        // camera_screen()
-        );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-}
 ```
 
 #### lib/camera_screen.dart
 ```dart
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
-import 'package:guided9_ppb/display_screen.dart';
-
-class camera_screen extends StatefulWidget {
-  const camera_screen({super.key});
-
-  @override
-  State<camera_screen> createState() => _camera_screenState();
-}
-
-class _camera_screenState extends State<camera_screen> {
-  late CameraController _controller;
-  Future<void>? _initializeControllerFuture;
-
-  Future<void>? _initializeCamera() async {
-    final cameras = await availableCameras();
-    final firstCamera = cameras.first;
-
-    _controller = CameraController(firstCamera, ResolutionPreset.high);
-    _initializeControllerFuture = _controller.initialize();
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    _initializeCamera();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Camera Flutter'),
-        centerTitle: true,
-        backgroundColor: Colors.greenAccent,
-      ),
-      body: FutureBuilder(
-          future: _initializeControllerFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return CameraPreview(_controller);
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          try {
-            await _initializeControllerFuture;
-            final image = await _controller.takePicture();
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => DisplayScreen(
-                  imagePath: image.path,
-                ),
-              ),
-            );
-          } catch (e) {
-            print(e);
-          }
-        },
-        child: Icon(Icons.camera_alt),
-      ),
-    );
-  }
-}
 ```
 
 #### lib/display_screen.dart
 ```dart
 import 'dart:io';
-import 'package:flutter/material.dart';
-
-class DisplayScreen extends StatelessWidget {
-  final String imagePath;
-
-  const DisplayScreen({
-    super.key,
-    required this.imagePath,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Display Screen'),
-        centerTitle: true,
-        backgroundColor: Colors.greenAccent[600],
-      ),
-      body: Image.file(File(imagePath)),
-    );
-  }
-}
-```
-
-#### lib/image_picker_screen.dart
-```dart
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-
-enum ImageSourceType { camera, gallery }
-
-class ImageFromGalleryEx extends StatefulWidget {
-  final ImageSourceType type;
-
-  ImageFromGalleryEx(this.type);
-
-  @override
-  ImageFromGalleryExState createState() => ImageFromGalleryExState(type);
-}
-
-class ImageFromGalleryExState extends State<ImageFromGalleryEx> {
-  File? _image;
-  late ImagePicker imagePicker;
-  final ImageSourceType type;
-
-  ImageFromGalleryExState(this.type);
-
-  @override
-  void initState() {
-    super.initState();
-    imagePicker = ImagePicker();
-  }
-
-  Future<void> _pickImage() async {
-    var source = type == ImageSourceType.camera ? ImageSource.camera : ImageSource.gallery;
-    XFile? image = await imagePicker.pickImage(
-      source: source,
-      imageQuality: 50,
-      preferredCameraDevice: CameraDevice.front,
-    );
-
-    if (image != null) {
-      setState(() {
-        _image = File(image.path);
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          type == ImageSourceType.camera 
-          ? "Image from Camera" 
-          : "Image from Gallery",
-        ),
-      ),
-      body: Column(
-        children: <Widget>[
-          const SizedBox(height: 52),
-          Center(
-            child: GestureDetector(
-              onTap: _pickImage,
-              child: Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  color: Colors.red[200],
-                ),
-                child: _image != null
-                    ? Image.file(
-                        _image!,
-                        width: 200.0,
-                        height: 200.0,
-                        fit: BoxFit.fitHeight,
-                      )
-                    : Container(
-                        width: 200,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.red[200],
-                        ),
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Colors.grey[800],
-                        ),
-                      ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 ```
 
 #### Output
-Camera Screen  
-![Screenshot_2024-11-17-08-00-30-86_1d6bd734ceadca23b8a5f1c4ee3ea24d](https://github.com/user-attachments/assets/b8c5dbf6-ffc1-4f6d-a959-18e4e8d0c2ae)
-
-![Screenshot_2024-11-17-08-00-46-46_1d6bd734ceadca23b8a5f1c4ee3ea24d](https://github.com/user-attachments/assets/b3426c23-a6df-40f0-bb42-60e9a8ac9875)
-
-Image From Gallery  
-![Screenshot_2024-11-17-08-01-28-96_1d6bd734ceadca23b8a5f1c4ee3ea24d](https://github.com/user-attachments/assets/63391f41-1aea-4fef-b44d-9388962b66c8)
-
-![Screenshot_2024-11-17-08-02-08-21_da8e1b33c587c7c6dfcf439d19f6f0d3](https://github.com/user-attachments/assets/51fb51c9-0663-4c92-8075-4d2717b5b025)
-
-![Screenshot_2024-11-17-08-02-14-66_1d6bd734ceadca23b8a5f1c4ee3ea24d](https://github.com/user-attachments/assets/85412b72-7264-4683-b72e-bf32b5a7c00d)
 
 #### Deskripsi
-- main.dart  
-File ini berfungsi sebagai pintu masuk aplikasi Flutter.
-
-- camera_screen.dart  
-File ini mengatur tampilan kamera menggunakan package camera. class camera_screen adalah sebuah StatefulWidget yang memungkinkan pengguna mengambil foto menggunakan kamera perangkat. Dalam metode initState, kamera diinisialisasi dengan fungsi _initializeCamera, yang menggunakan kamera pertama yang tersedia di perangkat. Komponen UI utama adalah FutureBuilder yang menampilkan pratinjau kamera jika kamera berhasil diinisialisasi. Terdapat tombol melayang (FAB) untuk mengambil gambar, di mana gambar yang diambil akan disimpan dan ditampilkan di layar baru (DisplayScreen). Jika terjadi kesalahan selama proses pengambilan gambar, akan ditangkap melalui blok try-catch.
-
-- display_screen.dart  
-File ini berfungsi untuk menampilkan gambar yang diambil dari kamera. Kelas DisplayScreen adalah sebuah StatelessWidget yang menerima jalur gambar melalui parameter imagePath. Gambar yang diambil ditampilkan di tengah layar menggunakan widget Image.file. Menampilkan AppBar dengan teks "Display Screen".
-
-- image_picker_screen.dart  
-File ini memungkinkan pengguna memilih gambar dari galeri atau mengambil gambar dengan kamera, menggunakan image_picker. class ImageFromGalleryEx adalah sebuah StatefulWidget yang menerima parameter ImageSourceType untuk menentukan apakah pengguna memilih gambar dari galeri atau menggunakan kamera. Di dalam metode _pickImage, image_picker digunakan untuk membuka kamera atau galeri tergantung pada tipe sumber gambar. Jika pengguna memilih atau mengambil gambar, jalur file disimpan di dalam variabel _image, yang kemudian ditampilkan di layar dalam bentuk widget Image.file. Jika tidak ada gambar, ikon kamera ditampilkan sebagai pengganti.
 
 # UNGUIDED
 
