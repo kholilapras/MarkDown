@@ -83,20 +83,16 @@ Mengapa FCM Token Penting?
 ## 4. Penanganan Notifikasi oleh FCM  
 Jelaskan bagaimana Firebase Cloud Messaging menangani notifikasi dalam kondisi aplikasi berikut:  
 a. Saat aplikasi berada di foreground.  
-1. Notifikasi tidak secara otomatis ditampilkan di tray perangkat karena aplikasi dianggap sedang berjalan aktif.
-2. Developer akan menerima payload notifikasi di callback onMessageReceived() dalam service FirebaseMessagingService.
-3. Developer dapat memproses payload dan menentukan tindakan: Menampilkan notifikasi manual menggunakan NotificationManager. Melakukan operasi lain, seperti memperbarui UI atau memproses data yang diterima.
+1. Data Message: Jika pengirim hanya mengirimkan data message (pesan dengan payload data), pesan diteruskan ke callback di aplikasi, biasanya ke fungsi onMessageReceived di service seperti FirebaseMessagingService. Pesan ini tidak secara otomatis ditampilkan sebagai notifikasi.
+2. Notification Message: Jika hanya mengirimkan notification message, pesan diterima oleh aplikasi, tetapi tidak secara otomatis ditampilkan sebagai notifikasi. Pengembang harus menangani sendiri tampilan notifikasi menggunakan API seperti NotificationManager.
+3. Combined Message: Jika pesan memiliki payload data dan notifikasi, notifikasi tidak akan muncul di tray. Sebagai gantinya, pengembang dapat mengelola data di
 
 b. Saat aplikasi berada di background.  
-1. Notifikasi otomatis ditampilkan di tray perangkat jika pesan dikirim dengan payload notification. FCM menangani rendering notifikasi ini tanpa intervensi developer.
-2. Jika pesan memiliki payload data saja (tanpa notification):
-   - Data tidak langsung diterima oleh aplikasi.
-   - Notifikasi tidak otomatis ditampilkan.
-   - Data diteruskan ke aplikasi hanya jika pengguna mengetuk notifikasi untuk membuka aplikasi.
+1. Data Message: Pesan dikirim ke callback aplikasi hanya jika pengguna membuka aplikasi. Tidak ada notifikasi otomatis di tray.
+2. Notification Message: FCM secara otomatis menampilkan notifikasi di tray menggunakan payload notifikasi. Pengembang tidak dapat menangani pesan ini secara langsung di background.
+3. Combined Message: Payload data disimpan dan disampaikan ke aplikasi saat pengguna membuka aplikasi. Notifikasi dari payload notifikasi tetap ditampilkan di tray.
 
 c. Saat aplikasi dalam kondisi terminated.  
-1. Notifikasi dengan payload notification akan ditampilkan otomatis di tray perangkat oleh FCM, tanpa melibatkan aplikasi.
-2. Jika pesan hanya memiliki payload data:
-   - Data tidak diteruskan ke aplikasi hingga pengguna membuka aplikasi.
-   - Aplikasi dapat menerima data ini di getIntent() atau parameter lainnya saat dibuka kembali (bergantung pada konfigurasi).
-3. Developer perlu mengonfigurasi "click_action" atau intent eksplisit untuk memastikan data diteruskan dengan benar saat aplikasi dibuka dari notifikasi.
+1. Data Message: Pesan tidak dikirim ke aplikasi hingga pengguna membuka aplikasi.
+2. Notification Message: FCM menampilkan notifikasi di tray secara otomatis. Pesan hanya dapat diterima oleh aplikasi jika pengguna mengetuk notifikasi tersebut, yang akan membuka aplikasi dan memungkinkan payload data diteruskan.
+3. Combined Message: Sama seperti notifikasi biasa, notifikasi akan ditampilkan di tray, dan data diteruskan saat aplikasi dibuka melalui notifikasi.
