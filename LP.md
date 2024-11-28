@@ -60,11 +60,11 @@ biasanya menggunakan plugin seperti flutter_local_notifications.
 ## Praktikum
 
 ## Integrasi Aplikasi dengan Firebase
-1. Daftar dan login pada firebase console lalu buat sebuah projek baru.
+A. Daftar dan login pada firebase console lalu buat sebuah projek baru.
    
    ![image](https://github.com/user-attachments/assets/7b4003d9-7945-43ad-97e9-82790befc5ca)
  
-2. Tambahkan android package name, app nickname and SHA-1 signing certificate key. Android package name dapat ditemukan di ./android/app/ build.gradle. Catatan: App nickname and SHA-1 signing certificate key itu opsional.
+B. Tambahkan android package name, app nickname and SHA-1 signing certificate key. Android package name dapat ditemukan di ./android/app/ build.gradle. Catatan: App nickname and SHA-1 signing certificate key itu opsional.
 
    ![image](https://github.com/user-attachments/assets/396157de-e6c3-48a8-9d8e-9ceaa83b1998)
 
@@ -78,20 +78,213 @@ biasanya menggunakan plugin seperti flutter_local_notifications.
 
    ![image](https://github.com/user-attachments/assets/389d7870-aa92-4755-b87b-959ffa81d4a5)
    
-4. Setelah berhasil mendaftarkan aplikasi ke firebase, download file google-services.json lalu simpan pada ./android/app/
+C. Setelah berhasil mendaftarkan aplikasi ke firebase, download file google-services.json lalu simpan pada ./android/app/
 
    ![image](https://github.com/user-attachments/assets/0d97ba30-cc5b-4a61-9438-3b5303054828)
 
    ![image](https://github.com/user-attachments/assets/64af2bc7-5806-43d1-b181-7981f5ce5640)
 
+D. Tambahkan plugin dan sdk sesuai perintah pada ./android/build.gradle dan ./android/app/build.gradle lalu lakukan sync dengan mengetik “flutter pub get” pada terminal.
 
+![image](https://github.com/user-attachments/assets/32fdb213-bee7-443a-b0a3-5d321b520ea5)
+
+![image](https://github.com/user-attachments/assets/05522878-c573-4111-8480-7db7df3aad6b)
+
+E. Setelah memodifikasi file build.gradle, tambahkan beberapa package pada file pubspec.yaml dengan mengetik “flutter pub add firebase_core firebase_messaging flutter_local_notifications” pada terminal.
+
+![image](https://github.com/user-attachments/assets/f683026f-08af-4d9d-a63b-cfeb73066d63)
+
+F. Ubah compile sdk agar menggunakan versi 33 dan min sdk pada versi 21 yang terletak pada file ./android/app/build.gradle
+
+![image](https://github.com/user-attachments/assets/ea187b1f-1e5d-4b71-b688-93406f1b928e)
+
+## Membuat Notifikasi Handler
 
 #### lib/main.dart
 ```dart
-i
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:guided_ppb11/my_notification_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await FlutterLocalNotificationsPlugin()
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  runApp(const MyApp());
+}
+
+String? token;
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('Handling a background message: ${message.messageId}');
+}
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'high_importance_channel', // ID Channel
+  'High Importance Notifications', // Nama Channel
+  description: 'This channel is used for important notifications.',
+  importance: Importance.high, // Prioritas
+);
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const MyNotificationScreen(),
+    );
+  }
+}
 ```
 
+#### lib/my_notification_screen.dart
+```dart
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:guided_ppb11/main.dart';
+
+class MyNotificationScreen extends StatefulWidget {
+  const MyNotificationScreen({super.key});
+
+  @override
+  State<MyNotificationScreen> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyNotificationScreen> {
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  late AndroidNotificationChannel channel;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Inisialisasi FlutterLocalNotificationsPlugin
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+    // Membuat channel untuk Android
+    channel = const AndroidNotificationChannel(
+      'high_importance_channel', // ID channel
+      'High Importance Notifications', // Nama channel
+      description: 'This channel is used for important notifications.',
+      importance: Importance.high,
+    );
+
+    // Mengatur inisialisasi untuk Android
+    var initializationSettingsAndroid =
+        const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+    // Mendengarkan pesan saat aplikasi aktif
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode, // ID notifikasi
+          notification.title, // Judul
+          notification.body, // Isi
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              importance: Importance.high,
+              color: Colors.blue,
+              icon: '@mipmap/ic_launcher',
+            ),
+          ),
+        );
+      }
+    });
+
+    // Menangani aksi ketika notifikasi dibuka
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+
+      if (notification != null && android != null) {
+        showDialog(
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+              title: Text(notification.title ?? ""),
+              content: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [Text(notification.body ?? "")],
+                ),
+              ),
+            );
+          },
+        );
+      }
+    });
+
+    // Memanggil metode untuk mendapatkan token FCM
+    getToken();
+  }
+
+  // Metode untuk mendapatkan token FCM
+  void getToken() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    print('FCM Token: $token');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My Notification Screen'),
+        backgroundColor: Colors.amber,
+      ),
+      body: const Center(child: Text('Halaman untuk menerima notifikasi')),
+    );
+  }
+}
+```
+
+## Mengirim Notifikasi Via FCM Console
+A. Dimulai dengan membuka halaman all product pada tab firebase --> pilih menu cloud messaging --> lalu pilih send your first message.
+B. Selanjutnya, inputkan judul, pesan, dan foto dari notifikasi kalian sesuai dengan kebutuhan.
+
+![image](https://github.com/user-attachments/assets/9d67b75d-a1fe-45b3-a4e5-8e06ae87c4c2)
+
+C. Setelah itu, pilih aplikasi mana yang akan dikirimkan notifikasi dan setting waktu "Now” jika ingin langsung mengirimkan notifikasi. Lalu klik publish jika isi dan settingan notifikasi sudah benar
+
+![image](https://github.com/user-attachments/assets/f0b807ba-b979-456d-bc45-00a9c1010d16)
+
+![image](https://github.com/user-attachments/assets/da9718cd-7e1c-44d4-9666-71aa08e673c6)
+
+
+D. Silakan tunggu notifikasi muncul pada aplikasi. Catatan: pengiriman notifikasi memerlukan beberapa saat dan tidak akan langsung muncul setelah dikirim jadi silakan menunggu.
+
 #### Output
+![Screenshot_2024-11-27-18-34-42-39_f5621ac9021a99484278ec5e1a024592](https://github.com/user-attachments/assets/760c764f-a951-4016-b51b-954271427291)
+
+![Screenshot_2024-11-27-18-34-55-49_f5621ac9021a99484278ec5e1a024592](https://github.com/user-attachments/assets/e26a96fc-fc16-4e67-82b5-825032b7cac3)
 
 #### Deskripsi
 
