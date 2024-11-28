@@ -59,7 +59,31 @@ biasanya menggunakan plugin seperti flutter_local_notifications.
 
 ## Praktikum
 
-#### Konfigurasi
+## Integrasi Aplikasi dengan Firebase
+1. Daftar dan login pada firebase console lalu buat sebuah projek baru.
+   
+   ![image](https://github.com/user-attachments/assets/7b4003d9-7945-43ad-97e9-82790befc5ca)
+ 
+2. Tambahkan android package name, app nickname and SHA-1 signing certificate key. Android package name dapat ditemukan di ./android/app/ build.gradle. Catatan: App nickname and SHA-1 signing certificate key itu opsional.
+
+   ![image](https://github.com/user-attachments/assets/396157de-e6c3-48a8-9d8e-9ceaa83b1998)
+
+   ![image](https://github.com/user-attachments/assets/4d0b67bd-d524-4359-95b4-1d788c2c5aeb)
+
+   ![image](https://github.com/user-attachments/assets/1a420833-5bf8-4d75-9de3-7489ae4ff283)
+
+   ![image](https://github.com/user-attachments/assets/6aaaac35-0a35-407d-8dd3-69aee40df78d)
+
+   ![image](https://github.com/user-attachments/assets/81d69537-1e50-4e6c-b801-9e688c1c595e)
+
+   ![image](https://github.com/user-attachments/assets/389d7870-aa92-4755-b87b-959ffa81d4a5)
+   
+4. Setelah berhasil mendaftarkan aplikasi ke firebase, download file google-services.json lalu simpan pada ./android/app/
+
+   ![image](https://github.com/user-attachments/assets/0d97ba30-cc5b-4a61-9438-3b5303054828)
+
+   ![image](https://github.com/user-attachments/assets/64af2bc7-5806-43d1-b181-7981f5ce5640)
+
 
 
 #### lib/main.dart
