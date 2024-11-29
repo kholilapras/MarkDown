@@ -287,13 +287,13 @@ D. Silakan tunggu notifikasi muncul pada aplikasi. Catatan: pengiriman notifikas
 ![Screenshot_2024-11-27-18-34-55-49_f5621ac9021a99484278ec5e1a024592](https://github.com/user-attachments/assets/e26a96fc-fc16-4e67-82b5-825032b7cac3)
 
 #### Deskripsi
-- main.dart
-b. Firebase Initialization: Aplikasi memulai dengan inisialisasi Firebase menggunakan Firebase.initializeApp() agar dapat menggunakan layanan Firebase, termasuk FCM.  
-c. Background Message Handling: Notifikasi yang diterima saat aplikasi berjalan di latar belakang diproses melalui _firebaseMessagingBackgroundHandler.  
-d. Notification Channel: Sebuah channel notifikasi dengan ID 'high_importance_channel' dibuat menggunakan FlutterLocalNotificationsPlugin. Channel ini digunakan untuk menampilkan notifikasi dengan prioritas tinggi di perangkat Android.  
-e. Foreground Notifications: Pengaturan notifikasi foreground diatur menggunakan setForegroundNotificationPresentationOptions, sehingga notifikasi akan tetap muncul dengan suara, badge, dan alert meskipun aplikasi sedang digunakan.  
+- main.dart  
+a. Firebase Initialization: Aplikasi memulai dengan inisialisasi Firebase menggunakan Firebase.initializeApp() agar dapat menggunakan layanan Firebase, termasuk FCM.  
+b. Background Message Handling: Notifikasi yang diterima saat aplikasi berjalan di latar belakang diproses melalui _firebaseMessagingBackgroundHandler.  
+c. Notification Channel: Sebuah channel notifikasi dengan ID 'high_importance_channel' dibuat menggunakan FlutterLocalNotificationsPlugin. Channel ini digunakan untuk menampilkan notifikasi dengan prioritas tinggi di perangkat Android.  
+d. Foreground Notifications: Pengaturan notifikasi foreground diatur menggunakan setForegroundNotificationPresentationOptions, sehingga notifikasi akan tetap muncul dengan suara, badge, dan alert meskipun aplikasi sedang digunakan.  
 
-- my_notification_screen.dart
+- my_notification_screen.dart  
 a. File ini terdiri dari sebuah kelas MyNotificationScreen yang mengatur antarmuka pengguna dan pengelolaan notifikasi.  
 b. Saat aplikasi berjalan, FirebaseMessaging mendengarkan pesan masuk (saat aplikasi aktif) menggunakan FirebaseMessaging.onMessage dan menampilkan notifikasi lokal dengan bantuan FlutterLocalNotificationsPlugin. Notifikasi ini dirancang untuk memiliki tingkat kepentingan tinggi dengan menggunakan AndroidNotificationChannel.  
 c. Jika pengguna mengetuk notifikasi, aplikasi akan menangkap aksi tersebut menggunakan FirebaseMessaging.onMessageOpenedApp dan menampilkan dialog berisi detail notifikasi. Program ini juga mencetak token FCM ke konsol, yang diperlukan untuk mengirim notifikasi ke perangkat tertentu.  
