@@ -35,16 +35,15 @@ Yudha Islami Sulistya, S.Kom., M.Cs
 ## 1. Menambahkan Google Maps Package
 A. Apa nama package yang digunakan untuk mengintegrasikan Google Maps di
 Flutter dan sebutkan langkah-langkah yang diperlukan untuk menambahkan
-package Google Maps ke dalam proyek Flutter.
-i. Buka website pub.dev lalu cari google_maps_flutter lalu klik icon copy
-![image](https://github.com/user-attachments/assets/f101b682-c28c-415f-968b-3a500f53bb0e)
+package Google Maps ke dalam proyek Flutter.  
+i. Buka website pub.dev lalu cari google_maps_flutter lalu klik icon copy  
 
-ii. Tambahkan package tersebut ke file pubspec.yaml di project flutter
-![image](https://github.com/user-attachments/assets/b7fb5a1b-67d7-49b3-8208-b2e8b34964f2)
+ii. Tambahkan package tersebut ke file pubspec.yaml di project flutter  
+![image](https://github.com/user-attachments/assets/b7fb5a1b-67d7-49b3-8208-b2e8b34964f2)  
 
-iii. Jalankan perintah flutter pub get di terminal
+iii. Jalankan perintah flutter pub get di terminal  
 
-iv. Konfigurasi API Key: Dapatkan API Key dari Google Cloud Console. Aktifkan API Maps SDK for Android 
+iv. Konfigurasi API Key: Dapatkan API Key dari Google Cloud Console. Aktifkan API Maps SDK for Android  
 
 v. Buka file android/app/src/main/AndroidManifest.xml. Tambahkan API Key ke dalam elemen <application>:
 ```dart
@@ -106,7 +105,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   // Posisi awal kamera
   static const CameraPosition _initialCameraPosition = CameraPosition(
-    target: LatLng(-6.200000, 106.816666), // Jakarta, Indonesia
+    target: LatLng(-6.200000, 106.816666),
     zoom: 12,
   );
 
@@ -251,7 +250,7 @@ void _addMarker() {
 A. Apa itu Place Picker, dan bagaimana cara kerjanya di Flutter dan sebutkan nama package yang digunakan untuk implementasi Place Picker di Flutter.
 - Place Picker adalah sebuah fitur yang memungkinkan pengguna memilih lokasi di peta, biasanya digunakan untuk mendapatkan koordinat lokasi berupa latitude dan longitude.
 - Place Picker bekerja dengan memanfaatkan Google Maps API untuk menampilkan peta interaktif. Pengguna dapat memilih lokasi pada peta, dan aplikasi akan mengembalikan koordinat lokasi tersebut.
-- package yang sering digunakan adalah:
+- package yang sering digunakan adalah:  
 i. google_maps_flutter  
 ii. geolocator (untuk mendapatkan lokasi perangkat saat ini)  
 iii. flutter_google_places (untuk pencarian tempat berdasarkan kata kunci)  
@@ -276,7 +275,6 @@ class MyApp extends StatelessWidget {
 }
 
 class PlacePickerDemo extends StatelessWidget {
-  // Ganti dengan API Key Google Maps Anda
   final String googleApiKey = "YOUR_GOOGLE_API_KEY";
 
   void showPlacePicker(BuildContext context) async {
@@ -288,7 +286,6 @@ class PlacePickerDemo extends StatelessWidget {
     );
 
     if (result != null) {
-      // Menampilkan latitude dan longitude
       print("Latitude: ${result.latLng?.latitude}");
       print("Longitude: ${result.latLng?.longitude}");
       showDialog(
