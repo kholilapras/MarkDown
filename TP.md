@@ -79,23 +79,249 @@ dalam aplikasi Flutter?
 ## 2. Menampilkan Google Maps
 A. Tuliskan kode untuk menampilkan Google Map di Flutter menggunakan widget
 GoogleMap.
+```dart
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-B. Bagaimana cara menentukan posisi awal kamera (camera position) pada Google
-Maps di Flutter?
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MapScreen(),
+    );
+  }
+}
+
+class MapScreen extends StatefulWidget {
+  @override
+  _MapScreenState createState() => _MapScreenState();
+}
+
+class _MapScreenState extends State<MapScreen> {
+  // Posisi awal kamera
+  static const CameraPosition _initialCameraPosition = CameraPosition(
+    target: LatLng(-6.200000, 106.816666), // Jakarta, Indonesia
+    zoom: 12,
+  );
+
+  // Controller untuk Google Map
+  late GoogleMapController _mapController;
+
+  void _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Google Maps Example"),
+      ),
+      body: GoogleMap(
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: _initialCameraPosition,
+      ),
+    );
+  }
+}
+```
+
+B. Bagaimana cara menentukan posisi awal kamera (camera position) pada GoogleMaps di Flutter?  
+Untuk menentukan posisi awal kamera di Google Maps, menggunakan properti initialCameraPosition dari widget GoogleMap. Properti ini memerlukan nilai CameraPosition, yang berisi:  
+i. target: Lokasi geografis awal dalam format LatLng(latitude, longitude).  
+ii. zoom: Tingkat zoom kamera.  
+iii. (Opsional) bearing: Rotasi kamera dalam derajat.  
+iv. (Opsional) tilt: Sudut miring kamera dalam derajat.  
+contoh :  
+```dart
+CameraPosition initialCameraPosition = CameraPosition(
+  target: LatLng(-6.200000, 106.816666),
+  zoom: 12,
+);
+```
 
 C. Sebutkan properti utama dari widget GoogleMap dan fungsinya.
-
+- initialCameraPosition : Menentukan posisi awal kamera saat peta pertama kali dimuat.
+- onMapCreated : Callback yang dipanggil saat peta berhasil dibuat.
+- mapType : Menentukan jenis tampilan peta (normal, satelit, terrain, dll.).
+- markers : Menampilkan penanda (marker) pada peta.
+- polylines : Menampilkan garis polyline di peta.
+- zoomControlsEnabled : Mengaktifkan atau menonaktifkan tombol kontrol zoom.
+- myLocationEnabled : Menampilkan titik lokasi pengguna saat ini di peta.
+- onCameraMove : Callback yang dipanggil saat kamera bergerak.
+- gestureRecognizers : Menentukan gestur pengguna yang diizinkan pada peta.
 
 ## 3. Menambahkan Marker
 A. Tuliskan kode untuk menambahkan marker di posisi tertentu (latitude: -6.2088,
 longitude: 106.8456) pada Google Maps.
+```dart
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MapScreen(),
+    );
+  }
+}
+
+class MapScreen extends StatefulWidget {
+  @override
+  _MapScreenState createState() => _MapScreenState();
+}
+
+class _MapScreenState extends State<MapScreen> {
+  final LatLng _initialPosition = LatLng(-6.2088, 106.8456); // Jakarta coordinates
+  final Set<Marker> _markers = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _addMarker();
+  }
+
+  void _addMarker() {
+    _markers.add(
+      Marker(
+        markerId: MarkerId("jakarta_marker"),
+        position: _initialPosition,
+        infoWindow: InfoWindow(
+          title: "Jakarta",
+          snippet: "Ibu Kota Indonesia",
+        ),
+        icon: BitmapDescriptor.defaultMarker,
+      ),
+    );
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Google Maps - Add Marker"),
+      ),
+      body: GoogleMap(
+        initialCameraPosition: CameraPosition(
+          target: _initialPosition,
+          zoom: 12,
+        ),
+        markers: _markers,
+        onMapCreated: (GoogleMapController controller) {},
+      ),
+    );
+  }
+}
+```
+
 
 B. Bagaimana cara menampilkan info window saat marker diklik?
-
+google_maps_flutter akan menampilkan info window saat marker diklik jika Anda telah mengatur infoWindow pada marker. Jika ingin menangani interaksi khusus saat marker diklik, gunakan properti onTap dari Marker.
+```dart
+void _addMarker() {
+  _markers.add(
+    Marker(
+      markerId: MarkerId("jakarta_marker"),
+      position: _initialPosition,
+      infoWindow: InfoWindow(
+        title: "Jakarta",
+        snippet: "Ibu Kota Indonesia",
+      ),
+      icon: BitmapDescriptor.defaultMarker,
+      onTap: () {
+        print("Marker Jakarta diklik!");
+      },
+    ),
+  );
+  setState(() {});
+}
+```
 
 ## 4. Menggunakan Place Picker
-A. Apa itu Place Picker, dan bagaimana cara kerjanya di Flutter dan sebutkan nama
-package yang digunakan untuk implementasi Place Picker di Flutter.
+A. Apa itu Place Picker, dan bagaimana cara kerjanya di Flutter dan sebutkan nama package yang digunakan untuk implementasi Place Picker di Flutter.
+- Place Picker adalah sebuah fitur yang memungkinkan pengguna memilih lokasi di peta, biasanya digunakan untuk mendapatkan koordinat lokasi berupa latitude dan longitude.
+- Place Picker bekerja dengan memanfaatkan Google Maps API untuk menampilkan peta interaktif. Pengguna dapat memilih lokasi pada peta, dan aplikasi akan mengembalikan koordinat lokasi tersebut.
+- package yang sering digunakan adalah:
+i. google_maps_flutter  
+ii. geolocator (untuk mendapatkan lokasi perangkat saat ini)  
+iii. flutter_google_places (untuk pencarian tempat berdasarkan kata kunci)  
 
-B. Tuliskan kode untuk menampilkan Place Picker, lalu kembalikan lokasi yang
-dipilih oleh pengguna dalam bentuk latitude dan longitude.
+B. Tuliskan kode untuk menampilkan Place Picker, lalu kembalikan lokasi yang dipilih oleh pengguna dalam bentuk latitude dan longitude.
+```dart
+import 'package:flutter/material.dart';
+import 'package:place_picker/place_picker.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: PlacePickerDemo(),
+    );
+  }
+}
+
+class PlacePickerDemo extends StatelessWidget {
+  // Ganti dengan API Key Google Maps Anda
+  final String googleApiKey = "YOUR_GOOGLE_API_KEY";
+
+  void showPlacePicker(BuildContext context) async {
+    LocationResult? result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PlacePicker(googleApiKey),
+      ),
+    );
+
+    if (result != null) {
+      // Menampilkan latitude dan longitude
+      print("Latitude: ${result.latLng?.latitude}");
+      print("Longitude: ${result.latLng?.longitude}");
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Lokasi Dipilih"),
+          content: Text(
+            "Latitude: ${result.latLng?.latitude}\nLongitude: ${result.latLng?.longitude}",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Place Picker Demo"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () => showPlacePicker(context),
+          child: Text("Pilih Lokasi"),
+        ),
+      ),
+    );
+  }
+}
+```
