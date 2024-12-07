@@ -122,20 +122,10 @@ class MyApp extends StatelessWidget {
 ```
 
 #### Output
+![Screenshot_2024-12-07-08-17-16-27_bda442a1e0734a481d1777b6657dcc1d](https://github.com/user-attachments/assets/734ef7b5-73fd-46ef-bfa6-1dc0326020ad)
+
 
 #### Penjelasan
-
-
-
-
-#### lib/main.dart
-```dart
-}
-```
-
-#### Output
-
-#### Deskripsi
 
 # UNGUIDED
 
