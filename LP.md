@@ -125,7 +125,14 @@ class MyApp extends StatelessWidget {
 ![Screenshot_2024-12-07-08-17-16-27_bda442a1e0734a481d1777b6657dcc1d](https://github.com/user-attachments/assets/734ef7b5-73fd-46ef-bfa6-1dc0326020ad)
 
 
-#### Penjelasan
+#### Deskripsi
+- class MyHomePage adalah widget utama dari aplikasi ini yang menggunakan stateful widget.
+State Management:
+- _MyHomePageState adalah kelas yang mengelola status dari MyHomePage. Kelas ini mengatur logika dan data yang digunakan di dalam widget.
+- LatLng (kMapCenter): Mendefinisikan lokasi pusat peta dengan koordinat geografis: latitude -7.4352631 dan longitude 109.2465177.
+- CameraPosition (kInitialPosition): Menentukan posisi awal kamera peta, termasuk lokasi target (kMapCenter) dan tingkat zoom 12.0.
+- initialCameraPosition: Menentukan posisi kamera awal menggunakan _kInitialPosition.
+- myLocationEnabled: Mengaktifkan fitur yang memungkinkan pengguna melihat lokasi mereka di peta.
 
 # UNGUIDED
 
