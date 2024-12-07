@@ -137,12 +137,10 @@ State Management:
 # UNGUIDED
 
 ## Tugas Mandiri
-Modifikasi Guided diatas bisa menampilkan Nama, Nim, Kelas, dan Prodi kalian ke dalam Notifikasi Flutter Cloud Messaging dan landing page notifikasinya.
-
-#### Konfigurasi Membuat Notifikasi Via FCM Console
+Dari tugas guided yang telah dikerjakan, lanjutkan hingga ke bagian place picker untuk
+memberikan informasi mengenai lokasi yang ditunjuk di peta.
 
 #### Source Code
-
 lib/main.dart
 ```dart
 }
