@@ -181,4 +181,25 @@ void main() {
 }
 ```
 #### Output
+![Screenshot_2024-12-10-19-34-26-90_75d6ffaf204a98e02c904d1abb546c49](https://github.com/user-attachments/assets/8d39da83-716a-4906-b87c-ff1119962df6)
+
+
+![Screenshot_2024-12-10-19-34-35-03_75d6ffaf204a98e02c904d1abb546c49](https://github.com/user-attachments/assets/4404970a-e429-42df-8e2e-e7257e64da62)
+
+
 #### Deskripsi
+Import Library:
+- get/get.dart: Library GetX untuk manajemen state, routing, dan dependensi.
+
+Controller (CounterController):
+- Class ini merupakan controller yang menggunakan GetxController.
+- Variabel counter: Variabel reaktif (obs) yang menyimpan nilai counter.
+- Metode increment: Menambah nilai counter sebesar 1.
+- Metode reset: Mengatur nilai counter kembali ke 0.
+
+Halaman Utama (HomePage):
+- Menggunakan Get.put() untuk menginstansiasi CounterController.
+- Scaffold: Struktur utama halaman, termasuk:AppBar.
+- Obx: Widget reaktif untuk memperbarui UI secara otomatis ketika nilai counter berubah.
+- Tombol untuk menambah nilai (increment) dengan ikon "+".
+- Tombol untuk mereset nilai (reset) dengan ikon refresh.
