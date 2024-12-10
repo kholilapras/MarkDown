@@ -140,12 +140,163 @@ State Management:
 Dari tugas guided yang telah dikerjakan, lanjutkan hingga ke bagian place picker untuk
 memberikan informasi mengenai lokasi yang ditunjuk di peta.
 
+#### Konfigurasi
+note : package geocoding yang lebih mudah diimplementasikan dibanding package place_picker_google untuk place picker
+![image](https://github.com/user-attachments/assets/23955776-c60c-493d-95aa-bd79feff8d8b)
+
 #### Source Code
 lib/main.dart
 ```dart
+import 'package:flutter/material.dart';
+import 'package:guided12_ppb/homepage.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+```
+
+lib/homepage.dart
+```dart
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geocoding/geocoding.dart';
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  static final LatLng _initialPosition = LatLng(-7.4352631, 109.2465177);
+  CameraPosition _kInitialPosition =
+      CameraPosition(target: _initialPosition, zoom: 12.0);
+
+  LatLng? _selectedLocation;
+  String? _address;
+
+  final Set<Marker> _markers = {};
+
+  Future<void> _getAddress(LatLng position) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+        setState(() {
+          _address =
+              "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+        });
+      }
+    } catch (e) {
+      print(e);
+      setState(() {
+        _address = "Address not found";
+      });
+    }
+  }
+
+  void _onMapTap(LatLng position) {
+    setState(() {
+      _selectedLocation = position;
+      _markers.clear();
+      _markers.add(
+        Marker(
+          markerId: MarkerId(position.toString()),
+          position: position,
+        ),
+      );
+    });
+    _getAddress(position);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Google Maps Demo'),
+      ),
+      body: Stack(
+        children: [
+          GoogleMap(
+            initialCameraPosition: _kInitialPosition,
+            myLocationEnabled: true,
+            markers: _markers,
+            onTap: _onMapTap,
+          ),
+          if (_selectedLocation != null)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                padding: EdgeInsets.all(16.0),
+                color: Colors.white,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _address ?? "Fetching address...",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 8),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Konfirmasi lokasi
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text("Location Confirmed"),
+                            content: Text("Location: $_address"),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text("OK"),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      child: Text("Confirm Location"),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }
 ```
 
 #### Output
+![Screenshot_2024-12-10-19-02-14-06_bda442a1e0734a481d1777b6657dcc1d](https://github.com/user-attachments/assets/996dcd2a-1abb-421a-b0a9-700fa39a16a2)
+
 
 #### Deskripsi
+Komponen Utama:
+- GoogleMap: Untuk menampilkan peta dan menangani interaksi pengguna.
+- Marker: Menandai lokasi yang dipilih oleh pengguna.
+- _getAddress: Fungsi untuk mengambil alamat dari koordinat menggunakan geocoding.
+- _onMapTap: Callback untuk menangkap lokasi yang dipilih oleh pengguna dan menambahkan marker.
+
+Penggunaan State:
+- Set<Marker> untuk menyimpan marker di peta.
+- LatLng? _selectedLocation untuk lokasi yang dipilih.
+- String? _address untuk alamat lokasi yang diambil.
