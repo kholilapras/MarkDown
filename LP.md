@@ -58,8 +58,9 @@ GetX adalah framework Flutter serbaguna yang menyediakan solusi lengkap untuk st
 
 ## Praktikum
 
-#### Menambah Packages Google Maps
-![image](https://github.com/user-attachments/assets/1791077c-30da-4b9a-b287-4cfaa919aa07)
+#### Menambahkan Package GetX
+![image](https://github.com/user-attachments/assets/fcb45c55-7c7f-41e9-b1e6-609541d8b478)
+
 
 #### Source Code
 
