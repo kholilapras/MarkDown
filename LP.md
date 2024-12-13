@@ -58,11 +58,11 @@ GetX adalah framework Flutter serbaguna yang menyediakan solusi lengkap untuk st
 
 ## Praktikum
 
-#### Menambahkan Package GetX
-![image](https://github.com/user-attachments/assets/fcb45c55-7c7f-41e9-b1e6-609541d8b478)
+#### Menambahkan Package GetX  
+![image](https://github.com/user-attachments/assets/fcb45c55-7c7f-41e9-b1e6-609541d8b478)  
 
-#### Stuktur Folder
-![image](https://github.com/user-attachments/assets/43fe9682-3b82-412b-9d42-3b460132e3a1)
+#### Stuktur Folder  
+![image](https://github.com/user-attachments/assets/43fe9682-3b82-412b-9d42-3b460132e3a1)  
 
 
 #### Source Code
@@ -241,7 +241,15 @@ class MyApp extends StatelessWidget {
 ```
 
 #### Output
+![Screenshot_2024-12-13-19-44-11-67_e0f37538806ce1ee9b624b1792cd5102](https://github.com/user-attachments/assets/8172416e-92e7-495c-a3c3-added660df97)
 
+![Screenshot_2024-12-13-19-44-19-03_e0f37538806ce1ee9b624b1792cd5102](https://github.com/user-attachments/assets/ec8692f2-82d1-416c-be34-2b178a28f236)
+
+![Screenshot_2024-12-13-19-44-24-12_e0f37538806ce1ee9b624b1792cd5102](https://github.com/user-attachments/assets/e75e4358-c4c0-4ba3-aad5-a8946362b4f8)
+
+![Screenshot_2024-12-13-19-44-28-52_e0f37538806ce1ee9b624b1792cd5102](https://github.com/user-attachments/assets/43d1ea95-0e05-4d94-b924-aa173fd25697)
+
+![Screenshot_2024-12-13-19-44-33-03_e0f37538806ce1ee9b624b1792cd5102](https://github.com/user-attachments/assets/7d31c498-767f-46de-ab90-49221b4ac845)
 
 #### Deskripsi
 - main.dart
@@ -276,14 +284,14 @@ Buatlah Aplikasi Catatan Sederhana menggunakan GetX, dengan ketentuan sebagai be
 4. Menggunakan getx routing untuk navigasi halaman.
 
 #### Konfigurasi
-Tambahkan Package GetX
-![image](https://github.com/user-attachments/assets/fcb45c55-7c7f-41e9-b1e6-609541d8b478)
+Tambahkan Package GetX  
+![image](https://github.com/user-attachments/assets/fcb45c55-7c7f-41e9-b1e6-609541d8b478)  
 
-Struktur Folder
-![image](https://github.com/user-attachments/assets/f4113538-a2ab-48d0-994b-d935642f500b)
+Struktur Folder  
+![image](https://github.com/user-attachments/assets/f4113538-a2ab-48d0-994b-d935642f500b)  
 
 #### Source Code
-lib/controllers/app_controller.dart
+- lib/controllers/app_controller.dart
 ```dart
 import 'package:get/get.dart';
 
@@ -300,7 +308,7 @@ class NoteController extends GetxController {
 }
 ```
 
-lib/pages/add_note_page.dart
+- lib/pages/add_note_page.dart
 ```dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -348,7 +356,7 @@ class AddNotePage extends StatelessWidget {
 }
 ```
 
-lib/pages/home_page.dart
+- lib/pages/home_page.dart
 ```dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -391,7 +399,7 @@ class HomePage extends StatelessWidget {
 }
 ```
 
-lib/main.dart
+- lib/main.dart
 ```dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -414,11 +422,18 @@ class MyApp extends StatelessWidget {
 ```
 
 #### Output
+![Screenshot_2024-12-13-20-33-38-63_f06621304c29da34a1366222fe63042a](https://github.com/user-attachments/assets/8e11d94a-b0fc-416f-b87b-774f72a1fb69)
+
+![Screenshot_2024-12-13-20-34-13-71_f06621304c29da34a1366222fe63042a](https://github.com/user-attachments/assets/2debaa39-c532-49d4-9df3-e23717af83e7)
+
+![Screenshot_2024-12-13-20-34-17-84_f06621304c29da34a1366222fe63042a](https://github.com/user-attachments/assets/18035e84-3ca8-43a9-9a15-2bbba44c9f33)
+
+![Screenshot_2024-12-13-20-34-22-36_f06621304c29da34a1366222fe63042a](https://github.com/user-attachments/assets/b0239cf4-64c2-4dab-8523-58860645097b)
 
 #### Deskripsi
 - main.dart
   - HomePage sebagai halaman awal: Menyediakan tampilan daftar catatan.
-- controllers/note_controller.dart
+- controllers/app_controller.dart
   - Tujuan file untuk mengelola logika dan data menggunakan GetX.
   - notes: Variabel reaktif (RxList) untuk menyimpan daftar catatan.
   - addNote: Menambahkan catatan baru ke daftar notes.
