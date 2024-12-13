@@ -286,3 +286,29 @@ lib/main.dart
 #### Output
 
 #### Deskripsi
+- main.dart
+  - HomePage sebagai halaman awal: Menyediakan tampilan daftar catatan.
+- controllers/note_controller.dart
+  - Tujuan file untuk mengelola logika dan data menggunakan GetX.
+  - notes: Variabel reaktif (RxList) untuk menyimpan daftar catatan.
+  - addNote: Menambahkan catatan baru ke daftar notes.
+  - deleteNoteAt: Menghapus catatan berdasarkan indeks dari daftar notes.
+- pages/home_page.dart
+  - File untuk menampilkan daftar catatan yang telah ditambahkan.
+  - Obx: Mengamati perubahan pada daftar catatan dan memperbarui tampilan secara real-time.
+  - ListView.builder: Menampilkan daftar catatan secara dinamis.
+  - ListTile: Menampilkan judul dan deskripsi catatan.
+  - IconButton: Tombol hapus untuk menghapus catatan tertentu.
+  - FloatingActionButton: Membuka halaman tambah catatan menggunakan Get.to.
+- pages/add_note_page.dart
+  - File untuk menambah catatan baru.
+  - titleController: Input untuk judul catatan.
+  - descriptionController: Input untuk deskripsi catatan.
+  - Memanggil addNote dari NoteController untuk menyimpan catatan.
+  - Menggunakan Get.back untuk kembali ke halaman utama.
+- Fitur GetX yang digunakan
+  - RxList agar perubahan data otomatis memperbarui tampilan.
+  -  Controller dikelola secara global dengan Get.put() dan Get.find().
+  -  Get.to: Navigasi ke halaman tambah catatan.
+  -  Get.back: Kembali ke halaman utama.
+  -  Obx: Memperbarui tampilan daftar catatan secara otomatis saat ada perubahan data.
