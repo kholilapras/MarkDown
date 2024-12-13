@@ -276,10 +276,140 @@ Buatlah Aplikasi Catatan Sederhana menggunakan GetX, dengan ketentuan sebagai be
 4. Menggunakan getx routing untuk navigasi halaman.
 
 #### Konfigurasi
+Tambahkan Package GetX
+![image](https://github.com/user-attachments/assets/fcb45c55-7c7f-41e9-b1e6-609541d8b478)
+
+Struktur Folder
+![image](https://github.com/user-attachments/assets/f4113538-a2ab-48d0-994b-d935642f500b)
 
 #### Source Code
+lib/controllers/app_controller.dart
+```dart
+import 'package:get/get.dart';
+
+class NoteController extends GetxController {
+  var notes = <Map<String, String>>[].obs;
+
+  void addNote(String title, String description) {
+    notes.add({'title': title, 'description': description});
+  }
+
+  void deleteNoteAt(int index) {
+    notes.removeAt(index);
+  }
+}
+```
+
+lib/pages/add_note_page.dart
+```dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../controllers/app_controller.dart';
+
+class AddNotePage extends StatelessWidget {
+  final NoteController noteController = Get.find();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Tambah Catatan'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: titleController,
+              decoration: InputDecoration(labelText: 'Judul'),
+            ),
+            TextField(
+              controller: descriptionController,
+              decoration: InputDecoration(labelText: 'Deskripsi'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                noteController.addNote(
+                  titleController.text,
+                  descriptionController.text,
+                );
+                Get.back();
+              },
+              child: Text('Simpan'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+lib/pages/home_page.dart
+```dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../controllers/app_controller.dart';
+import 'add_note_page.dart';
+
+class HomePage extends StatelessWidget {
+  final NoteController noteController = Get.put(NoteController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Aplikasi Catatan Sederhana'),
+      ),
+      body: Obx(() {
+        return ListView.builder(
+          itemCount: noteController.notes.length,
+          itemBuilder: (context, index) {
+            final note = noteController.notes[index];
+            return ListTile(
+              title: Text(note['title'] ?? ''),
+              subtitle: Text(note['description'] ?? ''),
+              trailing: IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () => noteController.deleteNoteAt(index),
+              ),
+            );
+          },
+        );
+      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(AddNotePage());
+        },
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
+```
+
 lib/main.dart
 ```dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'pages/home_page.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Aplikasi Catatan Sederhana',
+      home: HomePage(),
+    );
+  }
 }
 ```
 
