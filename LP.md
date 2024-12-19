@@ -317,7 +317,30 @@ E. Penggunaan ElevatedButton:
 - Setiap tombol memanggil _handleApiOperation dengan operasi API terkait.
 
 #### api_service.dart
-
+A. Class ApiService: Bertugas untuk berinteraksi dengan API menggunakan metode HTTP.
+B. Atribut :
+- baseUrl: URL dasar API (https://jsonplaceholder.typicode.com).
+- posts: List untuk menyimpan data post yang diterima dari API.
+C. Fungsi-Fungsi:
+- fetchPosts():
+  - Melakukan permintaan GET ke API untuk mengambil semua data post.
+  - Data hasil fetch disimpan dalam atribut posts.
+  - Jika gagal, melempar exception.
+- createPost():
+  - Melakukan permintaan POST untuk membuat post baru.
+  - Data yang dikirim berupa JSON (judul, isi, dan userId).
+  - Jika berhasil, data post baru ditambahkan ke list posts
+- updatePost() :
+  - Melakukan permintaan PUT untuk memperbarui post dengan ID tertentu (default ID 1).
+  - Mengubah data di server dan memperbarui data di list posts jika berhasil.
+- deletePost():
+  - Melakukan permintaan DELETE untuk menghapus post dengan ID tertentu (default ID 1).
+  - Menghapus data dari server dan list posts jika berhasil.
+D. Error Handling:
+- Setiap fungsi memiliki pengecekan status HTTP:
+  - Status berhasil (200 atau 201) diproses.
+  - Status gagal melempar exception dengan pesan error.
+E. Penerapan Headers: Header Content-Type: application/json digunakan untuk POST dan PUT, memastikan data dikirim dalam format JSON.
 
 # UNGUIDED
 
