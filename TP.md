@@ -3,8 +3,8 @@
 **TUGAS PENDAHULUAN**  
 **PEMROGRAMAN PERANGKAT BERGERAK**
 
-**MODUL 13**  
-**NETWORKING**
+**MODUL 14**  
+**DATA STORAGE (BAGIAN 3)**
 
 <img src="https://github.com/user-attachments/assets/8ffbc3d9-1f18-4a72-8723-692ba5757f0c" alt="Logo_Telkom_University" width="25%">
 
@@ -32,177 +32,84 @@ Yudha Islami Sulistya, S.Kom., M.Cs
   
 </div>
 
-## 1. Apa yang dimaksud dengan state management pada Flutter?
-State management pada Flutter merujuk pada cara mengelola data (state) aplikasi dan bagaimana data tersebut berubah serta memengaruhi tampilan antarmuka pengguna (UI). State adalah informasi yang dapat berubah selama siklus hidup aplikasi, seperti data yang ditampilkan pada layar, status tombol, atau bahkan teks input pengguna.
+## A. Sebutkan dan jelaskan dua jenis utama Web Service yang sering digunakan dalam pengembangan aplikasi.
+Dua jenis utama Web Service yang sering digunakan dalam pengembangan aplikasi adalah SOAP (Simple Object Access Protocol) dan REST (Representational State Transfer).  
+1. SOAP adalah protokol berbasis XML yang dirancang untuk mendukung komunikasi antar aplikasi melalui internet. SOAP memiliki struktur pesan yang terstandarisasi dan menggunakan protokol seperti HTTP, SMTP, atau lainnya untuk mengirimkan data. Keunggulan utama SOAP adalah keamanannya yang tinggi, cocok untuk aplikasi enterprise, karena mendukung WS-Security dan transaksi yang kompleks. Namun, implementasinya cenderung lebih berat dan membutuhkan lebih banyak sumber daya dibandingkan REST.  
+
+2. REST adalah gaya arsitektur yang lebih ringan dan fleksibel. REST menggunakan protokol HTTP standar untuk komunikasi, dengan operasi seperti GET, POST, PUT, dan DELETE untuk memanipulasi sumber daya yang diwakili oleh URL. REST sering menggunakan format data seperti JSON atau XML, yang lebih ringan dan mudah dipahami. REST sangat populer dalam pengembangan aplikasi modern, terutama untuk aplikasi berbasis web dan mobile, karena kesederhanaan dan efisiensinya. REST juga lebih mudah diintegrasikan dengan berbagai bahasa pemrograman dan platform, menjadikannya pilihan utama untuk aplikasi yang membutuhkan skalabilitas tinggi.
+
+## B. Apa yang dimaksud dengan Data Storage API, dan bagaimana API ini mempermudah pengelolaan data dalam aplikasi?
+Data Storage API adalah sekumpulan antarmuka pemrograman (API) yang memungkinkan pengembang untuk menyimpan, mengelola, dan mengambil data secara efisien dalam aplikasi mereka. API ini menyediakan cara yang terstandar untuk berinteraksi dengan mekanisme penyimpanan data di berbagai platform, seperti memori perangkat lokal, penyimpanan berbasis cloud, atau database.
+
+Berikut adalah bagaimana Data Storage API mempermudah pengelolaan data dalam aplikasi:
+
+1. Abstraksi dari Teknologi Penyimpanan
+Data Storage API menyembunyikan kerumitan pengelolaan data di level rendah, seperti komunikasi dengan database atau sistem file.
+Pengembang dapat fokus pada pengelolaan data secara logis tanpa memikirkan detail teknis penyimpanan.
+2. Dukungan untuk Penyimpanan yang Beragam
+API ini biasanya mendukung berbagai jenis penyimpanan, seperti:
+Lokal: LocalStorage atau IndexedDB untuk aplikasi web.
+Cloud: Firebase Realtime Database atau Amazon S3 untuk aplikasi berbasis cloud.
+Hybrid: Solusi seperti SQLite pada aplikasi mobile.
+Ini memungkinkan aplikasi untuk menyimpan data sesuai kebutuhan, baik secara lokal maupun online.
+3. Kemudahan dalam Sinkronisasi Data
+Banyak Data Storage API menyediakan fitur sinkronisasi data otomatis antara perangkat dan server, sehingga data tetap konsisten di berbagai platform.
+Contoh: Firebase menyediakan real-time sync, sehingga perubahan pada satu perangkat langsung diterapkan ke perangkat lain.
+4. Manajemen Data yang Terstruktur
+API ini sering memungkinkan penyimpanan data dalam format terstruktur seperti JSON atau tabel, sehingga lebih mudah untuk membaca, menulis, dan memanipulasi data.
+5. Keamanan Data
+Data Storage API biasanya dilengkapi dengan fitur keamanan seperti enkripsi dan kontrol akses.
+Contoh: API di cloud seperti AWS S3 dan Azure Blob Storage mendukung kebijakan akses dan autentikasi untuk mengamankan data.
+6. Performansi dan Efisiensi
+API ini dirancang untuk menangani data dalam jumlah besar secara efisien dengan caching, paging, dan optimasi lainnya.
+Contoh: IndexedDB pada browser mendukung penyimpanan data besar tanpa mengorbankan performa.
+7. Portabilitas
+Dengan menggunakan Data Storage API, aplikasi menjadi lebih portabel karena kode yang sama dapat berjalan di berbagai perangkat dan platform tanpa perubahan signifikan.
+
+## C. Jelaskan bagaimana proses kerja komunikasi antara klien dan server dalam sebuah Web Service, mulai dari permintaan (request) hingga tanggapan (response).
+1. Permintaan (Request) oleh Klien
+   - Inisiasi Permintaan: Klien (misalnya, aplikasi web, browser, atau perangkat lain) menginisiasi permintaan ke server melalui protokol komunikasi seperti HTTP atau HTTPS.
+   - Pengemasan Data: Jika diperlukan, klien mengemas data dalam format tertentu (misalnya, JSON atau XML) dan menyertakannya dalam permintaan. Hal ini umumnya terjadi pada metode HTTP seperti POST atau PUT.
+   - Pengiriman Permintaan: Klien mengirimkan permintaan ke endpoint API (Uniform Resource Identifier/URI) yang spesifik menggunakan metode HTTP (seperti GET, POST, PUT, DELETE).
+2. Proses di Server
+   - Penerimaan Permintaan: Server menerima permintaan dari klien melalui endpoint yang ditentukan.
+   - Pemeriksaan dan Validasi: Server memeriksa dan memvalidasi permintaan, termasuk: Autentikasi dan otorisasi (jika diperlukan). Format dan isi data permintaan.
+   - Pemrosesan Logika Bisnis:
+     Server menjalankan logika bisnis berdasarkan permintaan. Jika server memerlukan data dari basis data atau sistem lain, server akan melakukan pengambilan data (query) atau operasi lainnya.
+   - Penyiapan Tanggapan: Setelah logika bisnis selesai, server mempersiapkan tanggapan. Data hasil pemrosesan biasanya dikemas dalam format tertentu seperti JSON atau XML.
+3. Pengiriman Tanggapan (Response)
+   - Format Tanggapan: Server mengemas data tanggapan dalam format yang dapat dipahami klien (misalnya, JSON, XML, atau HTML).
+   - Header dan Kode Status: Server menyertakan header HTTP dan kode status untuk memberi tahu klien tentang hasil permintaan.
+     Contoh kode status: 
+     200 OK: Permintaan berhasil.  
+     400 Bad Request: Ada kesalahan dalam permintaan klien.  
+     500 Internal Server Error: Ada kesalahan di sisi server.
+   - Pengiriman Tanggapan: Server mengirimkan tanggapan ke klien melalui jaringan.
+4. Penerimaan dan Pemrosesan Tanggapan oleh Klien
+   - Penerimaan Tanggapan: Klien menerima tanggapan dari server.
+   - Pemeriksaan Tanggapan: Klien memeriksa kode status HTTP dan header untuk memastikan tanggapan berhasil.
+   - Penggunaan Data: Data dari tanggapan diproses atau ditampilkan kepada pengguna. Misalnya:  
+     Dalam aplikasi web, data ditampilkan di antarmuka pengguna.  
+     Dalam aplikasi backend, data digunakan untuk operasi lebih lanjut.  
 
 
-## 2. Sebut dan jelaskan komponen-komponen yang ada di dalam GetX.
-A. State Management
-- Obx: Widget yang secara otomatis mendengarkan perubahan pada Rx (Reactive Variable). Saat nilai Rx berubah, Obx akan merender ulang UI yang relevan.
-- GetxController: Kelas yang digunakan untuk mengelola logika dan state. Membantu memisahkan logika bisnis dari UI.
-- Rx (Reactive Variable): Jenis data yang dapat didengarkan oleh UI. Setiap tipe data (seperti int, String, List, dll.) dapat dijadikan reaktif dengan menambahkan .obs.
-B. Routing (Navigation)
-- Get.to(): Navigasi ke halaman baru.
-- Get.off(): Mengganti halaman saat ini dengan halaman baru (menghapus halaman sebelumnya dari stack).
-- Get.offAll(): Menghapus semua halaman sebelumnya dan menavigasi ke halaman baru.
-- Get.arguments: Digunakan untuk mengirim data antar halaman.
-- Named Routes: Mendukung navigasi berbasis nama dengan GetMaterialApp.
-C. Dependency Injection
-- Get.put(): Menyediakan instansi yang langsung dapat digunakan di mana saja.
-- Get.lazyPut(): Membuat instansi hanya ketika diperlukan (lazy initialization).
-- Get.find(): Mengambil instansi yang sudah diinisialisasi dengan Get.put atau Get.lazyPut.
-- Get.delete(): Menghapus instansi dari memori.
-D. Snackbar, Dialog, dan BottomSheet
-- Snackbar: Menampilkan pesan singkat di layar.
-- Dialog: Menampilkan dialog di atas layar.
-- BottomSheet: Menampilkan bottom sheet.
-  
-## 3. Lengkapilah code di bawah ini, dan tampilkan hasil outputnya serta jelaskan
-```dart
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+## D. Mengapa keamanan penting dalam penggunaan Web Service, dan metode apa saja yang dapat diterapkan untuk memastikan data tetap aman?
+Web Service berperan sebagai jembatan yang menghubungkan berbagai aplikasi dan sistem. Melalui Web Service, data sensitif seperti informasi pribadi, keuangan, atau bisnis dapat ditransmisikan. Oleh karena itu, keamanan menjadi sangat krusial.
 
-/// Controller untuk mengelola state counter
-class CounterController extends GetxController {
-  // TODO: Tambahkan variabel untuk menyimpan nilai counter
-  // TODO: Buat fungsi untuk menambah nilai counter
-  // TODO: Buat fungsi untuk mereset nilai counter
-}
-
-class HomePage extends StatelessWidget {
-  final CounterController controller = Get.put(CounterController());
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Counter App")),
-      body: Center(
-        child: Obx(() {
-          // TODO: Lengkapi logika untuk menampilkan nilai counter
-          return Text(
-            "0", // Ganti ini dengan nilai counter
-            style: TextStyle(fontSize: 48),
-          );
-        }),
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              // TODO: Tambahkan logika untuk menambah nilai counter
-            },
-            child: Icon(Icons.add),
-          ),
-          SizedBox(height: 10),
-          FloatingActionButton(
-            onPressed: () {
-              // TODO: Tambahkan logika untuk mereset nilai counter
-            },
-            child: Icon(Icons.refresh),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: HomePage(),
-  ));
-}
-```
-
-Jawab :
-
-lib/main.dart
-```dart
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-
-class CounterController extends GetxController {
-  
-  var counter = 0.obs;
-
-  void increment() {
-    counter++;
-  }
-  
-  void reset() {
-    counter.value = 0;
-  }
-}
-
-class HomePage extends StatelessWidget {
-  final CounterController controller = Get.put(CounterController());
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Counter App")),
-      body: Center(
-        child: Obx(() {
-          
-          return Text(
-            "${controller.counter}", 
-            style: TextStyle(fontSize: 48),
-          );
-        }),
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              
-              controller.increment();
-            },
-            child: Icon(Icons.add),
-          ),
-          SizedBox(height: 10),
-          FloatingActionButton(
-            onPressed: () {
-              
-              controller.reset();
-            },
-            child: Icon(Icons.refresh),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: HomePage(),
-  ));
-}
-```
-#### Output
-![Screenshot_2024-12-10-19-34-26-90_75d6ffaf204a98e02c904d1abb546c49](https://github.com/user-attachments/assets/8d39da83-716a-4906-b87c-ff1119962df6)
-
-
-![Screenshot_2024-12-10-19-34-35-03_75d6ffaf204a98e02c904d1abb546c49](https://github.com/user-attachments/assets/4404970a-e429-42df-8e2e-e7257e64da62)
-
-
-#### Deskripsi
-Import Library:
-- get/get.dart: Library GetX untuk manajemen state, routing, dan dependensi.
-
-Controller (CounterController):
-- Class ini merupakan controller yang menggunakan GetxController.
-- Variabel counter: Variabel reaktif (obs) yang menyimpan nilai counter.
-- Metode increment: Menambah nilai counter sebesar 1.
-- Metode reset: Mengatur nilai counter kembali ke 0.
-
-Halaman Utama (HomePage):
-- Menggunakan Get.put() untuk menginstansiasi CounterController.
-- Scaffold: Struktur utama halaman, termasuk:AppBar.
-- Obx: Widget reaktif untuk memperbarui UI secara otomatis ketika nilai counter berubah.
-- Tombol untuk menambah nilai (increment) dengan ikon "+".
-- Tombol untuk mereset nilai (reset) dengan ikon refresh.
+Beberapa metode keamanan yang umum digunakan untuk melindungi Web Service antara lain:
+- Otentikasi:
+  - Username dan password: Metode paling dasar, namun tetap efektif jika dikombinasikan dengan teknik lain.
+  - Token: Token adalah string unik yang diberikan kepada pengguna setelah berhasil login. Token ini kemudian digunakan untuk mengotentikasi permintaan selanjutnya.
+  - OAuth: Protokol otentikasi yang populer, memungkinkan pengguna memberikan akses ke data mereka kepada aplikasi pihak ketiga tanpa harus memberikan kredensial login.
+- Autorisasi:
+  - Role-based access control (RBAC): Memberikan izin akses berdasarkan peran pengguna.
+  - Attribute-based access control (ABAC): Memberikan izin akses berdasarkan atribut pengguna dan sumber daya.
+- Enkripsi:
+  - Transport Layer Security (TLS): Menjamin keamanan komunikasi antara klien dan server dengan mengenkripsi data yang ditransmisikan.
+  - XML Encryption: Mengenkripsi data dalam pesan XML.
+- Digital Signature:
+  - Memastikan integritas dan keaslian pesan.
+  - Mencegah penolakan pesan.
+- WS-Security: Standar keamanan Web Service yang menyediakan kerangka kerja untuk menerapkan berbagai mekanisme keamanan seperti otentikasi, enkripsi, dan digital signature.
+- Web Application Firewall (WAF):
+Melindungi Web Service dari serangan web umum seperti injeksi SQL, cross-site scripting (XSS), dan cross-site request forgery (CSRF).
