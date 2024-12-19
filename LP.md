@@ -286,6 +286,38 @@ class MyApp extends StatelessWidget {
 #### Output
 
 #### Deskripsi
+#### homepage_screen.dart
+A. State Management:  
+- _posts: List untuk menyimpan data yang diambil dari API.
+- _isLoading: Indikator untuk menunjukkan apakah proses API sedang berjalan.
+- _apiService: Instansiasi kelas ApiService untuk memanggil fungsi-fungsi API.
+
+B. Snackbar Utility:  
+_showSnackBar(String message): Menampilkan pesan singkat menggunakan SnackBar.
+
+C. Fungsi Penanganan API:  
+_handleApiOperation(Future<void> operation, String successMessage): Fungsi yang menjalankan operasi API dengan:
+- Menampilkan indikator loading.
+- Menangkap hasil operasi dan memperbarui data.
+- Menangani kesalahan jika terjadi.
+- Menonaktifkan indikator loading.
+
+D. Tampilan UI:  
+Tombol API
+- GET: Memanggil fetchPosts() untuk mengambil data dari API.
+- POST: Memanggil createPost() untuk menambahkan data ke API.
+- UPDATE: Memanggil updatePost() untuk memperbarui data di API.
+- DELETE: Memanggil deletePost() untuk menghapus data di API.
+
+E. Penggunaan ElevatedButton:  
+- Oranye untuk GET.
+- Hijau untuk POST.
+- Biru untuk UPDATE.
+- Merah untuk DELETE.
+- Setiap tombol memanggil _handleApiOperation dengan operasi API terkait.
+
+#### api_service.dart
+
 
 # UNGUIDED
 
