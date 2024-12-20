@@ -349,6 +349,16 @@ E. Penerapan Headers: Header Content-Type: application/json digunakan untuk POST
 # UNGUIDED
 
 ## Tugas Mandiri
+Modifikasi tampilan Guided dari praktikum di atas:  
+a. Gunakan State Management dengan GetX:  
+- Atur data menggunakan state management GetX agar lebih mudah dikelola.
+- Implementasi GetX meliputi pembuatan controller untuk mengelola data dan penggunaan widget Obx untuk menampilkan data secara otomatis setiap kali ada perubahan.  
+
+b. Tambahkan Snackbar untuk Memberikan Respon Berhasil:  
+- Tampilkan snackbar setelah setiap operasi berhasil, seperti menambah atau
+memperbarui data.
+- Gunakan Get.snackbar agar pesan sukses muncul di layar dan mudah dipahami oleh
+pengguna.
 
 
 #### Konfigurasi
@@ -358,12 +368,250 @@ Struktur Folder
 
 #### Source Code
 
+- lib/screens/homepage_screen.dart
+```dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:prak14_ppb/services/api_service.dart';
+
+class HomepageScreen extends StatelessWidget {
+  HomepageScreen({super.key});
+
+  final ApiController apiController = Get.put(ApiController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('REST API-Praktikum 14'),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Obx(() => apiController.isLoading.value
+                ? const Center(child: CircularProgressIndicator())
+                : apiController.posts.isEmpty
+                    ? const Text(
+                        "Tekan tombol GET untuk mengambil data",
+                        style: TextStyle(fontSize: 12),
+                      )
+                    : Expanded(
+                        child: ListView.builder(
+                          itemCount: apiController.posts.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: Card(
+                                elevation: 4,
+                                child: ListTile(
+                                  title: Text(
+                                    apiController.posts[index]['title'],
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12),
+                                  ),
+                                  subtitle: Text(
+                                    apiController.posts[index]['body'],
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )),
+            ElevatedButton(
+              onPressed: apiController.fetchPosts,
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+              child: const Text('GET'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: apiController.createPost,
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              child: const Text('POST'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: apiController.updatePost,
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+              child: const Text('UPDATE'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: apiController.deletePost,
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              child: const Text('DELETE'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+- lib/services/api_service.dart
+```dart
+import 'dart:convert';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
+class ApiController extends GetxController {
+  final String baseUrl = "https://jsonplaceholder.typicode.com";
+  var posts = <dynamic>[].obs;
+  var isLoading = false.obs;
+
+  Future<void> fetchPosts() async {
+    isLoading.value = true;
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/posts'));
+      if (response.statusCode == 200) {
+        posts.value = json.decode(response.body);
+        Get.snackbar('Success', 'Data berhasil diambil!');
+      } else {
+        throw Exception('Failed to load posts');
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> createPost() async {
+    isLoading.value = true;
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/posts'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'title': 'Flutter Post',
+          'body': 'Ini contoh POST.',
+          'userId': 1,
+        }),
+      );
+      if (response.statusCode == 201) {
+        posts.add({
+          'title': 'Flutter Post',
+          'body': 'Ini contoh POST.',
+          'id': posts.length + 1,
+        });
+        Get.snackbar('Success', 'Data berhasil ditambahkan!');
+      } else {
+        throw Exception('Failed to create post');
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> updatePost() async {
+    isLoading.value = true;
+    try {
+      final response = await http.put(
+        Uri.parse('$baseUrl/posts/1'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'title': 'Updated Title',
+          'body': 'Updated Body',
+          'userId': 1,
+        }),
+      );
+      if (response.statusCode == 200) {
+        final updatedPost = posts.firstWhere((post) => post['id'] == 1);
+        updatedPost['title'] = 'Updated Title';
+        updatedPost['body'] = 'Updated Body';
+        posts.refresh();
+        Get.snackbar('Success', 'Data berhasil diperbarui!');
+      } else {
+        throw Exception('Failed to update post');
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> deletePost() async {
+    isLoading.value = true;
+    try {
+      final response = await http.delete(Uri.parse('$baseUrl/posts/1'));
+      if (response.statusCode == 200) {
+        posts.removeWhere((post) => post['id'] == 1);
+        Get.snackbar('Success', 'Data berhasil dihapus!');
+      } else {
+        throw Exception('Failed to delete post');
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+}
+```
 
 - lib/main.dart
 ```dart
+import 'package:flutter/material.dart';
+import 'package:prak14_ppb/screens/homepage_screen.dart';
+import 'package:get/get.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: HomepageScreen(),
+    );
+  }
 }
 ```
 
 #### Output
 
 #### Deskripsi
+- **lib/services/api_service.dart**
+1. Menggunakan GetX untuk State Management:
+   - State "posts" dan "isLoading" dibuat observable (`.obs`) agar UI otomatis diperbarui jika data berubah.
+
+2. Fungsi-fungsi CRUD dengan HTTP:
+   - fetchPosts(): Mengambil data dari API menggunakan `GET`.
+   - createPost(): Menambahkan data baru menggunakan `POST`.
+   - updatePost(): Memperbarui data pada API menggunakan `PUT`.
+   - deletePost(): Menghapus data pada API menggunakan `DELETE`.
+
+3. Feedback kepada Pengguna:
+   - Menggunakan `Get.snackbar` untuk memberikan pesan sukses atau error setelah setiap operasi API.
+
+- **lib/screens/homepage_screen.dart**
+1. Menerapkan GetX untuk UI:
+   - State "posts" dan "isLoading" diakses menggunakan widget `Obx` untuk memperbarui UI secara otomatis.
+
+2. Tampilan Utama:
+   - Terdapat tombol-tombol untuk operasi CRUD: **GET**, **POST**, **UPDATE**, **DELETE**.
+   - Data ditampilkan dalam bentuk `ListView.builder` jika tersedia, dengan style menggunakan `Card` dan `ListTile`.
+   - Indikator `CircularProgressIndicator` ditampilkan saat data sedang dimuat.
+
+- **lib/main.dart**
+1. GetMaterialApp:
+   - `GetMaterialApp` digunakan agar fitur GetX, seperti `snackbar` dan dependency injection, dapat bekerja.
+
+2. HomepageScreen:
+   - `HomepageScreen` diatur sebagai halaman utama aplikasi.
