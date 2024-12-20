@@ -51,7 +51,8 @@ HTTP (Hypertext Transfer Protocol) adalah protokol komunikasi utama yang digunak
 1. Status Code: Menunjukkan hasil operasi (misalnya, 200 untuk berhasil, 404 untuk resource
 tidak ditemukan).  
 2. Headers: Informasi tambahan dari server.  
-3. Body: Data yang dikembalikan server (biasanya dalam format JSON)  
+3. Body: Data yang dikembalikan server (biasanya dalam format JSON)
+
 ## C. PRAKTIKUM
 
 #### Menambahkan Package
@@ -284,6 +285,13 @@ class MyApp extends StatelessWidget {
 ```
 
 #### Output
+![Screenshot_2024-12-20-08-52-37-64_25476cb577dd91fffcf24fb00d8c58e4](https://github.com/user-attachments/assets/781f92f1-2ac3-4a23-8f65-bca2818b4033)
+
+![Screenshot_2024-12-20-08-52-47-56_25476cb577dd91fffcf24fb00d8c58e4](https://github.com/user-attachments/assets/6dcf21d5-de85-49a4-a735-2a4a91c9661d)
+
+![Screenshot_2024-12-20-08-52-57-11_25476cb577dd91fffcf24fb00d8c58e4](https://github.com/user-attachments/assets/e793b3f4-6db0-4500-b4bc-1fc8a145a97a)
+
+![Screenshot_2024-12-20-08-53-06-23_25476cb577dd91fffcf24fb00d8c58e4](https://github.com/user-attachments/assets/b0ecb251-f320-4761-ac50-10a07beec053)
 
 #### Deskripsi
 #### homepage_screen.dart
@@ -361,12 +369,21 @@ memperbarui data.
 pengguna.
 
 
-#### Konfigurasi
-Tambahkan Package GetX  
+#### Konfigurasi  
+Tambahkan Package  
+![image](https://github.com/user-attachments/assets/d93ecee5-e22b-4542-8caf-57e1df9c4c62)  
 
 Struktur Folder  
+![image](https://github.com/user-attachments/assets/0ac98568-f0e8-4d66-b01e-7c2c6ba2cf0d)  
 
 #### Source Code
+![Screenshot_2024-12-20-09-02-23-64_25476cb577dd91fffcf24fb00d8c58e4](https://github.com/user-attachments/assets/fa2901ef-e5b4-4ad9-a1c2-6e35ea4eeb3e)
+
+![Screenshot_2024-12-20-09-02-33-37_25476cb577dd91fffcf24fb00d8c58e4](https://github.com/user-attachments/assets/07da653f-2f12-4570-9afb-744ea23af986)
+
+![Screenshot_2024-12-20-09-02-42-24_25476cb577dd91fffcf24fb00d8c58e4](https://github.com/user-attachments/assets/a5098a9f-7dd0-4e61-95f4-f33a83272a69)
+
+![Screenshot_2024-12-20-09-02-49-52_25476cb577dd91fffcf24fb00d8c58e4](https://github.com/user-attachments/assets/aedf0066-6191-4421-bc31-9ced34a4d1fc)
 
 - lib/screens/homepage_screen.dart
 ```dart
