@@ -1,82 +1,71 @@
 <h1>Konsruksi Perangkat Lunak</h1>
 <h2>Nama : Kholil Abdi Prasetiyo<br>NIM : 2211104071<br>Kelas : SE-06-03</h2>
-<h3>TP Modul 4</h3>
+<h3>Tugas Jurnal Modul 4</h3>
 
-## KodePos.js
+## KodeBuah.js
 #### Source Code
 ```js
-class KodePos {
+class KodeBuah {
     constructor() {
-        this.kodePosTable = {
-            "Batununggal": "40266",
-            "Kujangsari": "40287",
-            "Mengger": "40267",
-            "Wates": "40256",
-            "Cijaura": "40287",
-            "Jatisari": "40286",
-            "Margasari": "40286",
-            "Sekejati": "40286",
-            "Kebonwaru": "40272",
-            "Maleer": "40274",
-            "Samoja": "40273"
+        this.tabelKodeBuah = {
+            "Apel": "A00",
+            "Aprikot": "B00",
+            "Alpukat": "C00",
+            "Pisang": "D00",
+            "Paprika": "E00",
+            "Kurma": "K00",
+            "Durian": "L00",
+            "Anggur": "M00",
+            "Melon": "N00",
+            "Semangka": "O00"
         };
     }
 
-    getKodePos(kelurahan) {
-        return this.kodePosTable[kelurahan] || "Kode Pos tidak ditemukan";
+    getKodeBuah(namaBuah) {
+        return this.tabelKodeBuah[namaBuah] || "Kode tidak ditemukan";
     }
 }
 
-const kodePos = new KodePos();
-console.log("Daftar Kode Pos");
-for (const [kelurahan, kode] of Object.entries(kodePos.kodePosTable)) {
-    console.log(`${kelurahan}: ${kode}`);
-}
-
-export default KodePos;
+const kodeBuah = new KodeBuah();
+console.log("Kode Buah Apel:", kodeBuah.getKodeBuah("Apel"));
 ```
 #### Output
-![image](https://github.com/user-attachments/assets/f0bba820-c075-4b4c-9329-45ac3498f4f6)
+![image](https://github.com/user-attachments/assets/82bae9b9-c43a-4bbb-b94f-b2645396b295)
 
 #### Penjelasan
-  kelas ini memiliki sebuah objek kodePosTable yang berisi daftar kelurahan beserta kode posnya. Metode getKodePos(kelurahan) memungkinkan pengguna untuk mencari kode pos berdasarkan nama kelurahan yang diberikan. Jika kelurahan tidak ditemukan, metode ini akan mengembalikan pesan "Kode Pos tidak ditemukan". Selain itu, kode ini juga mencetak daftar kelurahan beserta kode posnya ke konsol.
+KodeBuah adalah sebuah kelas dalam JavaScript yang berfungsi untuk menyimpan dan mengambil kode unik dari berbagai jenis buah. Kelas ini memiliki properti tabelKodeBuah, sebuah objek yang memetakan nama buah ke kode spesifiknya. Metode getKodeBuah(namaBuah) digunakan untuk mencari kode berdasarkan nama buah yang diberikan. Jika nama buah tidak ditemukan dalam tabel, metode ini akan mengembalikan pesan "Kode tidak ditemukan". Contoh penggunaan kelas ini mencetak kode buah untuk "Apel" ke konsol.
 
-## DoorMachine.js
+## PosisiKarakterGame.js
 #### Source Code
 ```js
-class DoorMachine {
-    constructor() {
-        this.state = "Terkunci";
-        console.log("Pintu terkunci");
+class PosisiKarakterGame {
+    constructor(NIM) {
+        this.state = "Berdiri";
+        this.NIM = NIM;
     }
 
-    unlock() {
-        if (this.state === "Terkunci") {
-            this.state = "Terbuka";
-            console.log("Pintu tidak terkunci");
+    ubahState(aksi) {
+        if (this.NIM % 3 === 0) {
+            if (aksi === "S") console.log("Tombol arah bawah ditekan");
+            if (aksi === "W") console.log("Tombol arah atas ditekan");
+        } else if (this.NIM % 3 === 1) {
+            if (this.state === "Berdiri") console.log("Posisi standby");
+            if (this.state === "Tengkurap") console.log("Posisi istirahat");
+        } else if (this.NIM % 3 === 2) {
+            if (this.state === "Terbang" && aksi === "Jongkok") console.log("Posisi landing");
+            if (this.state === "Berdiri" && aksi === "Terbang") console.log("Posisi take off");
         }
-    }
-
-    lock() {
-        if (this.state === "Terbuka") {
-            this.state = "Terkunci";
-            console.log("Pintu terkunci");
-        }
+        this.state = aksi;
     }
 }
 
-const door = new DoorMachine();
-console.log("Membuka pintu...");
-door.unlock();
-
-console.log("Mengunci pintu kembali...");
-door.lock();
-
-export default DoorMachine;
+const karakter = new PosisiKarakterGame(2211104071);
+karakter.ubahState("Berdiri");
+karakter.ubahState("Terbang");
+karakter.ubahState("Jongkok");
 ```
 #### Output
-![image](https://github.com/user-attachments/assets/2729e2c6-c93f-4596-a4ae-f95239765a10)
-
+![image](https://github.com/user-attachments/assets/0ad003f2-775e-41c2-bf38-4a4ea5a31eed)
 
 #### Penjelasan
-DoorMachine adalah sebuah kelas dalam JavaScript yang merepresentasikan mekanisme pintu dengan dua status: "Terkunci" dan "Terbuka". Kelas ini memiliki properti state yang menyimpan status pintu, yang secara default diatur ke "Terkunci" dan ditampilkan di konsol saat objek dibuat. Terdapat dua metode utama: unlock(), yang mengubah status pintu menjadi "Terbuka" jika sebelumnya "Terkunci", dan lock(), yang mengembalikan status menjadi "Terkunci" jika sebelumnya "Terbuka". Saat dipanggil, metode ini mencetak status pintu ke konsol.
+PosisiKarakterGame adalah sebuah kelas dalam JavaScript yang merepresentasikan status karakter dalam game berdasarkan nilai NIM. Kelas ini memiliki properti state yang menyimpan status karakter dan diinisialisasi dengan nilai "Berdiri". Metode ubahState(aksi) mengubah status karakter sesuai dengan aturan berbasis hasil modulus NIM % 3. Jika hasilnya 0, karakter merespons tombol "S" dan "W". Jika hasilnya 1, karakter menampilkan statusnya saat "Berdiri" atau "Tengkurap". Jika hasilnya 2, karakter dapat "Terbang" atau "Landing" berdasarkan aksi yang diberikan.
