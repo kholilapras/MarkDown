@@ -2,7 +2,8 @@
 <h2>Nama : Kholil Abdi Prasetiyo<br>NIM : 2211104071<br>Kelas : SE-06-03</h2>
 <h3>TP Modul 4</h3>
 
-#### KodePos.js
+## KodePos.js
+#### Source Code
 ```js
 class KodePos {
     constructor() {
@@ -34,9 +35,14 @@ for (const [kelurahan, kode] of Object.entries(kodePos.kodePosTable)) {
 
 export default KodePos;
 ```
-Kelas ini memiliki sebuah objek kodePosTable yang berisi daftar kelurahan beserta kode posnya. Metode getKodePos(kelurahan) memungkinkan pengguna untuk mencari kode pos berdasarkan nama kelurahan yang diberikan. Jika kelurahan tidak ditemukan, metode ini akan mengembalikan pesan "Kode Pos tidak ditemukan". Selain itu, kode ini juga mencetak daftar kelurahan beserta kode posnya ke konsol.
+#### Output
+![image](https://github.com/user-attachments/assets/f0bba820-c075-4b4c-9329-45ac3498f4f6)
 
-#### DoorMachine.js
+#### Penjelasan
+  kelas ini memiliki sebuah objek kodePosTable yang berisi daftar kelurahan beserta kode posnya. Metode getKodePos(kelurahan) memungkinkan pengguna untuk mencari kode pos berdasarkan nama kelurahan yang diberikan. Jika kelurahan tidak ditemukan, metode ini akan mengembalikan pesan "Kode Pos tidak ditemukan". Selain itu, kode ini juga mencetak daftar kelurahan beserta kode posnya ke konsol.
+
+## DoorMachine.js
+#### Source Code
 ```js
 class DoorMachine {
     constructor() {
@@ -68,4 +74,9 @@ door.lock();
 
 export default DoorMachine;
 ```
+#### Output
+![image](https://github.com/user-attachments/assets/2729e2c6-c93f-4596-a4ae-f95239765a10)
+
+
+#### Penjelasan
 DoorMachine adalah sebuah kelas dalam JavaScript yang merepresentasikan mekanisme pintu dengan dua status: "Terkunci" dan "Terbuka". Kelas ini memiliki properti state yang menyimpan status pintu, yang secara default diatur ke "Terkunci" dan ditampilkan di konsol saat objek dibuat. Terdapat dua metode utama: unlock(), yang mengubah status pintu menjadi "Terbuka" jika sebelumnya "Terkunci", dan lock(), yang mengembalikan status menjadi "Terkunci" jika sebelumnya "Terbuka". Saat dipanggil, metode ini mencetak status pintu ke konsol.
