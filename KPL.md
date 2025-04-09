@@ -1,71 +1,43 @@
 <h1>Konsruksi Perangkat Lunak</h1>
 <h2>Nama : Kholil Abdi Prasetiyo<br>NIM : 2211104071<br>Kelas : SE-06-03</h2>
-<h3>Tugas Jurnal Modul 4</h3>
+<h3>Tugas Pendahuluan Modul 5</h3>
 
-## KodeBuah.js
+## halogeneric.js
 #### Source Code
 ```js
-class KodeBuah {
-    constructor() {
-        this.tabelKodeBuah = {
-            "Apel": "A00",
-            "Aprikot": "B00",
-            "Alpukat": "C00",
-            "Pisang": "D00",
-            "Paprika": "E00",
-            "Kurma": "K00",
-            "Durian": "L00",
-            "Anggur": "M00",
-            "Melon": "N00",
-            "Semangka": "O00"
-        };
+class HaloGeneric {
+    SapaUser(user) {
+      console.log(`Halo user ${user}`);
     }
-
-    getKodeBuah(namaBuah) {
-        return this.tabelKodeBuah[namaBuah] || "Kode tidak ditemukan";
-    }
-}
-
-const kodeBuah = new KodeBuah();
-console.log("Kode Buah Apel:", kodeBuah.getKodeBuah("Apel"));
+  }
+  
+  const halo = new HaloGeneric();
+  halo.SapaUser("Kholil");
 ```
 #### Output
-![image](https://github.com/user-attachments/assets/82bae9b9-c43a-4bbb-b94f-b2645396b295)
+![image](https://github.com/user-attachments/assets/ac4a7e9e-e626-4bdb-b7b2-45bdffeb2f66)
 
 #### Penjelasan
-KodeBuah adalah sebuah kelas dalam JavaScript yang berfungsi untuk menyimpan dan mengambil kode unik dari berbagai jenis buah. Kelas ini memiliki properti tabelKodeBuah, sebuah objek yang memetakan nama buah ke kode spesifiknya. Metode getKodeBuah(namaBuah) digunakan untuk mencari kode berdasarkan nama buah yang diberikan. Jika nama buah tidak ditemukan dalam tabel, metode ini akan mengembalikan pesan "Kode tidak ditemukan". Contoh penggunaan kelas ini mencetak kode buah untuk "Apel" ke konsol.
+kelas HaloGeneric yang memiliki satu metode bernama SapaUser. Metode ini menerima satu parameter, yaitu user, dan mencetak pesan ke konsol dalam format Halo user [nama]. Setelah kelas didefinisikan, sebuah objek baru dari kelas tersebut dibuat dan disimpan dalam variabel halo. Kemudian, metode SapaUser dipanggil dengan argumen, sehingga menghasilkan output di konsol. Program ini menunjukkan konsep dasar OOP (Object-Oriented Programming) di JavaScript, yaitu penggunaan kelas dan instansiasi objek untuk mengorganisasi kode secara modular.
 
-## PosisiKarakterGame.js
+## datageneric.js
 #### Source Code
 ```js
-class PosisiKarakterGame {
-    constructor(NIM) {
-        this.state = "Berdiri";
-        this.NIM = NIM;
+class DataGeneric {
+    constructor(data) {
+      this.data = data;
     }
-
-    ubahState(aksi) {
-        if (this.NIM % 3 === 0) {
-            if (aksi === "S") console.log("Tombol arah bawah ditekan");
-            if (aksi === "W") console.log("Tombol arah atas ditekan");
-        } else if (this.NIM % 3 === 1) {
-            if (this.state === "Berdiri") console.log("Posisi standby");
-            if (this.state === "Tengkurap") console.log("Posisi istirahat");
-        } else if (this.NIM % 3 === 2) {
-            if (this.state === "Terbang" && aksi === "Jongkok") console.log("Posisi landing");
-            if (this.state === "Berdiri" && aksi === "Terbang") console.log("Posisi take off");
-        }
-        this.state = aksi;
+  
+    PrintData() {
+      console.log(`Data yang tersimpan adalah: ${this.data}`);
     }
-}
-
-const karakter = new PosisiKarakterGame(2211104071);
-karakter.ubahState("Berdiri");
-karakter.ubahState("Terbang");
-karakter.ubahState("Jongkok");
+  }
+  
+  const nim = new DataGeneric("2211104071");
+  nim.PrintData();
 ```
 #### Output
-![image](https://github.com/user-attachments/assets/0ad003f2-775e-41c2-bf38-4a4ea5a31eed)
+![image](https://github.com/user-attachments/assets/f3866c1e-20b1-42bd-b53a-d37ccd77422f)
 
 #### Penjelasan
-PosisiKarakterGame adalah sebuah kelas dalam JavaScript yang merepresentasikan status karakter dalam game berdasarkan nilai NIM. Kelas ini memiliki properti state yang menyimpan status karakter dan diinisialisasi dengan nilai "Berdiri". Metode ubahState(aksi) mengubah status karakter sesuai dengan aturan berbasis hasil modulus NIM % 3. Jika hasilnya 0, karakter merespons tombol "S" dan "W". Jika hasilnya 1, karakter menampilkan statusnya saat "Berdiri" atau "Tengkurap". Jika hasilnya 2, karakter dapat "Terbang" atau "Landing" berdasarkan aksi yang diberikan.
+kelas JavaScript DataGeneric memiliki konstruktor untuk menginisialisasi properti data dengan nilai yang diberikan saat objek dibuat. Kelas ini juga memiliki metode PrintData yang mencetak nilai data ke konsol dalam format. Dalam contoh penggunaan, sebuah objek dari kelas DataGeneric dibuat dengan nilai "2211104071" dan disimpan dalam variabel nim. Kemudian, metode PrintData dipanggil, sehingga output yang muncul di konsol adalah: Data yang tersimpan adalah: 2211104071. Program ini menunjukkan prinsip enkapsulasi dalam OOP, di mana data disimpan dalam objek dan diakses melalui metode tertentu.
