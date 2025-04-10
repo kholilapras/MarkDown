@@ -1,6 +1,6 @@
 <h1>Konsruksi Perangkat Lunak</h1>
 <h2>Nama : Kholil Abdi Prasetiyo<br>NIM : 2211104071<br>Kelas : SE-06-03</h2>
-<h3>Tugas Jurnal 6</h3>
+<h3>Tugas Jurnal Modul 6</h3>
 
 ## sayaTubeVideo.js
 #### Source Code
