@@ -1,61 +1,20 @@
 <h1>Konsruksi Perangkat Lunak</h1>
 <h2>Nama : Kholil Abdi Prasetiyo<br>NIM : 2211104071<br>Kelas : SE-06-03</h2>
-<h3>Tugas Pendahuluan Modul 7</h3>
+<h3>Tugas Jurnal Modul 7</h3>
 
 ## JSON DESERIALIZATON 1
-#### tp7_1_2211104071.json 
+#### jurnal7_1_2211104071.json 
 ```js
 {
-    "nama": {
-        "depan": "Kholil Abdi",
-        "belakang": "Prasetiyo"
+    "firstName": "Kholil Abdi",
+    "lastName": "Prasetiyo",
+    "gender": "male",
+    "age": 20,
+    "address": {
+        "streetAddress": "Jl. Gumelar",
+        "city": "Banyumas",
+        "state": "Central Java"
     },
-    "nim": 2211104071,
-    "fakultas": "Informatika"
-}
-```
-#### DataMahasiswa2211104071.js
-```js  
-const path = require('path');
-const fs = require('fs');
-
-function ReadJSON() {
-  const filePath = path.join(__dirname, 'tp7_1_2211104071.json');
-
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Gagal membaca file:', err);
-      return;
-    }
-
-    try {
-      const obj = JSON.parse(data);
-      const namaLengkap = obj.nama.depan + ' ' + obj.nama.belakang;
-      const nim = obj.nim;
-      const fakultas = obj.fakultas;
-
-      console.log(`Nama ${namaLengkap} dengan nim ${nim} dari fakultas ${fakultas}`);
-    } catch (parseErr) {
-      console.error('Gagal parsing JSON:', parseErr);
-    }
-  });
-}
-
-ReadJSON();
-```
-
-#### Output
-![image](https://github.com/user-attachments/assets/8be4e4d7-0f8b-4dbd-af89-5bfaea1528ee)
-
-#### Penjelasan
-Program DataMahasiswa2211104071.js merupakan contoh deserialisasi JSON dalam Node.js, yaitu proses mengubah data dalam format JSON menjadi objek JavaScript. Program ini membaca file tp7_1_2211104071.json yang berada dalam direktori yang sama menggunakan modul fs (File System). File tersebut berisi data mahasiswa seperti nama, NIM, dan fakultas. Setelah file berhasil dibaca, isinya diubah menjadi objek JavaScript menggunakan JSON.parse(). Program kemudian menggabungkan nama depan dan belakang menjadi namaLengkap, mengambil nilai nim dan fakultas, lalu mencetak informasi lengkap mahasiswa ke konsol dalam format: "Nama [nama lengkap] dengan nim [NIM] dari fakultas [fakultas]". Jika terjadi kesalahan saat membaca file atau parsing JSON, program akan menampilkan pesan error ke konsol.
-
-<br>
-
-## JSON DESERIALIZATON 2
-#### tp7_2_2211104071.json 
-```js
-{
     "courses": [
         {
             "code": "CCK2DAB3",
@@ -64,64 +23,191 @@ Program DataMahasiswa2211104071.js merupakan contoh deserialisasi JSON dalam Nod
         {
             "code": "CCK2LAB3",
             "name": "Kecerdasan Buatan"
-        },
-        {
-            "code": "CCK2JAC2",
-            "name": "Proyek Tingkat II"
-        },
-        {
-            "code": "CCK3IAB2",
-            "name": "Tata Tulis Ilmiah"
-        },
-        {
-            "code": "CCK1LAB3",
-            "name": "Design Thinking"
-        },
-        {
-            "code": "CCK2KAB4",
-            "name": "Konstruksi Perangkat Lunak"
-        },
-        {
-            "code": "CCK3KAB3",
-            "name": "Manajemen Konfigurasi dan Evolusi Perangkat Lunak"
         }
     ]
 }
 ```
-
-#### KuliahMahasiswa2211104071.js 
-```js
+#### DataMahasiswa2211104071.js
+```js  
 const fs = require('fs');
 const path = require('path');
 
 function ReadJSON() {
-  const filePath = path.join(__dirname, 'tp7_2_2211104071.json');
+    const filePath = path.join(__dirname, 'jurnal7_1_2211104071.json');
 
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) {
-      console.error('Gagal membaca file:', err);
-      return;
-    }
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Gagal membaca file JSON:', err);
+            return;
+        }
 
-    try {
-      const obj = JSON.parse(data);
+        try {
+            const mhs = JSON.parse(data);
 
-      console.log("Daftar mata kuliah yang diambil:");
-
-      obj.courses.forEach((course, index) => {
-        console.log(`MK ${index + 1} ${course.code} - ${course.name}`);
-      });
-    } catch (parseErr) {
-      console.error('Gagal parsing JSON:', parseErr);
-    }
-  });
+            console.log('===== DATA MAHASISWA =====');
+            console.log('Nama Lengkap     :', mhs.firstName, mhs.lastName);
+            console.log('Jenis Kelamin    :', mhs.gender);
+            console.log('Umur             :', mhs.age);
+            console.log('Alamat:');
+            console.log('  Jalan          :', mhs.address.streetAddress);
+            console.log('  Kota           :', mhs.address.city);
+            console.log('  Provinsi       :', mhs.address.state);
+            console.log('Mata Kuliah:');
+            mhs.courses.forEach((course, index) => {
+                console.log(`  ${index + 1}. [${course.code}] ${course.name}`);
+            });
+        } catch (parseErr) {
+            console.error('Gagal parsing JSON:', parseErr.message);
+        }
+    });
 }
 
 ReadJSON();
 ```
 
 #### Output
-![image](https://github.com/user-attachments/assets/52eddeef-fd9d-42ca-a802-bb963a429bc9)
+![image](https://github.com/user-attachments/assets/ef4ed664-36b1-456c-a16b-f6f09bf0d65e)
 
 #### Penjelasan
-Program KuliahMahasiswa2211104071.js adalah contoh deserialisasi data JSON yang berisi daftar mata kuliah menggunakan Node.js. Program ini menggunakan modul fs untuk membaca file tp7_2_2211104071.json, yang berada dalam direktori yang sama. File tersebut berisi array objek courses, di mana setiap objek merepresentasikan mata kuliah dengan atribut code (kode mata kuliah) dan name (nama mata kuliah). Setelah file berhasil dibaca, isinya dikonversi menjadi objek JavaScript menggunakan JSON.parse(). Program kemudian mencetak judul "Daftar mata kuliah yang diambil:", lalu melakukan iterasi terhadap array courses menggunakan forEach. Dalam setiap iterasi, program mencetak nama dan kode mata kuliah dengan format: "MK [nomor] [kode] - [nama]". Jika terjadi kesalahan saat membaca file atau parsing JSON, program akan menampilkan pesan kesalahan.
+Program JavaScript di atas melakukan deserialisasi data JSON dari file bernama jurnal7_1_2211104071.json menggunakan modul fs (File System) dan path dari Node.js. Fungsi ReadJSON membaca file JSON tersebut secara asinkron dengan fs.readFile, lalu mengubah isi file (yang berupa string JSON) menjadi objek JavaScript menggunakan JSON.parse. Setelah berhasil diparse, program menampilkan informasi data mahasiswa ke konsol, termasuk nama lengkap, jenis kelamin, umur, alamat lengkap (jalan, kota, dan provinsi), serta daftar mata kuliah yang diambil, dengan menampilkan kode dan nama mata kuliah. Jika terjadi kesalahan saat membaca atau mem-parsing file, pesan error akan ditampilkan. Program ini mendemonstrasikan proses dasar pengolahan file dan parsing JSON di Node.js.
+
+<br>
+
+## JSON DESERIALIZATON 2
+#### jurnal7_2_2211104071.json 
+```js
+{
+    "members": [
+        {
+            "firstName": "Thom",
+            "lastName": "Haye",
+            "gender": "male",
+            "age": 28,
+            "nim": "7349282382"
+        },
+        {
+            "firstName": "Jay",
+            "lastName": "Idzes",
+            "gender": "male",
+            "age": 32,
+            "nim": "5678568567"
+        },
+        {
+            "firstName": "Hokky",
+            "lastName": "Caraka",
+            "gender": "female",
+            "age": 24,
+            "nim": "456754675"
+        }
+    ]
+}
+```
+#### TeamMembers2211104071.js
+```js  
+const fs = require('fs');
+const path = require('path');
+
+function ReadJSON() {
+    const filePath = path.join(__dirname, 'jurnal7_2_2211104071.json');
+
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Gagal membaca file JSON:', err);
+            return;
+        }
+
+        try {
+            const obj = JSON.parse(data);
+            const members = obj.members;
+
+            console.log('Team member list:');
+            members.forEach(member => {
+                const fullName = `${member.firstName} ${member.lastName}`;
+                console.log(`${member.nim} ${fullName} (${member.age} ${member.gender})`);
+            });
+
+        } catch (parseErr) {
+            console.error('Gagal parsing JSON:', parseErr.message);
+        }
+    });
+}
+
+ReadJSON();
+```
+
+#### Output
+![image](https://github.com/user-attachments/assets/ef21a367-cacb-4135-bbaf-8fdf3154b897)
+
+#### Penjelasan
+Program JavaScript di atas berfungsi untuk melakukan deserialisasi data JSON dari file jurnal7_2_2211104071.json, yang berisi daftar anggota tim. Dengan menggunakan modul fs dan path dari Node.js, fungsi ReadJSON membaca file tersebut secara asinkron. Setelah isi file berhasil dibaca, data dalam bentuk string JSON diubah menjadi objek JavaScript menggunakan JSON.parse. Objek yang dihasilkan memiliki properti members, yaitu array yang berisi data tiap anggota tim. Program kemudian melakukan iterasi pada array tersebut dan mencetak informasi setiap anggota ke konsol, termasuk NIM, nama lengkap, usia, dan jenis kelamin. Jika terjadi kesalahan saat membaca atau parsing file, pesan error akan ditampilkan. Program ini merupakan contoh penggunaan dasar JSON parsing dan manipulasi data array di Node.js.
+
+<br>
+
+## JSON DESERIALIZATON 3
+#### jurnal7_3_2211104071.json 
+```js
+{
+    "glossary": {
+        "title": "example glossary",
+		"GlossDiv": {
+            "title": "S",
+			"GlossList": {
+                "GlossEntry": {
+                    "ID": "SGML",
+					"SortAs": "SGML",
+					"GlossTerm": "Standard Generalized Markup Language",
+					"Acronym": "SGML",
+					"Abbrev": "ISO 8879:1986",
+					"GlossDef": {
+                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
+						"GlossSeeAlso": ["GML", "XML"]
+                    },
+					"GlossSee": "markup"
+                }
+            }
+        }
+    }
+}
+```
+#### GlossaryItem2211104071.js
+```js  
+const fs = require('fs');
+const path = require('path');
+
+function ReadJSON() {
+    const filePath = path.join(__dirname, 'jurnal7_3_2211104071.json');
+
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Gagal membaca file JSON:', err);
+            return;
+        }
+
+        try {
+            const obj = JSON.parse(data);
+            const entry = obj.glossary.GlossDiv.GlossList.GlossEntry;
+
+            console.log('===== GlossEntry Data =====');
+            console.log('ID           :', entry.ID);
+            console.log('SortAs       :', entry.SortAs);
+            console.log('GlossTerm    :', entry.GlossTerm);
+            console.log('Acronym      :', entry.Acronym);
+            console.log('Abbrev       :', entry.Abbrev);
+            console.log('Definition   :', entry.GlossDef.para);
+            console.log('See Also     :', entry.GlossDef.GlossSeeAlso.join(', '));
+            console.log('Gloss See    :', entry.GlossSee);
+
+        } catch (parseErr) {
+            console.error('Gagal parsing JSON:', parseErr.message);
+        }
+    });
+}
+
+ReadJSON();
+```
+
+#### Output
+![image](https://github.com/user-attachments/assets/689bfe6c-eaba-4ab0-9ccf-b31740a6f1b5)
+
+#### Penjelasan
+Program JavaScript ini melakukan deserialisasi file JSON bernama jurnal7_3_2211104071.json, yang berisi struktur data bertingkat mengenai sebuah entri glosarium. Dengan menggunakan modul fs dan path dari Node.js, fungsi ReadJSON membaca file JSON secara asinkron. Setelah file berhasil dibaca, data dalam format string diubah menjadi objek JavaScript menggunakan JSON.parse. Program kemudian menavigasi struktur objek yang cukup dalam—mulai dari glossary, GlossDiv, GlossList, hingga GlossEntry. Dari objek GlossEntry, program mengambil dan menampilkan berbagai informasi seperti ID, nama singkatan (acronym), istilah glosarium, definisi, daftar istilah terkait (GlossSeeAlso), dan referensi (GlossSee). Informasi ini kemudian ditampilkan ke konsol dalam format yang terstruktur. Program ini menunjukkan bagaimana membaca dan mengakses data bersarang (nested) dalam file JSON menggunakan Node.js.
