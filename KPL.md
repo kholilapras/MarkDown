@@ -1,116 +1,138 @@
 <h1>Konstruksi Perangkat Lunak</h1>
 <h2>Nama : Kholil Abdi Prasetiyo<br>NIM : 2211104071<br>Kelas : SE-06-03</h2>
-<h3>Tugas Jurnal Pendahuluan 7</h3>
+<h3>Tugas Jurnal Jurnal 8</h3>
 
 <br>
 
 ## IMPLEMENTASI RUNTIME CONFIGURATION
-#### covid_config.json 
+#### bank_transfer_config.json 
 ```js
 {
-    "satuan_suhu": "celcius",
-    "batas_hari_deman": 14,
-    "pesan_ditolak": "Anda tidak diperbolehkan masuk ke dalam gedung ini",
-    "pesan_diterima": "Anda dipersilahkan untuk masuk ke dalam gedung ini"
+    "lang": "id",
+    "transfer": {
+        "threshold": 25000000,
+        "low_fee": 6500,
+        "high_fee": 15000
+    },
+    "methods": [
+        "RTO (real-time)",
+        "SKN",
+        "RTGS",
+        "BI FAST"
+    ],
+    "confirmation": {
+        "en": "yes",
+        "id": "ya"
+    }
 }
 ```
 
-#### covidConfig.js
+#### BankTransferConfig.js
 ```js
 const fs = require('fs');
-const path = './covid_config.json';
 
-class CovidConfig {
+class BankTransferConfig {
     constructor() {
-        const defaults = {
-            satuan_suhu: 'celcius',
-            batas_hari_deman: 14,
-            pesan_ditolak: 'Anda tidak diperbolehkan masuk ke dalam gedung ini',
-            pesan_diterima: 'Anda dipersilahkan untuk masuk ke dalam gedung ini'
+        this.configFile = 'bank_transfer_config.json';
+        this.defaultConfig = {
+            lang: 'en',
+            transfer: {
+                threshold: 25000000,
+                low_fee: 6500,
+                high_fee: 15000
+            },
+            methods: ['RTO (real-time)', 'SKN', 'RTGS', 'BI FAST'],
+            confirmation: {
+                en: 'yes',
+                id: 'ya'
+            }
         };
+        this.config = this.loadConfig();
+    }
 
-        if (fs.existsSync(path)) {
-            const data = fs.readFileSync(path);
-            Object.assign(this, defaults, JSON.parse(data));
+    loadConfig() {
+        if (fs.existsSync(this.configFile)) {
+            const content = fs.readFileSync(this.configFile);
+            return JSON.parse(content);
         } else {
-            Object.assign(this, defaults);
+            return this.defaultConfig;
         }
-    }
-
-    saveConfig() {
-        fs.writeFileSync(path, JSON.stringify(this, null, 2));
-    }
-
-    ubahSatuan() {
-        this.satuan_suhu = this.satuan_suhu === 'celcius' ? 'fahrenheit' : 'celcius';
-        this.saveConfig();
     }
 }
 
-module.exports = CovidConfig;
+module.exports = BankTransferConfig;
 ```
 
 #### index.js
 ```js
 const readline = require('readline');
-const CovidConfig = require('./covidConfig');
+const BankTransferConfig = require('./BankTransferConfig');
 
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
-const config = new CovidConfig();
+const config = new BankTransferConfig().config;
+const lang = config.lang;
 
-function tanyaSuhu() {
-    rl.question(`Berapa suhu badan anda saat ini? Dalam nilai ${config.satuan_suhu}: `, (suhuInput) => {
-        const suhu = parseFloat(suhuInput);
-        if (isNaN(suhu)) {
-            console.log("Masukkan angka yang valid untuk suhu.");
-            return tanyaSuhu();
-        }
-        tanyaHari(suhu);
-    });
+function ask(question) {
+    return new Promise((resolve) => rl.question(question, resolve));
 }
 
-function tanyaHari(suhu) {
-    rl.question('Berapa hari yang lalu (perkiraan) anda terakhir memiliki gejala demam? ', (hariInput) => {
-        const hari = parseInt(hariInput);
-        if (isNaN(hari)) {
-            console.log("Masukkan angka yang valid untuk hari.");
-            return tanyaHari(suhu);
-        }
-        evaluasi(suhu, hari);
-        rl.close();
-    });
-}
+(async () => {
+    const prompt = lang === 'en' ? 'Please insert the amount of money to transfer: ' : 'Masukkan jumlah uang yang akan di-transfer: ';
+    const amount = parseInt(await ask(prompt));
 
-function evaluasi(suhu, hari) {
-    let suhuNormal = false;
-    if (config.satuan_suhu === 'celcius') {
-        suhuNormal = suhu >= 36.5 && suhu <= 37.5;
-    } else if (config.satuan_suhu === 'fahrenheit') {
-        suhuNormal = suhu >= 97.7 && suhu <= 99.5;
-    }
+    const fee = amount <= config.transfer.threshold
+        ? config.transfer.low_fee
+        : config.transfer.high_fee;
 
-    if (suhuNormal && hari < config.batas_hari_deman) {
-        console.log(config.pesan_diterima);
+    const total = amount + fee;
+
+    if (lang === 'en') {
+        console.log(`Transfer fee = ${fee}`);
+        console.log(`Total amount = ${total}`);
     } else {
-        console.log(config.pesan_ditolak);
+        console.log(`Biaya transfer = ${fee}`);
+        console.log(`Total biaya = ${total}`);
     }
-}
 
-tanyaSuhu();
+    const methodPrompt = lang === 'en' ? 'Select transfer method:' : 'Pilih metode transfer:';
+    console.log(methodPrompt);
+    config.methods.forEach((method, index) => {
+        console.log(`${index + 1}. ${method}`);
+    });
+
+    await ask(lang === 'en' ? 'Choose a method by number: ' : 'Pilih metode dengan angka: ');
+
+    const confirmPrompt = lang === 'en'
+        ? `Please type "${config.confirmation.en}" to confirm the transaction: `
+        : `Ketik "${config.confirmation.id}" untuk mengkonfirmasi transaksi: `;
+
+    const confirmation = await ask(confirmPrompt);
+
+    if (
+        (lang === 'en' && confirmation === config.confirmation.en) ||
+        (lang === 'id' && confirmation === config.confirmation.id)
+    ) {
+        console.log(lang === 'en' ? 'The transfer is completed' : 'Proses transfer berhasil');
+    } else {
+        console.log(lang === 'en' ? 'Transfer is cancelled' : 'Transfer dibatalkan');
+    }
+
+    rl.close();
+})();
 ```
 
 #### Output
-![image](https://github.com/user-attachments/assets/307a82fc-1433-4a3d-bb31-c50505b9ec90)
+![image](https://github.com/user-attachments/assets/4fa07b34-8675-4f6d-9106-9f6624bbc5da)
 
 #### Penjelasan
-Program ini adalah implementasi runtime configuration dalam aplikasi Node.js yang digunakan untuk menyaring izin masuk seseorang ke dalam gedung berdasarkan suhu tubuh dan riwayat demam. Konfigurasi runtime disimpan dalam file covid_config.json yang berisi pengaturan seperti satuan suhu (celcius atau fahrenheit), batas maksimum hari setelah gejala demam (batas_hari_deman), dan pesan yang ditampilkan jika pengguna diterima atau ditolak masuk.
+ file bank_transfer_config.json berisi konfigurasi dalam format JSON, yang menentukan bahasa (lang), batas nominal (threshold) untuk perhitungan biaya transfer, nilai biaya transfer untuk jumlah di bawah dan di atas batas (low_fee dan high_fee), daftar metode transfer yang tersedia (methods), serta kata kunci konfirmasi berdasarkan bahasa (confirmation). File ini memungkinkan perubahan perilaku program tanpa perlu mengubah kode sumber.
 
-File covidConfig.js berfungsi sebagai modul kelas CovidConfig yang membaca konfigurasi dari file JSON saat diinisialisasi. Jika file tidak ditemukan, maka akan digunakan nilai default. Kelas ini juga memiliki method saveConfig() untuk menyimpan perubahan ke file konfigurasi, dan ubahSatuan() untuk mengganti satuan suhu dari Celcius ke Fahrenheit atau sebaliknya, kemudian menyimpannya kembali.
+Kemudian, kelas BankTransferConfig di BankTransferConfig.js bertanggung jawab untuk memuat konfigurasi. Ia memeriksa apakah file konfigurasi tersedia. Jika ya, isinya dibaca dan di-parse menjadi objek JavaScript. Jika tidak, program akan menggunakan konfigurasi default yang sudah ditentukan di dalam kelas. Hal ini memberikan fleksibilitas karena program bisa tetap berjalan meskipun file konfigurasi tidak tersedia.
 
-Pada file utama index.js, digunakan modul readline untuk menerima input dari pengguna via terminal. Pertama, program akan menanyakan suhu badan pengguna dengan memperhatikan satuan yang ditentukan dalam konfigurasi. Setelah suhu dimasukkan, program akan menanyakan berapa hari yang lalu pengguna terakhir mengalami demam. Nilai-nilai ini kemudian dievaluasi dalam fungsi evaluasi() yang menentukan apakah suhu pengguna berada dalam rentang normal (sesuai dengan satuan) dan apakah jumlah hari sejak demam terakhir masih dalam batas yang diizinkan.
+Terakhir, file index.js adalah entry point utama program yang menggunakan modul readline untuk berinteraksi dengan pengguna melalui terminal. Program membaca nilai konfigurasi dari instance BankTransferConfig dan menggunakan bahasa (lang) yang sesuai untuk menampilkan pesan-pesan interaktif. Pengguna diminta memasukkan nominal transfer, lalu program menghitung biaya berdasarkan apakah jumlah transfer melebihi threshold atau tidak, dan menampilkan totalnya. Kemudian, pengguna diminta memilih metode transfer dari daftar metode yang tersedia. Setelah itu, pengguna diminta mengonfirmasi transaksi dengan mengetikkan kata konfirmasi sesuai bahasa yang dipilih. Jika konfirmasi sesuai, transfer dianggap berhasil; jika tidak, transaksi dibatalkan. Program ditutup dengan memanggil rl.close() untuk mengakhiri interface interaktif.
 
-Jika kedua kondisi terpenuhi (suhu normal dan hari < batas), maka pengguna akan melihat pesan_diterima, jika tidak maka pesan_ditolak akan ditampilkan. Dengan desain ini, program memungkinkan fleksibilitas tinggi karena pengaturan dapat diubah tanpa menyentuh kode utama, cukup dengan memodifikasi file covid_config.json.
+Secara teknis, program ini menerapkan konsep runtime configuration, handling input/output interaktif, conditional logic, dan error handling dasar dalam pembacaan file. Hal ini membuatnya fleksibel dan mudah disesuaikan untuk kebutuhan simulasi transfer bank dengan berbagai konfigurasi.
