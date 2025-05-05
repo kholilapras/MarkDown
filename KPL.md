@@ -1,113 +1,85 @@
 <h1>Konstruksi Perangkat Lunak</h1>
 <h2>Nama : Kholil Abdi Prasetiyo<br>NIM : 2211104071<br>Kelas : SE-06-03</h2>
-<h3>Tugas Jurnal Pertemuan 9</h3>
+<h3>Tugas Pendahuluan Pertemuan 10</h3>
 
 <br>
 
-## IMPLEMENTASI WEB API
-#### Link Google Colab
+## MEMBUAT LIBRARY ALJABAR
+#### 1.) Buat Folder Library Project
 ```
-https://colab.research.google.com/drive/1EYLLzJZGwF3j3QOR6ZktawxRNcARoUZo?usp=sharing
+mkdir <nama-library>
 ```
-
-#### Source Code 
-```py
-# Install library
-!pip install fastapi uvicorn nest-asyncio pyngrok
-
-# Import library
-from fastapi import FastAPI
-from pydantic import BaseModel
-from typing import List
-import uvicorn
-import nest_asyncio
-from pyngrok import ngrok, conf
-
-# Konfigurasi Ngrok Token
-conf.get_default().auth_token = "2wD8F9KscwFYNHHJ0CWg5JAe040_34X6Mpo7btB4ZR9NLtqPf"
-
-# Inisialisasi FastAPI
-app = FastAPI()
-
-# Model Mahasiswa
-class Mahasiswa(BaseModel):
-    name: str
-    nim: str
-    course: List[str]
-    year: int
-
-# List Data
-mahasiswa_list = [
-    {"name": "Jay Idzes", "nim": "20250001", "course": ["AI", "Web Dev"], "year": 2022},
-    {"name": "Thom Haye", "nim": "20250002", "course": ["ML", "Database"], "year": 2021},
-    {"name": "Ole Romeny", "nim": "20250003", "course": ["IoT", "CyberSec"], "year": 2023}
-]
-
-# GET semua Mahasiswa
-@app.get("/api/Mahasiswa")
-def get_all_mahasiswa():
-    return mahasiswa_list
-
-# GET Mahasiswa berdasarkan index
-@app.get("/api/Mahasiswa/{id}")
-def get_mahasiswa(id: int):
-    if 0 <= id < len(mahasiswa_list):
-        return mahasiswa_list[id]
-    return {"error": "Index tidak ditemukan"}
-
-# POST tambah Mahasiswa
-@app.post("/api/Mahasiswa")
-def tambah_mahasiswa(mhs: Mahasiswa):
-    mahasiswa_list.append(mhs.dict())
-    return {"pesan": "Mahasiswa berhasil ditambahkan", "data": mhs.dict()}
-
-# DELETE Mahasiswa berdasarkan index
-@app.delete("/api/Mahasiswa/{id}")
-def hapus_mahasiswa(id: int):
-    if 0 <= id < len(mahasiswa_list):
-        deleted = mahasiswa_list.pop(id)
-        return {"pesan": "Mahasiswa dihapus", "data": deleted}
-    return {"error": "Index tidak ditemukan"}
-
-# Jalankan server ngrok
-nest_asyncio.apply()
-public_url = ngrok.connect(8000)
-print("🔗 Public URL (Swagger UI):", public_url.public_url + "/docs")
-
-uvicorn.run(app, port=8000)
 ```
+cd <nama-library>
+```
+![image](https://github.com/user-attachments/assets/56bead3e-9786-4804-acbc-dd7ea1262887)
 
-#### Cara Penggunaan
-1.) Buka Link Google Colab diatas lalu dan run program tugas jurnal
-![image](https://github.com/user-attachments/assets/01b049cc-eb08-43cd-9850-4a6fca8039a5)
+#### 2.) Buat npm init pada folder library project
+```
+npm init
+```
+![image](https://github.com/user-attachments/assets/bcfa3d61-2043-496e-b630-00b31162e495)
 
-2.) Klik Link yang terdapat pada Public URL (Swagger UI):
-![image](https://github.com/user-attachments/assets/f2000683-00ec-45d6-a978-7152c79d8c64)
+#### 3.) Buka Folder dan tambahkan file dan sourcecode untuk membuat library project
+Buat file index.js lalu tambahkan Sourcecode dibawah ini
+```
+function AkarPersamaanKuadrat([a, b, c]) {
+    const D = b ** 2 - 4 * a * c;
+    if (D < 0) return []; // Tidak ada akar real
+    const akarD = Math.sqrt(D);
+    return [(-b + akarD) / (2 * a), (-b - akarD) / (2 * a)];
+}
 
-3.) Klik visit site
-![image](https://github.com/user-attachments/assets/60478f44-6739-4d38-a0e4-152e8bc509a7)
-![image](https://github.com/user-attachments/assets/86a7e921-4a35-483f-939d-433f012a504e)
+function HasilKuadrat([a, b]) {
+    return [a ** 2, 2 * a * b, b ** 2];
+}
+
+module.exports = { AkarPersamaanKuadrat, HasilKuadrat };
+```
+![image](https://github.com/user-attachments/assets/567ac92e-ec89-42b6-b116-e697ea77bc4d)
+
+#### 4.) Login ke NPM pada terminal library project
+Pastikan sudah sudah memiliki akun di https://www.npmjs.com
+```
+npm login
+```
+![image](https://github.com/user-attachments/assets/e70c5167-2830-4a93-9875-9c23766b315c)
+
+#### 5.) Publikasi ke NPM
+Pastikan nama library unik
+```
+npm publish --access public
+```
+![image](https://github.com/user-attachments/assets/48a1b06b-cc59-49c4-aad7-5bba738b8675)
+
+#### 5.) Cek Library NPM
+Login ke https://www.npmjs.com lalu klik icon profile dan klik bagian packages
+![image](https://github.com/user-attachments/assets/196cedb3-05ae-4346-8ba6-4989859b0fab)
 
 <br>
 
-## MENDEMONSTRASI WEB API
-#### A. Mencoba GET /api/mahasiswa
-![image](https://github.com/user-attachments/assets/4f8a610d-f6c0-4866-9e89-de9c9c3ea637)
+## MEMANGGIL LIBRARY DI FUNGSI UTAMA
+#### 1.) Buat Project Baru
 
-#### B. Tambahkan satu data Mahasiswa baru (urutan ke-4 dalam list) dengan menggunakan endpoint POST /api/Mahasiswa
-![image](https://github.com/user-attachments/assets/941333a2-d33a-41b6-bf82-ff48eae215a0)
+#### 2.) Pilih Library yang akan digunakan
+![image](https://github.com/user-attachments/assets/fd828b4e-13aa-4bf6-835d-721a28070d8a)
 
-#### C. lakukan kembali GET /api/Mahasiswa untuk memastikan bahwa data Mahasiswa yang baru berhasil ditambahkan ke dalam list.
-![image](https://github.com/user-attachments/assets/fdd9902b-d77e-4d61-9856-4e38b5f7edeb)
+#### 3.) Install Library ke project
+```
+npm i <nama-library>
+```
+![image](https://github.com/user-attachments/assets/3bd5fb30-bf73-49ff-b6a8-ce005b42b581)
 
-#### D. Lakukan permintaan GET ke endpoint /api/Mahasiswa/3 untuk mengambil data Mahasiswa yang baru saja ditambahkan (yang ada di index ke-3).
-![image](https://github.com/user-attachments/assets/20ea8d5f-bfe8-4d1e-a2b4-68f32a820f07)
+#### 4.) Tambahkan Sourcecode
+sourcecode
+```js
+const { AkarPersamaanKuadrat, HasilKuadrat } = require('aljbr-kholil');
 
-#### E. Hapus data Mahasiswa yang berada pada index ke-3 dengan menggunakan endpoint DELETE
-![image](https://github.com/user-attachments/assets/f090eb2e-c672-416a-9a70-723cf934dacc)
+console.log(AkarPersamaanKuadrat([1, -3, -10]));
+console.log(HasilKuadrat([2, -3]));
+```
+![image](https://github.com/user-attachments/assets/e01050b6-0f2b-465b-95be-24f5709a58ed)
 
-#### F. Lakukan satu kali lagi GET /api/Mahasiswa untuk memastikan bahwa Mahasiswa pada index ke-3 sebelumnya sudah tidak ada di list.
-![image](https://github.com/user-attachments/assets/eb93d371-32f7-4aab-90f9-200bba9031b4)
+#### 5.) Run Project
+![image](https://github.com/user-attachments/assets/75ca6823-2741-4962-9495-427cdea1f214)
 
-#### Penjelasan
-Program di atas merupakan aplikasi web sederhana berbasis FastAPI yang digunakan untuk mengelola data mahasiswa. Program diawali dengan menginstal dan mengimpor beberapa library penting seperti fastapi, uvicorn, nest_asyncio, dan pyngrok. Selanjutnya, token autentikasi Ngrok dikonfigurasi untuk membuat server lokal dapat diakses secara publik melalui internet. FastAPI diinisialisasi, lalu dibuat model data Mahasiswa menggunakan BaseModel dari Pydantic, yang mencakup atribut nama, NIM, daftar mata kuliah, dan tahun angkatan. Data mahasiswa disimpan dalam sebuah list Python. Aplikasi menyediakan beberapa endpoint REST API: GET /api/Mahasiswa untuk mengambil seluruh data mahasiswa, GET /api/Mahasiswa/{id} untuk mengambil data berdasarkan indeks, POST /api/Mahasiswa untuk menambahkan data baru, dan DELETE /api/Mahasiswa/{id} untuk menghapus data berdasarkan indeks.
