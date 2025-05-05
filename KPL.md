@@ -87,20 +87,23 @@ uvicorn.run(app, port=8000)
 <br>
 
 ## MENDEMONSTRASI WEB API
-A. Mencoba “GET /api/mahasiswa” saat baru dijalankan (mengeluarkan list nama mahasiswa dan nim anggota kelompok):
+#### A. Mencoba “GET /api/mahasiswa” saat baru dijalankan (mengeluarkan list nama mahasiswa dan nim anggota kelompok):
 ![image](https://github.com/user-attachments/assets/460fe751-0f13-41ef-9cd3-36d50f73e2f7)
 
-B. Menambahkan mahasiswa => Nama: “John Doe” dan NIM: “20250069” dengan “POST /api/mahasiswa”
+#### B. Menambahkan mahasiswa => Nama: “John Doe” dan NIM: “20250069” dengan “POST /api/mahasiswa”
 ![image](https://github.com/user-attachments/assets/9628efa2-a15a-4933-9950-ccbcaac4b5a2)
 
-C. Cek list/array dari semua mahasiswa lagi dengan “GET /api/mahasiswa”, pastikan mahasiswa yang baru ditambahkan sebelumnya ada di list mahasiswa:
+#### C. Cek list/array dari semua mahasiswa lagi dengan “GET /api/mahasiswa”, pastikan mahasiswa yang baru ditambahkan sebelumnya ada di list mahasiswa:
 ![image](https://github.com/user-attachments/assets/08c9c42e-202c-497a-9236-c2b671d4bc8e)
 
-D. Mencoba meminta mahasiswa dengan index 0, “GET /api/mahasiswa/0” yang seharusnya mengeluarkan nama dan nim:
+#### D. Mencoba meminta mahasiswa dengan index 0, “GET /api/mahasiswa/0” yang seharusnya mengeluarkan nama dan nim:
 ![image](https://github.com/user-attachments/assets/08124b40-4c7a-49ef-baf1-0d1015183438)
 
-E. Menghapus objek mahasiswa dengan index ke-0 dengan “DELETE /api/mahasiswa/0”
+#### E. Menghapus objek mahasiswa dengan index ke-0 dengan “DELETE /api/mahasiswa/0”
 ![image](https://github.com/user-attachments/assets/3a704db5-1a9a-4ee4-871a-767dfce648ed)
 
-F. Cek list/array dari semua mahasiswa sekali lagi dengan “GET /api/mahasiswa”, pastikan nama anda sudah tidak muncul di list tersebut:
+#### F. Cek list/array dari semua mahasiswa sekali lagi dengan “GET /api/mahasiswa”, pastikan nama anda sudah tidak muncul di list tersebut:
 ![image](https://github.com/user-attachments/assets/f1f684f3-fdf7-402e-81ea-65fae0f663e3)
+
+#### Penjelasan
+Program di atas adalah sebuah aplikasi REST API sederhana yang dibangun menggunakan FastAPI untuk mengelola data mahasiswa. Pertama, program menginstal dan mengimpor beberapa library penting seperti fastapi, uvicorn, nest_asyncio, dan pyngrok. Selanjutnya, aplikasi diinisialisasi dengan FastAPI, dan token otentikasi untuk Ngrok dikonfigurasi agar memungkinkan akses publik ke server lokal. Model data Mahasiswa didefinisikan menggunakan Pydantic, dan data mahasiswa disimpan dalam list statis sebagai basis data sementara. API menyediakan beberapa endpoint: GET /api/mahasiswa untuk mengambil seluruh data mahasiswa, GET /api/mahasiswa/{index} untuk mengambil data berdasarkan indeks, POST /api/mahasiswa untuk menambah data baru, dan DELETE /api/mahasiswa/{index} untuk menghapus data berdasarkan indeks. Dengan nest_asyncio dan pyngrok, server FastAPI dijalankan secara asinkron dan dibuka ke internet menggunakan URL publik dari Ngrok, sehingga dokumentasi API (Swagger UI) dapat diakses melalui tautan yang dicetak ke konsol.
