@@ -83,3 +83,13 @@ console.log(HasilKuadrat([2, -3]));
 #### 5.) Run Project
 ![image](https://github.com/user-attachments/assets/75ca6823-2741-4962-9495-427cdea1f214)
 
+#### Penjelasan
+Pada project ini dibuat sebuah library Node.js yang berfungsi untuk melakukan dua operasi matematika dasar terkait persamaan: mencari akar-akar dari persamaan kuadrat dan menghitung hasil kuadrat dari persamaan linier. File index.js dalam folder mendefinisikan dua fungsi, yaitu AkarPersamaanKuadrat dan HasilKuadrat.
+
+Fungsi AkarPersamaanKuadrat menerima sebuah array berisi tiga angka yang mewakili koefisien a, b, dan c dari persamaan kuadrat dalam bentuk umum (ax^2 + bx + c = 0). Fungsi ini menghitung diskriminan D = b^2 - 4ac untuk menentukan akar-akarnya. Jika nilai diskriminan negatif, maka fungsi mengembalikan array kosong karena tidak ada akar real. Jika diskriminan bernilai nol atau positif, fungsi akan menghitung dan mengembalikan dua akar real menggunakan rumus kuadrat standar.
+
+Sementara itu, fungsi HasilKuadrat digunakan untuk menghitung hasil kuadrat dari suatu persamaan linier dalam bentuk (ax + b). Fungsi ini menerima array berisi dua angka, yaitu a dan b, kemudian mengembalikan array berisi koefisien dari hasil kuadratnya, yaitu a^2x^2 + 2abx + b^2, sesuai dengan identitas kuadrat sempurna.
+
+Pada file utama index.js, kedua fungsi tersebut diimpor menggunakan require dan kemudian diuji dengan dua contoh input. Fungsi AkarPersamaanKuadrat dipanggil dengan input [1, -3, -10] yang mewakili persamaan x^2 - 3x - 10, dan hasilnya adalah dua akar: 5 dan -2. Sedangkan HasilKuadrat dipanggil dengan input [2, -3] yang mewakili persamaan 2x - 3, dan hasil kuadratnya adalah 4x^2 - 12x + 9. Hasil dari kedua fungsi ini ditampilkan di console menggunakan console.log, untuk memastikan bahwa library berfungsi sesuai yang diharapkan.
+
+
