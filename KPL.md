@@ -1,95 +1,133 @@
 <h1>Konstruksi Perangkat Lunak</h1>
 <h2>Nama : Kholil Abdi Prasetiyo<br>NIM : 2211104071<br>Kelas : SE-06-03</h2>
-<h3>Tugas Pendahuluan Pertemuan 10</h3>
+<h3>Tugas Pendahuluan Pertemuan 12</h3>
 
 <br>
 
-## MEMBUAT LIBRARY ALJABAR
-#### 1.) Buat Folder Library Project
-```
-mkdir <nama-library>
-```
-```
-cd <nama-library>
-```
-![image](https://github.com/user-attachments/assets/56bead3e-9786-4804-acbc-dd7ea1262887)
+## MEMBUAT PROJECT GUI BARU
+#### 1.) Buat Folder Project Baru lalu buka terminal
+![image](https://github.com/user-attachments/assets/495a4276-4a6c-476a-930c-b00b38994a7b)
 
-#### 2.) Buat npm init pada folder library project
+#### 2.) Inisialisasi Project
 ```
-npm init
+npm init -y
 ```
-![image](https://github.com/user-attachments/assets/bcfa3d61-2043-496e-b630-00b31162e495)
+```
+npm install electron jest --save-dev
+```
+![image](https://github.com/user-attachments/assets/91e2262f-adac-4db9-a822-476e1f8285a7)
 
-#### 3.) Buka Folder dan tambahkan file dan sourcecode untuk membuat library project
-Buat file index.js lalu tambahkan Sourcecode dibawah ini
-```
-function AkarPersamaanKuadrat([a, b, c]) {
-    const D = b ** 2 - 4 * a * c;
-    if (D < 0) return []; // Tidak ada akar real
-    const akarD = Math.sqrt(D);
-    return [(-b + akarD) / (2 * a), (-b - akarD) / (2 * a)];
-}
 
-function HasilKuadrat([a, b]) {
-    return [a ** 2, 2 * a * b, b ** 2];
-}
-
-module.exports = { AkarPersamaanKuadrat, HasilKuadrat };
-```
-![image](https://github.com/user-attachments/assets/567ac92e-ec89-42b6-b116-e697ea77bc4d)
-
-#### 4.) Login ke NPM pada terminal library project
-Pastikan sudah sudah memiliki akun di https://www.npmjs.com
-```
-npm login
-```
-![image](https://github.com/user-attachments/assets/e70c5167-2830-4a93-9875-9c23766b315c)
-
-#### 5.) Publikasi ke NPM
-Pastikan nama library unik
-```
-npm publish --access public
-```
-![image](https://github.com/user-attachments/assets/48a1b06b-cc59-49c4-aad7-5bba738b8675)
-
-#### 5.) Cek Library NPM
-Login ke https://www.npmjs.com lalu klik icon profile dan klik bagian packages
-![image](https://github.com/user-attachments/assets/196cedb3-05ae-4346-8ba6-4989859b0fab)
+#### 2.) Konfigurasi package.json
+![image](https://github.com/user-attachments/assets/9a7e1a03-7522-4ee4-a300-074d122254be)
 
 <br>
 
-## MEMANGGIL LIBRARY DI FUNGSI UTAMA
-#### 1.) Buat Project Baru
-
-#### 2.) Pilih Library yang akan digunakan
-![image](https://github.com/user-attachments/assets/fd828b4e-13aa-4bf6-835d-721a28070d8a)
-
-#### 3.) Install Library ke project
-```
-npm i <nama-library>
-```
-![image](https://github.com/user-attachments/assets/3bd5fb30-bf73-49ff-b6a8-ce005b42b581)
-
-#### 4.) Tambahkan Sourcecode
-sourcecode
+## MEMBUAT GUI SEDERHANA
+#### 1.) Tambahkan file main.js
 ```js
-const { AkarPersamaanKuadrat, HasilKuadrat } = require('aljbr-kholil');
+const { app, BrowserWindow } = require('electron');
 
-console.log(AkarPersamaanKuadrat([1, -3, -10]));
-console.log(HasilKuadrat([2, -3]));
+function createWindow() {
+  const win = new BrowserWindow({
+    width: 400,
+    height: 300,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    }
+  });
+
+  win.loadFile('index.html');
+}
+
+app.whenReady().then(createWindow);
 ```
-![image](https://github.com/user-attachments/assets/e01050b6-0f2b-465b-95be-24f5709a58ed)
 
-#### 5.) Run Project
-![image](https://github.com/user-attachments/assets/75ca6823-2741-4962-9495-427cdea1f214)
+#### 2.) Tambahkan file index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TP Modul 12</title>
+</head>
+<body>
+  <h3>Masukkan Angka:</h3>
+  <input type="number" id="input" />
+  <button onclick="proses()">Cek Tanda</button>
+  <p id="output"></p>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
+```
+
+#### 3.) Tambahkan file renderer.js
+```js
+const { CariTandaBilangan } = require('./logic');
+
+function proses() {
+  const input = parseInt(document.getElementById("input").value);
+  const result = CariTandaBilangan(input);
+  document.getElementById("output").innerText = result;
+}
+```
+
+#### 4.) Tambahkan file logic.js
+```js
+function CariTandaBilangan(a) {
+  if (a < 0) return "Negatif";
+  if (a > 0) return "Positif";
+  return "Nol";
+}
+
+module.exports = { CariTandaBilangan };
+```
+<br>
+
+## MELAKUKAN SOFTWARE PROFILING
+#### 1.) CPU dan Memory usage saat project berjalan tanpa input apapun
+![image](https://github.com/user-attachments/assets/7d0d413f-2ef2-40e2-b683-f1cf1c255b02)
+
+#### 2.) CPU dan Memory usage saat project berjalan dengan input angka
+![image](https://github.com/user-attachments/assets/081378ab-47c0-4689-a50d-202737646337)
+
+<br>
+
+## MENAMBAHKAN UNIT TESTING
+#### 1.) Buat folder dan file untuk unit testing
+__tests__/logic.test.js
+```js
+const { CariTandaBilangan } = require('../logic');
+
+test('Angka negatif', () => {
+  expect(CariTandaBilangan(-5)).toBe('Negatif');
+});
+
+test('Angka positif', () => {
+  expect(CariTandaBilangan(7)).toBe('Positif');
+});
+
+test('Angka nol', () => {
+  expect(CariTandaBilangan(0)).toBe('Nol');
+});
+```
+![image](https://github.com/user-attachments/assets/9d561a2f-d0a3-4bbf-aea5-e2138c229a42)
+
+#### 2.) Cek hasil unit testing
+```
+npm test
+```
+![image](https://github.com/user-attachments/assets/330e2626-0bd6-4e87-82f7-c9fb218ba2f1)
+
+<br>
 
 #### Penjelasan
-Pada project ini dibuat sebuah library Node.js yang berfungsi untuk melakukan dua operasi matematika dasar terkait persamaan: mencari akar-akar dari persamaan kuadrat dan menghitung hasil kuadrat dari persamaan linier. File index.js dalam folder mendefinisikan dua fungsi, yaitu AkarPersamaanKuadrat dan HasilKuadrat.
+Program ini dibuat menggunakan Electron untuk membangun antarmuka grafis (GUI) dan Node.js sebagai backend logika aplikasi serta pengujian. File utama main.js bertindak sebagai entry point aplikasi Electron, di mana sebuah jendela GUI dibuat dan file index.html dimuat sebagai tampilan utama. Jendela ini memiliki ukuran yang telah ditentukan dan mengaktifkan fitur nodeIntegration agar file JavaScript frontend dapat mengakses modul Node.js.
 
-Fungsi AkarPersamaanKuadrat menerima sebuah array berisi tiga angka yang mewakili koefisien a, b, dan c dari persamaan kuadrat dalam bentuk umum (ax^2 + bx + c = 0). Fungsi ini menghitung diskriminan D = b^2 - 4ac untuk menentukan akar-akarnya. Jika nilai diskriminan negatif, maka fungsi mengembalikan array kosong karena tidak ada akar real. Jika diskriminan bernilai nol atau positif, fungsi akan menghitung dan mengembalikan dua akar real menggunakan rumus kuadrat standar.
+File index.html berisi elemen-elemen dasar antarmuka, yaitu sebuah input angka (textbox), sebuah tombol (button) untuk memicu proses klasifikasi, dan sebuah paragraf (label) untuk menampilkan hasil. Ketika pengguna memasukkan angka dan menekan tombol, fungsi proses() yang didefinisikan dalam renderer.js akan dijalankan. Fungsi ini membaca nilai dari input, mengubahnya menjadi bilangan bulat, lalu memanggil fungsi CariTandaBilangan dari logic.js untuk mengklasifikasikan angka sebagai “Negatif”, “Positif”, atau “Nol”.
 
-Sementara itu, fungsi HasilKuadrat digunakan untuk menghitung hasil kuadrat dari suatu persamaan linier dalam bentuk (ax + b). Fungsi ini menerima array berisi dua angka, yaitu a dan b, kemudian mengembalikan array berisi koefisien dari hasil kuadratnya, yaitu a^2x^2 + 2abx + b^2, sesuai dengan identitas kuadrat sempurna.
+Fungsi CariTandaBilangan(a) dalam file logic.js adalah inti logika program. Fungsi ini menerima satu parameter a dan mengembalikan string berdasarkan nilai a: jika lebih kecil dari 0, hasilnya “Negatif”; jika lebih besar dari 0, hasilnya “Positif”; dan jika sama dengan 0, hasilnya “Nol”. Fungsi ini dipanggil dari frontend dan hasilnya langsung ditampilkan pada elemen paragraf.
 
-Pada file utama index.js, kedua fungsi tersebut diimpor menggunakan require dan kemudian diuji dengan dua contoh input. Fungsi AkarPersamaanKuadrat dipanggil dengan input [1, -3, -10] yang mewakili persamaan x^2 - 3x - 10, dan hasilnya adalah dua akar: 5 dan -2. Sedangkan HasilKuadrat dipanggil dengan input [2, -3] yang mewakili persamaan 2x - 3, dan hasil kuadratnya adalah 4x^2 - 12x + 9. Hasil dari kedua fungsi ini ditampilkan di console menggunakan console.log, untuk memastikan bahwa library berfungsi sesuai yang diharapkan.
-
-
+Untuk memastikan bahwa logika bekerja sesuai harapan, file __tests__/logic.test.js menggunakan framework Jest untuk menguji fungsi CariTandaBilangan. Tiga pengujian dilakukan untuk mencakup semua kemungkinan cabang kondisi: angka negatif, positif, dan nol. Dengan demikian, branch coverage dari fungsi dapat dikatakan sangat baik.
