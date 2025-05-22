@@ -1,127 +1,147 @@
 <h1>Konstruksi Perangkat Lunak</h1>
 <h2>Nama : Kholil Abdi Prasetiyo<br>NIM : 2211104071<br>Kelas : SE-06-03</h2>
-<h3>Tugas Jurnal Pertemuan 10</h3>
+<h3>Tugas Jurnal Pertemuan 12</h3>
 
 <br>
 
-## MEMBUAT LIBRARY ALJABAR
-#### 1.) Buat Folder Library Project
-```
-mkdir <nama-library>
-```
-```
-cd <nama-library>
-```
-![image](https://github.com/user-attachments/assets/13cfbcc4-eab0-4139-8cf4-eb5f5223257c)
+## MEMBUAT PROJECT GUI BARU
+#### 1.) Buat Folder Project Baru lalu buka terminal
+![image](https://github.com/user-attachments/assets/feecb9c3-399c-437e-aa5e-5812b996ff62)
 
-#### 2.) Buat npm init pada folder library project
+#### 2.) Inisialisasi Project
 ```
-npm init
+npm init -y
 ```
-![image](https://github.com/user-attachments/assets/6a4fc38d-793c-433a-9761-38307a8ff4d6)
-
-#### 3.) Buka Folder dan tambahkan file dan sourcecode untuk membuat library project
-Buat file index.js lalu tambahkan Sourcecode dibawah ini
 ```
-function FPB(a, b) {
-  while (b !== 0) {
-    const temp = b;
-    b = a % b;
-    a = temp;
-  }
-  return a;
-}
-
-function KPK(a, b) {
-  return (a * b) / FPB(a, b);
-}
-
-function Turunan(persamaan) {
-  const turunan = [];
-  const n = persamaan.length - 1;
-  for (let i = 0; i < n; i++) {
-    const pangkat = n - i;
-    const koef = persamaan[i];
-    const hasil = koef * pangkat;
-    if (hasil === 0) continue;
-    let str = `${hasil}`;
-    if (pangkat - 1 > 0) str += `x${pangkat - 1 > 1 ? `^${pangkat - 1}` : ""}`;
-    turunan.push(str);
-  }
-  return turunan.join(" + ").replace(/\+ -/g, "- ");
-}
-
-function Integral(persamaan) {
-  const hasil = [];
-  const n = persamaan.length - 1;
-  for (let i = 0; i <= n; i++) {
-    const pangkat = n - i + 1;
-    const koef = persamaan[i];
-    const nilai = koef / pangkat;
-    let str = `${nilai !== 1 ? nilai : ""}`;
-    str += `x${pangkat > 1 ? `^${pangkat}` : ""}`;
-    hasil.push(str);
-  }
-  hasil.push("C");
-  return hasil.join(" + ").replace(/\+ -/g, "- ");
-}
-
-module.exports = { FPB, KPK, Turunan, Integral };
+npm install electron jest --save-dev
 ```
-![image](https://github.com/user-attachments/assets/7fd0c6b8-5a33-40dc-87f2-eb2a80c76314)
+![image](https://github.com/user-attachments/assets/ffd44d37-6538-4eb4-9de9-895dcc024a71)
 
-#### 4.) Login ke NPM pada terminal library project
-Pastikan sudah sudah memiliki akun di https://www.npmjs.com
-```
-npm login
-```
-![image](https://github.com/user-attachments/assets/a12465c6-1e61-4e4e-9d81-a8071b10dcce)
-
-#### 5.) Publikasi ke NPM
-Pastikan nama library unik
-```
-npm publish --access public
-```
-![image](https://github.com/user-attachments/assets/5afd7ee4-166b-4fec-ab72-c4412da0bf09)
-
-#### 5.) Cek Library NPM
-Login ke https://www.npmjs.com lalu klik icon profile dan klik bagian packages
-![image](https://github.com/user-attachments/assets/7267bf67-79c4-4964-b835-9dc7c5010e8c)
+#### 2.) Konfigurasi package.json
+![image](https://github.com/user-attachments/assets/206eca74-08e4-4b63-ac81-370c39398a90)
 
 <br>
 
-## MEMANGGIL LIBRARY DI FUNGSI UTAMA
-#### 1.) Buat Project Baru
-
-#### 2.) Pilih Library yang akan digunakan
-![image](https://github.com/user-attachments/assets/bf4ec552-0eec-4d07-8d50-d285a1ac81fb)
-
-#### 3.) Install Library ke project
-```
-npm i <nama-library>
-```
-![image](https://github.com/user-attachments/assets/ccc6cd35-f1ad-4858-b11e-4fa54306b669)
-
-#### 4.) Tambahkan Sourcecode
-Buat file index.js lalu tambahkan Sourcecode dibawah ini
+## MEMBUAT GUI SEDERHANA
+#### 1.) Tambahkan file main.js
 ```js
-const { FPB, KPK, Turunan, Integral } = require('mtklib-tj10kpl');
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
 
-console.log('FPB(60, 45) =', FPB(60, 45));
-console.log('KPK(12, 8) =', KPK(12, 8));
-console.log('Turunan([1, 4, -12, 9]) =', Turunan([1, 4, -12, 9]));
-console.log('Integral([4, 6, -12, 9]) =', Integral([4, 6, -12, 9]));
+function createWindow() {
+  const win = new BrowserWindow({
+    width: 400,
+    height: 300,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
+    }
+  });
+
+  win.loadFile('index.html');
+}
+
+app.whenReady().then(createWindow);
 ```
-![image](https://github.com/user-attachments/assets/90efb94e-b2f6-4393-8671-7b44467c7811)
 
-#### 5.) Run Project
-![image](https://github.com/user-attachments/assets/6ab26c2d-1e88-4f43-b063-4c565976009a)
+#### 2.) Tambahkan file preload.js
+```js
+const { contextBridge } = require('electron');
+const { CariNilaiPangkat } = require('./utils/math');
+
+contextBridge.exposeInMainWorld('api', {
+  CariNilaiPangkat
+});
+```
+
+#### 3.) Tambahkan file renderer.js
+```js
+document.getElementById('btn').addEventListener('click', () => {
+  const a = parseInt(document.getElementById('a').value);
+  const b = parseInt(document.getElementById('b').value);
+  const result = window.api.CariNilaiPangkat(a, b);
+  document.getElementById('output').innerText = `Hasil: ${result}`;
+});
+```
+
+#### 4.) Tambahkan file index.html
+```html
+<!DOCTYPE html>
+<html>
+<head><title>Modul 12</title></head>
+<body>
+  <input id="a" type="number" placeholder="Angka a">
+  <input id="b" type="number" placeholder="Angka b">
+  <button id="btn">Hitung Pangkat</button>
+  <label id="output"></label>
+  <script src="renderer.js"></script>
+</body>
+</html>
+```
+
+#### 5.) Tambahkan file utils/math.js
+```js
+function CariNilaiPangkat(a, b) {
+  if (b === 0) return 1;
+  if (b < 0) return -1;
+  if (b > 10 || a > 100) return -2;
+
+  let result = 1;
+  for (let i = 0; i < b; i++) {
+    result *= a;
+    if (result > Number.MAX_SAFE_INTEGER) return -3;
+  }
+
+  return result;
+}
+
+module.exports = { CariNilaiPangkat };
+```
+
+<br>
+
+## MELAKUKAN SOFTWARE PROFILING
+#### 1.) Running Project
+```
+npm start
+```
+![image](https://github.com/user-attachments/assets/2f9ae282-6455-43f5-82f9-fab2660395ab)
+
+#### 2.) CPU dan Memory usage saat project berjalan tanpa input apapun
+![image](https://github.com/user-attachments/assets/3afe2936-c51f-4400-a300-0f4bd4762b4d)
+
+#### 3.) CPU dan Memory usage saat project berjalan dengan input 3 dan 19
+
+#### 4.) CPU dan Memory usage saat project berjalan dengan input 9 dan 30
+
+<br>
+
+## MENAMBAHKAN UNIT TESTING
+#### 1.) Buat folder dan file untuk unit testing
+__tests__/logic.test.js
+```js
+const { CariTandaBilangan } = require('../logic');
+
+test('Angka negatif', () => {
+  expect(CariTandaBilangan(-5)).toBe('Negatif');
+});
+
+test('Angka positif', () => {
+  expect(CariTandaBilangan(7)).toBe('Positif');
+});
+
+test('Angka nol', () => {
+  expect(CariTandaBilangan(0)).toBe('Nol');
+});
+```
+![image](https://github.com/user-attachments/assets/9d561a2f-d0a3-4bbf-aea5-e2138c229a42)
+
+#### 2.) Cek hasil unit testing
+```
+npm test
+```
+![image](https://github.com/user-attachments/assets/330e2626-0bd6-4e87-82f7-c9fb218ba2f1)
+
+<br>
 
 #### Penjelasan
-Folder mtklib-tj10kpl berfungsi sebagai modul library matematika. Di dalam file ini, kita mendefinisikan empat buah fungsi penting, yaitu FPB, KPK, Turunan, dan Integral. Fungsi FPB(a, b) digunakan untuk mencari Faktor Persekutuan Terbesar dari dua buah bilangan bulat dengan menggunakan algoritma Euclidean, yaitu dengan cara mencari sisa pembagian dan melakukan pertukaran nilai sampai salah satu nilainya menjadi nol. Selanjutnya, fungsi KPK(a, b) menghitung Kelipatan Persekutuan Terkecil dengan rumus (a × b) / FPB(a, b), yang memanfaatkan fungsi FPB yang telah dibuat sebelumnya.
-
-Fungsi Turunan(persamaan) digunakan untuk menghitung turunan dari suatu polinomial yang diberikan dalam bentuk array koefisien. Misalnya, array \[1, 4, -12, 9] mewakili persamaan x³ + 4x² – 12x + 9. Fungsi ini bekerja dengan menghitung turunan masing-masing suku dengan mengalikan koefisien dengan pangkat aslinya lalu menurunkan pangkat tersebut satu tingkat. Hasil turunan kemudian diubah menjadi string matematika dengan format yang mudah dibaca, seperti “3x² + 8x - 12”. Kemudian, fungsi Integral(persamaan) menghitung integral tak tentu dari sebuah polinomial. Fungsi ini menambahkan satu tingkat pangkat ke setiap suku dan membagi koefisien dengan pangkat baru tersebut. Setelah seluruh suku diintegralkan, simbol “+ C” ditambahkan di akhir sebagai konstanta integrasi.
-
-Seluruh fungsi ini diekspor menggunakan module.exports agar bisa digunakan di file lain. Lalu, pada file utama index.js, kita melakukan import terhadap seluruh fungsi mtklib-tj10kpl menggunakan sintaks require. Setelah itu, kita melakukan pemanggilan fungsi satu per satu dengan contoh nilai yang sesuai seperti FPB(60, 45), KPK(12, 8), Turunan(\[1, 4, -12, 9]), dan Integral(\[4, 6, -12, 9]). Setiap hasil pemanggilan fungsi kemudian ditampilkan ke console menggunakan console.log.
-
-Dengan arsitektur ini, kita berhasil memisahkan antara logika matematika (library) dan aplikasi utama (console application), sesuai dengan prinsip modularitas dalam pemrograman. Struktur ini juga memudahkan pengujian ulang, pemeliharaan kode, dan memungkinkan penggunaan ulang fungsi-fungsi matematika di berbagai project lainnya.
+Program 
