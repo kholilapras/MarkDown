@@ -23,62 +23,7 @@ npm install electron jest --save-dev
 <br>
 
 ## MEMBUAT GUI SEDERHANA
-#### 1.) Tambahkan file main.js
-```js
-const { app, BrowserWindow } = require('electron');
-const path = require('path');
-
-function createWindow() {
-  const win = new BrowserWindow({
-    width: 400,
-    height: 300,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
-  });
-
-  win.loadFile('index.html');
-}
-
-app.whenReady().then(createWindow);
-```
-
-#### 2.) Tambahkan file preload.js
-```js
-const { contextBridge } = require('electron');
-const { CariNilaiPangkat } = require('./utils/math');
-
-contextBridge.exposeInMainWorld('api', {
-  CariNilaiPangkat
-});
-```
-
-#### 3.) Tambahkan file renderer.js
-```js
-document.getElementById('btn').addEventListener('click', () => {
-  const a = parseInt(document.getElementById('a').value);
-  const b = parseInt(document.getElementById('b').value);
-  const result = window.api.CariNilaiPangkat(a, b);
-  document.getElementById('output').innerText = `Hasil: ${result}`;
-});
-```
-
-#### 4.) Tambahkan file index.html
-```html
-<!DOCTYPE html>
-<html>
-<head><title>Modul 12</title></head>
-<body>
-  <input id="a" type="number" placeholder="Angka a">
-  <input id="b" type="number" placeholder="Angka b">
-  <button id="btn">Hitung Pangkat</button>
-  <label id="output"></label>
-  <script src="renderer.js"></script>
-</body>
-</html>
-```
-
-#### 5.) Tambahkan file utils/math.js
+#### 1.) Tambahkan file logic.js
 ```js
 function CariNilaiPangkat(a, b) {
   if (b === 0) return 1;
@@ -95,6 +40,57 @@ function CariNilaiPangkat(a, b) {
 }
 
 module.exports = { CariNilaiPangkat };
+```
+
+#### 2.) Tambahkan file index.html
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Modul 12</title>
+</head>
+<body>
+  <h1>Cari Nilai Pangkat</h1>
+  <input id="a" type="number" placeholder="Nilai a" />
+  <input id="b" type="number" placeholder="Nilai b" />
+  <button onclick="hitung()">Hitung</button>
+  <p id="hasil">Hasil akan tampil di sini</p>
+  <script src="renderer.js"></script>
+</body>
+</html>
+```
+
+#### 3.) Tambahkan file renderer.js
+```js
+const { CariNilaiPangkat } = require('./logic');
+
+window.hitung = () => {
+  const a = parseInt(document.getElementById('a').value);
+  const b = parseInt(document.getElementById('b').value);
+  const hasil = CariNilaiPangkat(a, b);
+  document.getElementById('hasil').textContent = `Hasil: ${hasil}`;
+};
+```
+
+#### 4.) Tambahkan file main.js
+```js
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
+
+function createWindow () {
+  const win = new BrowserWindow({
+    width: 400,
+    height: 300,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    }
+  });
+
+  win.loadFile('index.html');
+}
+
+app.whenReady().then(createWindow);
 ```
 
 <br>
