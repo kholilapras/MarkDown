@@ -100,44 +100,63 @@ app.whenReady().then(createWindow);
 ```
 npm start
 ```
-![image](https://github.com/user-attachments/assets/2f9ae282-6455-43f5-82f9-fab2660395ab)
+![image](https://github.com/user-attachments/assets/4cee5463-b323-4364-8a77-0ef1f41de165)
 
 #### 2.) CPU dan Memory usage saat project berjalan tanpa input apapun
-![image](https://github.com/user-attachments/assets/3afe2936-c51f-4400-a300-0f4bd4762b4d)
+![image](https://github.com/user-attachments/assets/a5d3487e-5a9f-4749-8a81-a73b3264c02f)
 
 #### 3.) CPU dan Memory usage saat project berjalan dengan input 3 dan 19
+![image](https://github.com/user-attachments/assets/df6e7e29-9935-4563-992c-fbb6747c2355)
 
 #### 4.) CPU dan Memory usage saat project berjalan dengan input 9 dan 30
+![image](https://github.com/user-attachments/assets/591d5ceb-dc45-4814-a576-912f61d17b58)
 
 <br>
 
 ## MENAMBAHKAN UNIT TESTING
-#### 1.) Buat folder dan file untuk unit testing
-__tests__/logic.test.js
+#### 1.) Buat folder test dan file untuk unit testing
+test/logic.test.js
 ```js
-const { CariTandaBilangan } = require('../logic');
+const { CariNilaiPangkat } = require('../logic');
 
-test('Angka negatif', () => {
-  expect(CariTandaBilangan(-5)).toBe('Negatif');
-});
+describe('CariNilaiPangkat', () => {
+    test('should return 1 if b is 0', () => {
+        expect(CariNilaiPangkat(0, 0)).toBe(1);
+    });
 
-test('Angka positif', () => {
-  expect(CariTandaBilangan(7)).toBe('Positif');
-});
+    test('should return -1 if b is negative', () => {
+        expect(CariNilaiPangkat(5, -2)).toBe(-1);
+    });
 
-test('Angka nol', () => {
-  expect(CariTandaBilangan(0)).toBe('Nol');
+    test('should return -2 if b > 10 or a > 100', () => {
+        expect(CariNilaiPangkat(5, 11)).toBe(-2);
+        expect(CariNilaiPangkat(101, 2)).toBe(-2);
+    });
+
+    test('should return -3 if result exceeds MAX_SAFE_INTEGER', () => {
+        expect(CariNilaiPangkat(100, 10)).toBe(-3);
+    });
+
+    test('should return correct power for normal cases', () => {
+        expect(CariNilaiPangkat(2, 5)).toBe(32);
+    });
 });
 ```
-![image](https://github.com/user-attachments/assets/9d561a2f-d0a3-4bbf-aea5-e2138c229a42)
+![image](https://github.com/user-attachments/assets/9b2dde01-56db-49f5-8bec-694ccfa0879f)
 
 #### 2.) Cek hasil unit testing
 ```
 npm test
 ```
-![image](https://github.com/user-attachments/assets/330e2626-0bd6-4e87-82f7-c9fb218ba2f1)
+![image](https://github.com/user-attachments/assets/b9873b37-0c9d-474a-9010-4092c6d35b8a)
 
 <br>
 
 #### Penjelasan
-Program 
+Program tugas Jurnal Modul 12 menggunakan Node.js dan Electron untuk membangun antarmuka grafis (GUI). GUI dibuat dalam file index.html, yang berisi dua buah input textbox untuk menerima nilai, satu tombol untuk melakukan perhitungan, dan satu label untuk menampilkan hasil keluaran.
+
+Logika utama program terletak pada fungsi CariNilaiPangkat(a, b) di dalam file logic.js. Fungsi ini menghitung nilai pemangkatan a^b menggunakan iterasi manual tanpa fungsi bawaan seperti Math.pow(). Fungsi ini memiliki beberapa aturan khusus: mengembalikan 1 jika b = 0, -1 jika b negatif, -2 jika a > 100 atau b > 10, dan -3 jika hasil pemangkatan melebihi batas aman bilangan integer JavaScript (Number.MAX_SAFE_INTEGER).
+
+File renderer.js digunakan untuk menangani interaksi antarmuka. Saat pengguna menekan tombol “Hitung”, script akan mengambil nilai dari kedua textbox, memanggil fungsi CariNilaiPangkat, dan menampilkan hasilnya pada elemen label. Sedangkan file main.js berfungsi sebagai entry point aplikasi Electron yang membuat jendela utama dan memuat tampilan GUI dari file HTML.
+
+Untuk pengujian, unit test disusun menggunakan framework Jest dalam file logic.test.js. Pengujian ini mencakup seluruh percabangan logika dalam fungsi CariNilaiPangkat agar tercapai cakupan pengujian (branch coverage) yang baik.
