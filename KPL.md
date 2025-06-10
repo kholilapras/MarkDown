@@ -1,104 +1,207 @@
 <h1>Konstruksi Perangkat Lunak</h1>
 <h2>Nama : Kholil Abdi Prasetiyo<br>NIM : 2211104071<br>Kelas : SE-06-03</h2>
-<h3>Tugas Jurnal Pertemuan 14</h3>
+<h3>Tugas Jurnal Pertemuan 15</h3>
 
 <br>
 
-# REFACTORING DENGAN STANDAR CODE
-Copy salah satu folder tugas jurnal yang dimiliki sebelumnya (dari modul 2 sampai modul 13), kemudian rename folder hasil copy-paste tersebut dengan modul14_NIM (coba pilih tugas pendahuluan yang paling sederhana).  
-Dengan mengikuti standard code yang digunakan (misal C# dengan standar dari .NET), pastikan kode yang dikumpulkan memenuhi faktor-faktor berikut:  
-A. Naming convention  
-i. Variable / Property / Attribute  
-ii. Method / Function / Procedure  
-B. White space dan indentation  
-C. Variable / attribute declarations  
-D. Comments  
+# PENGEMBANGAN DENGAN SECURE CODING PRACTICES
 
 #### SourceCode
 main.js
 ```js
-// Import class Singleton
-const PusatDataSingleton = require('./PusatDataSingleton');
+// main.js
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
+const fs = require('fs');
+const crypto = require('crypto'); // Untuk hashing password
 
-// Dapatkan instance Singleton
-const data1 = PusatDataSingleton.getInstance();
-const data2 = PusatDataSingleton.getInstance();
+const usersFilePath = path.join(__dirname, 'users.json');
 
-// Tambahkan data anggota dan asisten ke data1
-data1.addData("Anggota 1 - Thom Haye");
-data1.addData("Anggota 2 - Jat Idzes");
-data1.addData("Asisten - Denny Landzaat");
+function createWindow() {
+    const win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js'),
+            contextIsolation: true, // Penting untuk keamanan
+            enableRemoteModule: false, // Disarankan false untuk keamanan
+        }
+    });
 
-// Tampilkan semua data melalui data2
-console.log("\n--- Isi data2 ---");
-data2.printAllData();
+    win.loadFile('index.html');
+}
 
-// Hapus data asisten dari data2 (indeks ke-2)
-data2.deleteData(2);
+app.whenReady().then(() => {
+    createWindow();
 
-// Cek isi data1 setelah penghapusan
-console.log("\n--- Isi data1 setelah hapus asisten ---");
-data1.printAllData();
+    app.on('activate', () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+            createWindow();
+        }
+    });
+});
 
-// Tampilkan jumlah data yang tersisa (seharusnya sama)
-console.log(`\nJumlah data di data1: ${data1.getAllData().length}`);
-console.log(`Jumlah data di data2: ${data2.getAllData().length}`);
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});
+
+// Fungsi untuk membaca data user
+const readUsers = () => {
+    if (fs.existsSync(usersFilePath)) {
+        const data = fs.readFileSync(usersFilePath, 'utf8');
+        return JSON.parse(data);
+    }
+    return [];
+};
+
+// Fungsi untuk menulis data user
+const writeUsers = (users) => {
+    fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2), 'utf8');
+};
+
+// --- Implementasi Secure Coding Practices ---
+
+// Password Hashing (SHA256) 
+const hashPassword = (password) => {
+    return crypto.createHash('sha256').update(password).digest('hex');
+};
+
+// Input Validation: Username dan Password
+// Validasi Panjang Data (minimal 8, maksimal 20) 
+// Validasi Range Data (hanya huruf alfabet ASCII) 
+// Validasi Range Data (harus mengandung angka) 
+// Validasi Password Rules (minimal 1 karakter unik, tidak boleh mengandung username) 
+const validateRegistrationInput = (username, password) => {
+    // Validasi Panjang Data 
+    if (username.length < 3 || username.length > 20) {
+        return { isValid: false, message: 'Username harus antara 3 sampai 20 karakter.' };
+    }
+    if (password.length < 8 || password.length > 20) {
+        return { isValid: false, message: 'Password harus antara 8 sampai 20 karakter.' };
+    }
+
+    // Validasi Range Data (hanya huruf alfabet ASCII untuk username) 
+    if (!/^[a-zA-Z0-9]+$/.test(username)) {
+        return { isValid: false, message: 'Username hanya boleh mengandung huruf dan angka.' };
+    }
+
+    // Validasi Password Rules 
+    // Harus mengandung angka 
+    if (!/\d/.test(password)) {
+        return { isValid: false, message: 'Password harus mengandung setidaknya satu angka.' };
+    }
+    // Harus mengandung minimal 1 karakter unik (!@#$%^&*) 
+    if (!/[!@#$%^&*]/.test(password)) {
+        return { isValid: false, message: 'Password harus mengandung setidaknya satu karakter unik (!@#$%^&*).' };
+    }
+    // Password tidak boleh mengandung kata dari username 
+    if (password.toLowerCase().includes(username.toLowerCase())) {
+        return { isValid: false, message: 'Password tidak boleh mengandung username.' };
+    }
+
+    return { isValid: true, message: 'Validasi berhasil.' };
+};
+
+// IPC Main Handler untuk Registrasi 
+ipcMain.handle('register-user', (event, { username, password }) => {
+    const validation = validateRegistrationInput(username, password);
+    if (!validation.isValid) {
+        return { success: false, message: validation.message }; // Handling data invalid 
+    }
+
+    let users = readUsers();
+    // Cek apakah username sudah ada
+    if (users.some(user => user.username === username)) {
+        return { success: false, message: 'Username sudah terdaftar.' };
+    }
+
+    const hashedPassword = hashPassword(password); // Password hashing 
+    users.push({ username, password: hashedPassword });
+    writeUsers(users);
+    return { success: true, message: 'Registrasi berhasil!' };
+});
+
+// IPC Main Handler untuk Login 
+ipcMain.handle('login-user', (event, { username, password }) => {
+    let users = readUsers();
+    const hashedPassword = hashPassword(password); // Hash password input untuk perbandingan 
+
+    const user = users.find(user => user.username === username && user.password === hashedPassword);
+
+    if (user) {
+        return { success: true, message: 'Login berhasil!' };
+    } else {
+        return { success: false, message: 'Username atau password salah.' }; // Handling data invalid 
+    }
+});
 ```
 
 PusatDataSingleton.js
 ```js
-class PusatDataSingleton {
-    constructor() {
-        if (PusatDataSingleton._instance) {
-            throw new Error("Gunakan PusatDataSingleton.getInstance()");
-        }
+const { contextBridge, ipcRenderer } = require('electron');
 
-        // Inisialisasi array untuk menyimpan data
-        this.storedData = [];
-
-        PusatDataSingleton._instance = this;
-    }
-
-    // Static method untuk mendapatkan instance Singleton
-    static getInstance() {
-        if (!PusatDataSingleton._instance) {
-            new PusatDataSingleton();
-        }
-        return PusatDataSingleton._instance;
-    }
-
-    // Mengembalikan semua data yang tersimpan
-    getAllData() {
-        return this.storedData;
-    }
-
-    // Menampilkan semua data ke konsol
-    printAllData() {
-        this.storedData.forEach((item, index) => {
-            console.log(`${index + 1}. ${item}`);
-        });
-    }
-
-    // Menambahkan satu data ke array
-    addData(input) {
-        this.storedData.push(input);
-    }
-
-    // Menghapus data berdasarkan indeks
-    deleteData(index) {
-        if (index >= 0 && index < this.storedData.length) {
-            this.storedData.splice(index, 1);
-        } else {
-            console.log("Index tidak valid");
-        }
-    }
-}
-
-// Ekspor class agar bisa digunakan di file lain
-module.exports = PusatDataSingleton;
+contextBridge.exposeInMainWorld('api', {
+    registerUser: (username, password) => ipcRenderer.invoke('register-user', { username, password }),
+    loginUser: (username, password) => ipcRenderer.invoke('login-user', { username, password })
+});
 ```
+
+index.html
+```js
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Aplikasi User</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input { margin-bottom: 10px; padding: 8px; width: 200px; }
+        button { padding: 10px 15px; cursor: pointer; }
+        #message { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Registrasi User</h1>
+    <input type="text" id="regUsername" placeholder="Username">
+    <input type="password" id="regPassword" placeholder="Password">
+    <button id="registerButton">Register</button>
+
+    <h1>Login User</h1>
+    <input type="text" id="loginUsername" placeholder="Username">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button id="loginButton">Login</button>
+
+    <div id="message"></div>
+
+    <script>
+        document.getElementById('registerButton').addEventListener('click', async () => {
+            const username = document.getElementById('regUsername').value;
+            const password = document.getElementById('regPassword').value;
+            const result = await window.api.registerUser(username, password);
+            document.getElementById('message').innerText = result.message;
+            document.getElementById('message').style.color = result.success ? 'green' : 'red';
+        });
+
+        document.getElementById('loginButton').addEventListener('click', async () => {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const result = await window.api.loginUser(username, password);
+            document.getElementById('message').innerText = result.message;
+            document.getElementById('message').style.color = result.success ? 'green' : 'red';
+        });
+    </script>
+</body>
+</html>
+```
+
 #### Output
-![image](https://github.com/user-attachments/assets/2e62770d-b414-47c3-87ea-48d9787d3ed4)
+![image](https://github.com/user-attachments/assets/e4908478-f5e9-4dd5-925d-e78bba352f05)
 
 #### Penjelasan
-Beberapa aspek telah diubah untuk meningkatkan kualitas kode. Nama properti "DataTersimpan" kini menjadi "storedData" mengikuti konvensi camelCase. Nama method "addSebuahData()" disederhanakan menjadi "addData()". Indentasi yang sebelumnya kurang konsisten, kini sudah rapi dengan 2 spasi. Komentar juga telah ditambahkan untuk memberikan penjelasan yang lebih baik.
+Program yang dijelaskan adalah aplikasi desktop yang dibangun menggunakan Node.js dan Electron, sebuah framework yang memungkinkan pengembangan aplikasi desktop lintas platform dengan teknologi web. Aplikasi ini memiliki fitur utama registrasi dan login user, serta penyimpanan data user dalam format JSON.
+
+Dalam struktur proyek, main.js berfungsi sebagai entry point utama aplikasi Electron. File ini bertanggung jawab untuk membuat jendela browser, mengelola komunikasi antar-proses (IPC) antara main process dan renderer process (tampilan web), serta menangani logika bisnis seperti membaca dan menulis data user ke file users.json. Sementara itu, preload.js bertindak sebagai jembatan yang aman, mengekspos fungsi-fungsi yang diperlukan dari main process ke renderer process tanpa memberikan akses penuh ke Node.js API. Antarmuka pengguna disediakan oleh index.html, yang berisi formulir untuk registrasi dan login, serta menggunakan JavaScript untuk berinteraksi dengan fungsi-fungsi yang diekspos melalui preload.js.
+
+Aplikasi ini menerapkan praktik secure coding dengan fokus pada validasi input dan manajemen password. Untuk validasi input, program membatasi panjang data, misalnya username antara 3 hingga 20 karakter dan password antara 8 hingga 20 karakter. Selain itu, ada validasi range data yang memastikan username hanya berisi huruf dan angka ASCII, dan password harus mengandung setidaknya satu angka dan satu karakter unik (!@#$%^&*). Data yang tidak valid ditolak dan ditangani dengan pesan kesalahan spesifik, bukan dibiarkan menjadi runtime error. Dalam manajemen password, aplikasi melakukan hashing password menggunakan metode SHA256 sebelum menyimpannya, sehingga password tidak pernah disimpan dalam bentuk plaintext. Aplikasi juga menerapkan aturan password, seperti melarang password mengandung username.
